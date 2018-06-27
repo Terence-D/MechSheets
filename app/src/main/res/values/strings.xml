@@ -79,7 +79,7 @@ The above mentioned license covers only the application and it\’s source code 
 \n
 Mech Sheets software License - Copyright 2018 Terry Doerksen:
     </string>
-    <string name="license_url">https://creativecommons.org/licenses/by-nc/4.0/\n\n\n\n\n\n</string>
+    <string name="license_url">https://creativecommons.org/licenses/by-nc/4.0/legalcode\n\n\n\n\n\n</string>
     <string name="overview_movementtorso_twist">Torso Twist</string>
     <string name="overview_twist_front">Center</string>
     <string name="overview_twist_left">Left</string>
