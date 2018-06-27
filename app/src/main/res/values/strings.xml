@@ -1,0 +1,87 @@
+<!--
+  ~ Copyright (c) 2018
+  ~ Terry Doerksen
+  ~ https://creativecommons.org/licenses/by-nc/4.0/
+  ~
+  -->
+
+<resources>
+    <string name="app_name">Mech Sheets</string>
+    <string name="nav_overview">Overview</string>
+    <string name="nav_armor">Armor</string>
+    <string name="nav_components">Components</string>
+    <string name="components_title">Components</string>
+    <string name="armor_h">Head\n%1$d \\ %2$d</string>
+    <string name="armor_ct">Center Torso\n%1$d \\ %2$d</string>
+    <string name="armor_lt">Left Torso\n%1$d \\ %2$d</string>
+    <string name="armor_rt">Right Torso\n%1$d \\ %2$d</string>
+    <string name="armor_la">Left Arm\n%1$d \\ %2$d</string>
+    <string name="armor_ra">Right Arm\n%1$d \\ %2$d</string>
+    <string name="armor_ll">Left Leg\n%1$d \\ %2$d</string>
+    <string name="armor_rl">Right Leg\n%1$d \\ %2$d</string>
+    <string name="armor_title">Armor</string>
+    <string name="armor_rear">Rear</string>
+    <string name="armor_internal">Internal</string>
+    <string name="components_left_arm">Left Arm</string>
+    <string name="components_left_torso">Left Torso</string>
+    <string name="components_left_leg">Left Leg</string>
+    <string name="components_right_arm">Right Arm</string>
+    <string name="components_right_torso">Right Torso</string>
+    <string name="components_right_leg">Right Leg</string>
+    <string name="components_head">Head</string>
+    <string name="components_center_torso">Center Torso</string>
+    <string name="overview_movement">Movement</string>
+    <string name="overview_title">Overview</string>
+    <string name="overview_name">Name: %1$s</string>
+    <string name="overview_tons">Tons: %1$d</string>
+    <string name="overview_walking">Walking: %1$d</string>
+    <string name="overview_running">Running: %1$d</string>
+    <string name="overview_jumping">Jumping: %1$d</string>
+    <string name="overview_equipment">Equipment</string>
+    <string name="overview_heatsinks">Heatsinks: %1$d / %2$d remaining</string>
+    <string name="overview_pilot_details">Pilot Details</string>
+    <string name="overview_pilot_skill">Piloting: %1$d</string>
+    <string name="overview_gunnery_skill">Gunnery: %1$d</string>
+    <string name="overview_pilots_hits">Hits Taken: %1$d</string>
+    <string name="overview_heat_scale">Heat Scale: %1$d</string>
+    <string name="activity_previous"><![CDATA[<]]></string>
+    <string name="activity_next"><![CDATA[>]]></string>
+    <string name="main_title">Choose an MTF file to load</string>
+    <string name="overview_ammo">%1$s: %2$d Shots Fired</string>
+    <string name="row_delete">X</string>
+    <string name="main_load">Load</string>
+    <string name="main_piloting">Pilot</string>
+    <string name="main_continue">Continue</string>
+    <string name="main_piloting_skill">Piloting: %1$1</string>
+    <string name="main_gunnery_skill">Gunnery: %1$1</string>
+    <string name="main_save">Save</string>
+    <string name="overview_description">Notes</string>
+    <string name="overview_save">Save</string>
+    <string name="spinner_value_none">None</string>
+    <string name="overview_delete">Delete</string>
+    <string name="overview_confirm_delete">Are you sure you want to PERMANENTLY REMOVE the %1$s?</string>
+    <string name="main_units_loaded">There are %1$d units loaded</string>
+    <string name="menu_about">About</string>
+    <string name="title_activity_about">About</string>
+    <string name="libraries">3rd Party Libraries</string>
+    <string name="legal_gson">Use of the GSON Library is used under the Apache 2.0 License - a link to the project and license is below.</string>
+    <string name="version">Version: %1$s (build %2$d)</string>
+    <string name="website_apache">http://www.apache.org/licenses/LICENSE-2.0</string>
+    <string name="website_gson">https://github.com/google/gson</string>
+    <string name="website_material_icons">https://github.com/google/material-design-icons</string>
+    <string name="website_creative_common">http://creativecommons.org/licenses/by/4.0/</string>
+    <string name="legal_material_icons">Use of the Material Icons are used under the Creative Common Attribution 4.0 International License (CC-BY 4.0) - links to the project and license are:</string>
+    <string name="legal">Legal</string>
+    <string name="legal_contents">
+        The Mech Sheets application is (and will remain) a non-commercial, open source application (released under CC-BY-NC-4.0 license) designed to make game play of the Classic BattleTech table top game (by Catalyst Game Labs) easier when paper record sheets are not an option.   This application is fan made to make the authors life easier and hopefully can be of use to others. \n
+\n
+The above mentioned license covers only the application and it\’s source code - Classic BattleTech, BattleTech, BattleMech, \‘Mech, and MechWarrior are registered trademarks and/or trademarks of The Topps Company, Inc. in the United States and/or other countries.   All rights reserved to the appropriate owners and original content creators. I have received permission to use the above terms and make this application available to others free of charge.  Any issues please contact me and I will make the appropriate adjustments and corrections.  Thank you. \n
+\n
+Mech Sheets software License - Copyright 2018 Terry Doerksen:
+    </string>
+    <string name="license_url">https://creativecommons.org/licenses/by-nc/4.0/\n\n\n\n\n\n</string>
+    <string name="overview_movementtorso_twist">Torso Twist</string>
+    <string name="overview_twist_front">Center</string>
+    <string name="overview_twist_left">Left</string>
+    <string name="overview_twist_right">Right</string>
+</resources>

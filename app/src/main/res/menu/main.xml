@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018
+  ~ Terry Doerksen
+  ~ https://creativecommons.org/licenses/by-nc/4.0/
+  ~
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_about"
+        android:title="@string/menu_about"
+        app:showAsAction="ifRoom" />
+
+</menu>
