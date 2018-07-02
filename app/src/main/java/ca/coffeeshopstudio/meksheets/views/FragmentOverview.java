@@ -70,6 +70,9 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
         root.findViewById(R.id.btnTwistRight).setOnClickListener(this);
         root.findViewById(R.id.btnTwistLeft).setOnClickListener(this);
         root.findViewById(R.id.btnTwistFront).setOnClickListener(this);
+        loadDialog(R.string.help_overview, "overview");
+
+
         return root;
     }
 
@@ -314,7 +317,7 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
         List<String> destroyedGear = getDestroyedGear();
 
         equipmentList.removeAllViews();
-        addEquipmentCheckbox("", false, false, new View.OnClickListener() {
+        addEquipmentCheckbox(getString(R.string.all), false, false, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 for (int i = 0; i < equipmentList.getChildCount(); i++) {
@@ -328,7 +331,16 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
             }
         });
         for (final Mek.Equipment equipment : mek.getEquipment()) {
-            if (!destroyedGear.contains(equipment.getName())) {
+            boolean foundGear = false;
+            for (int i = 0; i < destroyedGear.size(); i++) {
+                String destroyedItem = sanitizeString(destroyedGear.get(i));
+                String itemSearchingFor = sanitizeString(equipment.getName());
+                if (destroyedItem.contains(itemSearchingFor) || itemSearchingFor.contains(destroyedItem)) {
+                    foundGear = true;
+                    destroyedGear.remove(i);
+                }
+            }
+            if (!foundGear) {
                 addEquipmentCheckbox(equipment.getName(), equipment.isChecked(), false, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -342,7 +354,6 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
                         equipment.setChecked(!equipment.isChecked());
                     }
                 });
-                destroyedGear.remove(equipment.getName());
             }
         }
 
@@ -407,7 +418,6 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
                 rv.add(componentName + ", " + "Right Arm");
             }
         }
-
 
         return rv;
     }

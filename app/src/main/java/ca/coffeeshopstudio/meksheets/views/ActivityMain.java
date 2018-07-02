@@ -13,14 +13,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -125,6 +128,8 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
         spinnerValues.add(getString(R.string.spinner_value_none));
         for (Mek mek : meks) {
             String value = mek.getName();
+            if (value == null)
+                value = "null";
             if (mek.getDescription() != null)
                 value += ": " + mek.getDescription();
             spinnerValues.add(value);
@@ -213,15 +218,31 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
         Mek mek = new Mek();
         try {
             mek.readMTF(reader);
+            FileOperations.writeFile(getApplicationContext(), mek);
+
+            addToList(mek);
+            currentMek = meks.size() - 1;
+            initFragment(FragmentOverview.newInstance());
         } catch (IOException ioe) {
             Log.d(TAG, "readTextFromUri: " + ioe.getLocalizedMessage());
+            CreateFileErrorDialog();
         }
 
-        FileOperations.writeFile(getApplicationContext(), mek);
+    }
 
-        addToList(mek);
-        currentMek = meks.size()-1;
-        initFragment(FragmentOverview.newInstance());
+    private void CreateFileErrorDialog() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.alert_dialog, null);
+
+        TextView msg = view.findViewById(R.id.textmsg);
+        msg.setText(R.string.invalid_file_format);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle(R.string.help_title);
+
+        alertDialog.setView(view);
+        alertDialog.setPositiveButton(android.R.string.ok, null);
+        AlertDialog alert = alertDialog.create();
+        alert.show();
     }
 
     @Override

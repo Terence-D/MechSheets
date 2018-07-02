@@ -46,6 +46,8 @@ public class FragmentComponents extends BaseFragment implements View.OnClickList
         LinearLayout ll = root.findViewById(R.id.components);
 
         buttonize(ll);
+        loadDialog(R.string.help_components, "components");
+
         return root;
     }
 
@@ -86,13 +88,24 @@ public class FragmentComponents extends BaseFragment implements View.OnClickList
                 root.findViewById(id).setBackgroundColor(getActivity().getResources().getColor(R.color.statusBad));
                 root.findViewById(id).setEnabled(true);
             }
-            if (list[i].getName().contains(Mek.MTF_EMPTY) ||
-                    list[i].getName().contains(Mek.MTF_ENDO) ||
-                    list[i].getName().contains(Mek.MTF_CASE) ||
-                    list[i].getName().contains(Mek.MTF_FERRO)) {
-                root.findViewById(id).setBackgroundColor(getActivity().getResources().getColor(R.color.textSecondary));
-                root.findViewById(id).setEnabled(false);
-            }
+            CheckForNonTargetableComponent(list[i], id);
+        }
+    }
+
+    private void CheckForNonTargetableComponent(Mek.Component component, int id) {
+        String sanitizedName = sanitizeString(component.getName());
+
+        String sanitizedEmpty = sanitizeString(Mek.MTF_EMPTY);
+        String sanitizedEndo = sanitizeString(Mek.MTF_ENDO);
+        String sanitizedCase = sanitizeString(Mek.MTF_CASE.toString());
+        String sanitizedFerro = sanitizeString(Mek.MTF_FERRO);
+
+        if (sanitizedName.contains(sanitizedEmpty) ||
+                sanitizedName.contains(sanitizedEndo) ||
+                sanitizedName.contains(sanitizedCase) ||
+                sanitizedName.contains(sanitizedFerro)) {
+            root.findViewById(id).setBackgroundColor(getActivity().getResources().getColor(R.color.textSecondary));
+            root.findViewById(id).setEnabled(false);
         }
     }
 

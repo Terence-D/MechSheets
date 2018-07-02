@@ -47,6 +47,9 @@ public class FragmentMain extends BaseFragment implements View.OnClickListener {
 
         int unitCount = ((ActivityMain) getActivity()).getMekCount();
         ((TextView) root.findViewById(R.id.txtUnitCount)).setText(getString(R.string.main_units_loaded, unitCount));
+
+        loadDialog(R.string.help_main, "main");
+
         return root;
     }
 

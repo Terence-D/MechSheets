@@ -53,6 +53,8 @@ public class FragmentArmor extends BaseFragment implements View.OnClickListener,
             }
         }
 
+        loadDialog(R.string.help_armor, "armor");
+
         return root;
     }
 

@@ -56,7 +56,7 @@ public class Mek {
 
     private List<Ammo> ammo = new ArrayList<>();
 
-    private static final String MTF_VERSION = "Version:1.0";
+    private static final String MTF_VERSION = "Version:1.";
     public static final String MTF_EMPTY = "-Empty-";
     public static final String MTF_ENDO = "Endo-Steel";
     public static final String MTF_FERRO = "Ferro-Fibrous";
@@ -482,7 +482,7 @@ public class Mek {
             }
             component = br.readLine();
         }
-        while (!component.startsWith(" ") && !component.isEmpty() && position < getComponents(location).length - 1);
+        while ((component != null) && !component.startsWith(" ") && !component.isEmpty() && position < getComponents(location).length - 1);
     }
 
     public void removeEquipment(String equipment) {

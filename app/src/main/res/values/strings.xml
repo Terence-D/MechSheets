@@ -57,7 +57,7 @@
     <string name="main_save">Save</string>
     <string name="overview_description">Notes</string>
     <string name="overview_save">Save</string>
-    <string name="spinner_value_none">None</string>
+    <string name="spinner_value_none">[Add]</string>
     <string name="overview_delete">Delete</string>
     <string name="overview_confirm_delete">Are you sure you want to PERMANENTLY REMOVE the %1$s?</string>
     <string name="main_units_loaded">There are %1$d units loaded</string>
@@ -84,4 +84,11 @@ Mech Sheets software License - Copyright 2018 Terry Doerksen:
     <string name="overview_twist_front">Center</string>
     <string name="overview_twist_left">Left</string>
     <string name="overview_twist_right">Right</string>
+    <string name="help_main">To start using this app, you will need MTF files copied to your phone.  MTF files come from the excellent PC game MegaMek.  Download and extract the latest version to your computer, then copy the MTF files somewhere on your device.  Click the giant + symbol to locate them once this is done!</string>
+    <string name="help_title">Help</string>
+    <string name="help_armor">Single tap on a component once per point of damage the location receives.  If you make a mistake, Long Tap on the location to "repair" one point of damage.</string>
+    <string name="help_components">Tap on a component to indicate it is destroyed - the component will turn red.  </string>
+    <string name="help_overview">Here you can see the overview of your unit.  If a relevant component is destroyed, the walk/run/jump will adjust accordingly.  Tap on a piece of equipment to indicate if you are going to fire it.  Ammo can be tapped on to remember how many times it\'s been used (long tap to undo).  You can also track heat and pilot details here.</string>
+    <string name="invalid_file_format">This does not appear to be a supported file format.  If this should be a valid file, please contact me and provide me the MTF file you were trying to load, thank you.</string>
+    <string name="all">[ALL]</string>
 </resources>
