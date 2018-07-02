@@ -755,40 +755,57 @@ public class Mek {
         return Integer.parseInt(numbers);
     }
 
+    private int getHeatSinksForComponent(Component[] location) {
+        int hsCount = 0;
+
+        boolean isDouble = false;
+
+        if (getHeatSinkType() != 0)
+            isDouble = true;
+
+        if (!isDouble) {
+            //regular heatsinks are easy - just count
+            for (Component component : location) {
+                if (component.getName().replace(" ", "").contains(MTF_HEAT_SINK)) {
+                    hsCount++; //that was easy
+                }
+            }
+        } else { //double heat sinks
+            for (int i = 0; i < location.length; i++) {
+                String componentName = location[i].getName().replace(" ", "");
+                if (componentName.contains(MTF_HEAT_SINK)) {
+                    //first see if it's clan based.  default to IS
+                    int hsSize = 3;
+                    if (componentName.startsWith("CL")) {
+                        hsSize = 2;
+                    }
+                    boolean isFunctioning = true;
+                    //now that we found a new heatsink, go ahead by hsSize positions to see if it's functional
+                    for (int hsPos = 0; hsPos < hsSize; hsPos++) {
+                        if (!location[i + hsPos].isFunctioning()) {
+                            isFunctioning = false;
+                        }
+                    }
+                    i = i + hsSize - 1;
+                    if (!isFunctioning)
+                        hsCount++;
+                }
+            }
+        }
+        return hsCount;
+    }
+
     private int getDestroyedHeatsinkCount() {
         int heatSinkCount=0;
-        for (Component component : laComponents) {
-            if (component.getName().replace(" ", "").contains(MTF_HEAT_SINK) && !component.isFunctioning())
-                heatSinkCount++;
-        }
-        for (Component component : raComponents) {
-            if (component.getName().replace(" ", "").contains(MTF_HEAT_SINK) && !component.isFunctioning())
-                heatSinkCount++;
-        }
-        for (Component component : ctComponents) {
-            if (component.getName().replace(" ", "").contains(MTF_HEAT_SINK) && !component.isFunctioning())
-                heatSinkCount++;
-        }
-        for (Component component :  hComponents) {
-            if (component.getName().replace(" ", "").contains(MTF_HEAT_SINK) && !component.isFunctioning())
-                heatSinkCount++;
-        }
-        for (Component component : ltComponents) {
-            if (component.getName().replace(" ", "").contains(MTF_HEAT_SINK) && !component.isFunctioning())
-                heatSinkCount++;
-        }
-        for (Component component : rtComponents) {
-            if (component.getName().replace(" ", "").contains(MTF_HEAT_SINK) && !component.isFunctioning())
-                heatSinkCount++;
-        }
-        for (Component component : llComponents) {
-            if (component.getName().replace(" ", "").contains(MTF_HEAT_SINK) && !component.isFunctioning())
-                heatSinkCount++;
-        }
-        for (Component component : rlComponents) {
-            if (component.getName().replace(" ", "").contains(MTF_HEAT_SINK) && !component.isFunctioning())
-                heatSinkCount++;
-        }
+        heatSinkCount += getHeatSinksForComponent(laComponents);
+        heatSinkCount += getHeatSinksForComponent(raComponents);
+        heatSinkCount += getHeatSinksForComponent(ctComponents);
+        heatSinkCount += getHeatSinksForComponent(rlComponents);
+        heatSinkCount += getHeatSinksForComponent(hComponents);
+        heatSinkCount += getHeatSinksForComponent(ltComponents);
+        heatSinkCount += getHeatSinksForComponent(rtComponents);
+        heatSinkCount += getHeatSinksForComponent(llComponents);
+
         return heatSinkCount;
     }
 
