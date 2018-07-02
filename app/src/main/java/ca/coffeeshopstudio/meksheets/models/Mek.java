@@ -767,7 +767,8 @@ public class Mek {
             //regular heatsinks are easy - just count
             for (Component component : location) {
                 if (component.getName().replace(" ", "").contains(MTF_HEAT_SINK)) {
-                    hsCount++; //that was easy
+                    if (!component.isFunctioning())
+                        hsCount++; //that was easy
                 }
             }
         } else { //double heat sinks

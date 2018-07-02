@@ -38,6 +38,10 @@ public class FragmentComponents extends BaseFragment implements View.OnClickList
         return fragment;
     }
 
+    public static String getFragmentTag() {
+        return "COMPONENTS";
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

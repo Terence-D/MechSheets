@@ -51,6 +51,10 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
         return new FragmentOverview();
     }
 
+    public static String getFragmentTag() {
+        return "OVERVIEW";
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -84,11 +84,56 @@ Mech Sheets software License - Copyright 2018 Terry Doerksen:
     <string name="overview_twist_front">Center</string>
     <string name="overview_twist_left">Left</string>
     <string name="overview_twist_right">Right</string>
-    <string name="help_main">To start using this app, you will need MTF files copied to your phone.  MTF files come from the excellent PC game MegaMek.  Download and extract the latest version to your computer, then copy the MTF files somewhere on your device.  Click the giant + symbol to locate them once this is done!</string>
-    <string name="help_title">Help</string>
-    <string name="help_armor">Single tap on a component once per point of damage the location receives.  If you make a mistake, Long Tap on the location to "repair" one point of damage.</string>
-    <string name="help_components">Tap on a component to indicate it is destroyed - the component will turn red.  </string>
-    <string name="help_overview">Here you can see the overview of your unit.  If a relevant component is destroyed, the walk/run/jump will adjust accordingly.  Tap on a piece of equipment to indicate if you are going to fire it.  Ammo can be tapped on to remember how many times it\'s been used (long tap to undo).  You can also track heat and pilot details here.</string>
-    <string name="invalid_file_format">This does not appear to be a supported file format.  If this should be a valid file, please contact me and provide me the MTF file you were trying to load, thank you.</string>
+    <string name="help_main">
+        <![CDATA[
+            <h1>Help: Starting Out</h1>
+            <p>To start using this app, you will need MTF files copied to your phone.  MTF files come from the excellent PC game MegaMek:<br/><br/>
+            1) Download and extract the latest version of MegaMek to your computer.<br/>
+            2) Find the MTF files included with MegaMek.<br/>
+            3) Copy the MTF files to your device.<br/>
+            4) Click on the giant + symbol and find the mechs you want.<br/><br/>
+            Note: If you copied the MTF files to your devices external SD Card you may have to tap on the menu button at the top left of the Files window and tap Show SD Card.
+        ]]>
+    </string>
+    <string name="help_armor">
+        <![CDATA[
+            <h1>Help: Armor</h1>
+            <p>When a mech takes damage, use this screen to record damage to each locations armor and internal structure.<br/><br/>
+            <b>Single Tap:</b> Each single tap will reduce the armor in that location by 1.<br/>
+            <b>Long Tap:</b> Holding your finger down on a location will restore that location by 1 point.<br/><br/>
+            When that location is destroyed, the color will change to red.
+        ]]>
+    </string>
+    <string name="help_components">
+        <![CDATA[
+            <h1>Help: Components</h1>
+            <p>When a mech takes critical damage, use this screen to record damage to each component that is hit.<br/><br/>
+            <b>Single Tap:</b> Each single tap will destroy that component in that location.<br/>
+            <b>Long Tap:</b> Holding your finger down on a destroyed component will return it to functional status.<br/><br/>
+            When a component is destroyed, it will affect the Overview screen - for example destroying a weapon here will disable it in the Overview screen.  Damaging a leg will reduce it\'s indicated speed.  When a component is destroyed, the color will change to red.
+        ]]>
+    </string>
+    <string name="help_overview">
+        <![CDATA[
+            <h1>Help: Overview</h1>
+            <p>This shows the overview of your unit.  As leg or jump jet damage occurs, the blue Walk/Run/Jump values will turn red and be reduced.
+            <h1>Help: Equipment</h1>
+            <p>Weapons can be tapped on to help you remember what weapons you are firing.  If a weapon is destroyed, it will be grayed out.  Tapping [ALL] will either select or deselect all weapons.<br/>
+            <p>Each ton of ammo appears as a button that you can click on each time the weapon is fired.
+            <p>As heat sinks are destroyed, the remaining heat sinks counter will adjust and will turn red.  Use the Heat Scale to track how much heat the mech currently has.
+            <h1>Help: Pilot Details</h1>
+            <b>Single Tap:</b> Each single tap will increase the Piloting or Gunnery skill value by 1.<br/>
+            <b>Long Tap:</b> Holding down your finger on the button will decrease the Piloting or Gunnery skill value by 1.<br/><br/>
+            <p>As the Mechwarrior takes damage, adjust the Hits Taken slider accordingly to keep track.<br/><br/>
+            <p>Notes can be used to enter in whatever information you wish.  TAP SAVE WHEN DONE!
+        ]]>
+    </string>
+    <string name="invalid_file_format">
+        <![CDATA[
+            <h1>Invalid File!</h1>
+            <p>This does not appear to be a supported file format.  If this should be a valid file, please contact me and provide me the MTF file you were trying to load.
+        ]]>
+    </string>
     <string name="all">[ALL]</string>
+    <string name="menu_help">Help</string>
 </resources>

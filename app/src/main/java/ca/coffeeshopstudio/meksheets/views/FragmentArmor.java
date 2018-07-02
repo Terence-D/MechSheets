@@ -37,6 +37,10 @@ public class FragmentArmor extends BaseFragment implements View.OnClickListener,
         return fragment;
     }
 
+    public static String getFragmentTag() {
+        return "ARMOR";
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
