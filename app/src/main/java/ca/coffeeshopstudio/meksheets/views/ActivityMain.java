@@ -201,8 +201,12 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
             String value = mek.getName();
             if (value == null)
                 value = "null";
-            if (mek.getDescription() != null)
-                value += ": " + mek.getDescription().substring(0, 4);
+            if (mek.getDescription() != null) {
+                int len = 4;
+                if (mek.getDescription().length() < 4)
+                    len = mek.getDescription().length();
+                value += ": " + mek.getDescription().substring(0, len);
+            }
             spinnerValues.add(value);
         }
         spinner.setAdapter(spinnerArrayAdapter);
