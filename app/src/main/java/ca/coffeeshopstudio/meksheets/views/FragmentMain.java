@@ -103,11 +103,10 @@ public class FragmentMain extends BaseFragment implements View.OnClickListener {
         // file (as opposed to a list of contacts or timezones)
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-        // Filter to show only images, using the image MIME data type.
-        // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
-        // To search for all documents available via installed storage providers,
-        // it would be "*/*".
-        intent.setType("*/*");
+        //intent.setType("*/*");
+        //below will show only files that are not already part of the mime type list of the SA Framework
+        //found by Geont from the bt forums
+        intent.setType("application/octet-stream");
 
         startActivityForResult(intent, READ_REQUEST_CODE);
     }
