@@ -810,4 +810,26 @@ public class Mek {
         return heatSinkCount;
     }
 
+    public void reset() {
+        for (Equipment equipment : getEquipment()) {
+            equipment.setChecked(false);
+        }
+        for (Ammo ammo : getAmmo()) {
+            ammo.setShotsFired(0);
+        }
+        setHeatLevel(0);
+        for (Locations location : Locations.values()) {
+            setArmorCurrent(location, getArmorMax(location));
+            setInternalCurrent(location, getInternalMax(location));
+
+            for (Component component : getComponents(location)) {
+                component.setStatus(true);
+            }
+        }
+
+        setArmorRearCurrent(Locations.centerTorso, getArmorRearMax(Locations.centerTorso));
+        setArmorRearCurrent(Locations.leftTorso, getArmorRearMax(Locations.leftTorso));
+        setArmorRearCurrent(Locations.rightTorso, getArmorRearMax(Locations.rightTorso));
+    }
+
 }

@@ -136,4 +136,13 @@ Mech Sheets software License - Copyright 2018 Terry Doerksen:
     </string>
     <string name="all">[ALL]</string>
     <string name="menu_help">Help</string>
+    <string name="overview_reset">Reset</string>
+    <string name="overview_confirm_reset">This will reset this %1$s back to stock - fully repaired - status.  This will reset:\n\n
+        - Equipment selection\n
+        - Ammo used\n
+        - Heat Level\n
+        - Armor / Internal Damage\n
+        - Individual components\n
+        \n
+        Are you sure you want this?</string>
 </resources>

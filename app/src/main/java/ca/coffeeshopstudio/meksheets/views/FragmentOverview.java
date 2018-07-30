@@ -19,7 +19,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,9 +70,7 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
         root.findViewById(R.id.btnGunnerySkill).setOnLongClickListener(this);
         root.findViewById(R.id.btnSave).setOnClickListener(this);
         root.findViewById(R.id.btnDelete).setOnClickListener(this);
-        root.findViewById(R.id.btnTwistRight).setOnClickListener(this);
-        root.findViewById(R.id.btnTwistLeft).setOnClickListener(this);
-        root.findViewById(R.id.btnTwistFront).setOnClickListener(this);
+        root.findViewById(R.id.btnReset).setOnClickListener(this);
         loadDialog(R.string.help_overview, "overview");
 
 
@@ -91,32 +88,7 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
         updateEquipmentList();
         updateAmmoList();
         updateHeat();
-        updateTwist();
         updatePilot();
-    }
-
-    private void updateTwist() {
-        ((ToggleButton) root.findViewById(R.id.btnTwistRight)).setChecked(false);
-        ((ToggleButton) root.findViewById(R.id.btnTwistLeft)).setChecked(false);
-        ((ToggleButton) root.findViewById(R.id.btnTwistFront)).setChecked(false);
-        ((ToggleButton) root.findViewById(R.id.btnTwistRight)).setTextColor(getResources().getColor(R.color.textPrimary));
-        ((ToggleButton) root.findViewById(R.id.btnTwistLeft)).setTextColor(getResources().getColor(R.color.textPrimary));
-        ((ToggleButton) root.findViewById(R.id.btnTwistFront)).setTextColor(getResources().getColor(R.color.textPrimary));
-
-        switch (mek.getTorsoTwist()) {
-            case 1:
-                ((ToggleButton) root.findViewById(R.id.btnTwistRight)).setChecked(true);
-                ((ToggleButton) root.findViewById(R.id.btnTwistRight)).setTextColor(getResources().getColor(R.color.accent));
-                break;
-            case -1:
-                ((ToggleButton) root.findViewById(R.id.btnTwistLeft)).setChecked(true);
-                ((ToggleButton) root.findViewById(R.id.btnTwistLeft)).setTextColor(getResources().getColor(R.color.accent));
-                break;
-            default:
-                ((ToggleButton) root.findViewById(R.id.btnTwistFront)).setChecked(true);
-                ((ToggleButton) root.findViewById(R.id.btnTwistFront)).setTextColor(getResources().getColor(R.color.accent));
-                break;
-        }
     }
 
     private void updatePilot() {
@@ -461,22 +433,34 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
                 break;
             case R.id.btnDelete:
                 showDeleteRequest();
-            case R.id.btnTwistFront:
-                mek.setTorsoTwist(0);
-                updateTwist();
                 break;
-            case R.id.btnTwistLeft:
-                mek.setTorsoTwist(-1);
-                updateTwist();
-                break;
-            case R.id.btnTwistRight:
-                mek.setTorsoTwist(1);
-                updateTwist();
+            case R.id.btnReset:
+                showResetRequest();
                 break;
             default:
                 adjustSkill(view, 1);
             break;
         }
+    }
+
+    private void showResetRequest() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.app_name);
+        builder.setMessage(getString(R.string.overview_confirm_reset, mek.getName()));
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                mek.reset();
+                updateView();
+            }
+        });
+        builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void showDeleteRequest() {
