@@ -178,6 +178,21 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
         alert.show();
     }
 
+    public void displayMessage(String helpMsg) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.alert_dialog, null);
+
+        TextView msg = view.findViewById(R.id.textmsg);
+        msg.setText(Html.fromHtml(helpMsg));
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        //alertDialog.setTitle(R.string.help_title);
+
+        alertDialog.setView(view);
+        alertDialog.setPositiveButton(android.R.string.ok, null);
+        AlertDialog alert = alertDialog.create();
+        alert.show();
+    }
+
     private void getActiveMeks() {
         meks = FileOperations.getJsonFiles(getApplicationContext());
 

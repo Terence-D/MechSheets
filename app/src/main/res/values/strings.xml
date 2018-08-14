@@ -145,4 +145,8 @@ Mech Sheets software License - Copyright 2018 Terry Doerksen:
         - Individual components\n
         \n
         Are you sure you want this?</string>
+    <string name="armor_destroyed">CRITICAL! Damage has transferred to the internal structure!</string>
+    <string name="armor_rear_destroyed">CRITICAL! Damage has transferred to the internal structure!</string>
+    <string name="location_maxed">You are exceeding the maximum default value</string>
+    <string name="internal_destroyed">The internal structure in this location has been completely destroyed!</string>
 </resources>

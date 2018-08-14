@@ -98,10 +98,12 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
         ((TextView) root.findViewById(R.id.btnPilotSkill)).setText(piloting);
         ((TextView) root.findViewById(R.id.btnGunnerySkill)).setText(gunnery);
         ((TextView) root.findViewById(R.id.txtPilotHits)).setText(hits);
-        if (mek.getPilot().getHits() > 0)
+        if (mek.getPilot().getHits() > 0 && mek.getPilot().getHits() < 6)
             ((TextView) root.findViewById(R.id.txtPilotHits)).setTextColor(getResources().getColor(R.color.statusBad));
-        else
+        else if (mek.getPilot().getHits() == 0)
             ((TextView) root.findViewById(R.id.txtPilotHits)).setTextColor(getResources().getColor(R.color.statusGood));
+        else
+            ((TextView) root.findViewById(R.id.txtPilotHits)).setTextColor(getResources().getColor(R.color.statusCritical));
         ((SeekBar) root.findViewById(R.id.seekPilotHits)).setOnSeekBarChangeListener(null);
         ((SeekBar) root.findViewById(R.id.seekPilotHits)).setProgress(mek.getPilot().getHits());
         ((SeekBar) root.findViewById(R.id.seekPilotHits)).setOnSeekBarChangeListener(this);
@@ -112,7 +114,7 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
         String heatLevel = getString(R.string.overview_heat_scale, mek.getHeatLevel());
         ((TextView) root.findViewById(R.id.txtHeatsinks)).setText(heat);
         if (mek.getCurrentHeatSinks() < mek.getMaxHeatSinks())
-            ((TextView) root.findViewById(R.id.txtHeatsinks)).setTextColor(getResources().getColor(R.color.statusBad));
+            ((TextView) root.findViewById(R.id.txtHeatsinks)).setTextColor(getResources().getColor(R.color.statusCritical));
         else
             ((TextView) root.findViewById(R.id.txtHeatsinks)).setTextColor(getResources().getColor(R.color.statusGood));
 
@@ -216,12 +218,12 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
         ((TextView) root.findViewById(R.id.txtJumping)).setText(jump);
 
         if (reducedJumpRange)
-            ((TextView) root.findViewById(R.id.txtJumping)).setTextColor(getResources().getColor(R.color.statusBad));
+            ((TextView) root.findViewById(R.id.txtJumping)).setTextColor(getResources().getColor(R.color.statusCritical));
         else
             ((TextView) root.findViewById(R.id.txtJumping)).setTextColor(getResources().getColor(R.color.statusGood));
         if (reducedSpeed) {
-            ((TextView) root.findViewById(R.id.txtWalking)).setTextColor(getResources().getColor(R.color.statusBad));
-            ((TextView) root.findViewById(R.id.txtRunning)).setTextColor(getResources().getColor(R.color.statusBad));
+            ((TextView) root.findViewById(R.id.txtWalking)).setTextColor(getResources().getColor(R.color.statusCritical));
+            ((TextView) root.findViewById(R.id.txtRunning)).setTextColor(getResources().getColor(R.color.statusCritical));
         } else {
             ((TextView) root.findViewById(R.id.txtRunning)).setTextColor(getResources().getColor(R.color.statusGood));
             ((TextView) root.findViewById(R.id.txtWalking)).setTextColor(getResources().getColor(R.color.statusGood));

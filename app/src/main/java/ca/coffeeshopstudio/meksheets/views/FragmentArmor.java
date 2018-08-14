@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import ca.coffeeshopstudio.meksheets.R;
 import ca.coffeeshopstudio.meksheets.models.Locations;
@@ -87,149 +88,227 @@ public class FragmentArmor extends BaseFragment implements View.OnClickListener,
         String irl = getString(R.string.armor_rl, mek.getInternalCurrent(Locations.rightLeg), mek.getInternalMax(Locations.rightLeg));
 
         ((Button)root.findViewById(R.id.btnHead)).setText(ah);
-        setButtonStyle(root.findViewById(R.id.btnHead), mek.getArmorCurrent(Locations.head));
+        setButtonStyle(root.findViewById(R.id.btnHead), mek.getArmorCurrent(Locations.head), mek.getArmorMax(Locations.head));
         ((Button)root.findViewById(R.id.btnLeftArm)).setText(ala);
-        setButtonStyle(root.findViewById(R.id.btnLeftArm), mek.getArmorCurrent(Locations.leftArm));
+        setButtonStyle(root.findViewById(R.id.btnLeftArm), mek.getArmorCurrent(Locations.leftArm), mek.getArmorMax(Locations.leftArm));
         ((Button)root.findViewById(R.id.btnRightArm)).setText(ara);
-        setButtonStyle(root.findViewById(R.id.btnRightArm), mek.getArmorCurrent(Locations.rightArm));
+        setButtonStyle(root.findViewById(R.id.btnRightArm), mek.getArmorCurrent(Locations.rightArm), mek.getArmorMax(Locations.rightArm));
         ((Button)root.findViewById(R.id.btnCenterTorso)).setText(act);
-        setButtonStyle(root.findViewById(R.id.btnCenterTorso), mek.getArmorCurrent(Locations.centerTorso));
+        setButtonStyle(root.findViewById(R.id.btnCenterTorso), mek.getArmorCurrent(Locations.centerTorso), mek.getArmorMax(Locations.centerTorso));
         ((Button)root.findViewById(R.id.btnLeftTorso)).setText(alt);
-        setButtonStyle(root.findViewById(R.id.btnLeftTorso), mek.getArmorCurrent(Locations.leftTorso));
+        setButtonStyle(root.findViewById(R.id.btnLeftTorso), mek.getArmorCurrent(Locations.leftTorso), mek.getArmorMax(Locations.leftTorso));
         ((Button)root.findViewById(R.id.btnRightTorso)).setText(art);
-        setButtonStyle(root.findViewById(R.id.btnRightTorso), mek.getArmorCurrent(Locations.rightTorso));
+        setButtonStyle(root.findViewById(R.id.btnRightTorso), mek.getArmorCurrent(Locations.rightTorso), mek.getArmorMax(Locations.rightTorso));
         ((Button)root.findViewById(R.id.btnLeftLeg)).setText(all);
-        setButtonStyle(root.findViewById(R.id.btnLeftLeg), mek.getArmorCurrent(Locations.leftLeg));
+        setButtonStyle(root.findViewById(R.id.btnLeftLeg), mek.getArmorCurrent(Locations.leftLeg), mek.getArmorMax(Locations.leftLeg));
         ((Button)root.findViewById(R.id.btnRightLeg)).setText(arl);
-        setButtonStyle(root.findViewById(R.id.btnRightLeg), mek.getArmorCurrent(Locations.rightLeg));
+        setButtonStyle(root.findViewById(R.id.btnRightLeg), mek.getArmorCurrent(Locations.rightLeg), mek.getArmorMax(Locations.rightLeg));
 
         ((Button)root.findViewById(R.id.btnRearCenter)).setText(arct);
-        setButtonStyle(root.findViewById(R.id.btnRearCenter), mek.getArmorRearCurrent(Locations.centerTorso));
+        setButtonStyle(root.findViewById(R.id.btnRearCenter), mek.getArmorRearCurrent(Locations.centerTorso), mek.getArmorRearMax(Locations.centerTorso));
         ((Button)root.findViewById(R.id.btnRearLeft)).setText(arlt);
-        setButtonStyle(root.findViewById(R.id.btnRearLeft), mek.getArmorRearCurrent(Locations.leftTorso));
+        setButtonStyle(root.findViewById(R.id.btnRearLeft), mek.getArmorRearCurrent(Locations.leftTorso), mek.getArmorRearMax(Locations.leftTorso));
         ((Button)root.findViewById(R.id.btnRearRight)).setText(arrt);
-        setButtonStyle(root.findViewById(R.id.btnRearRight), mek.getArmorRearCurrent(Locations.rightTorso));
+        setButtonStyle(root.findViewById(R.id.btnRearRight), mek.getArmorRearCurrent(Locations.rightTorso), mek.getArmorRearMax(Locations.rightTorso));
 
         ((Button)root.findViewById(R.id.btnInternalHead)).setText(ih);
-        setButtonStyle(root.findViewById(R.id.btnInternalHead), mek.getInternalCurrent(Locations.head));
+        setButtonStyle(root.findViewById(R.id.btnInternalHead), mek.getInternalCurrent(Locations.head), mek.getInternalMax(Locations.head));
         ((Button)root.findViewById(R.id.btnInternalLeftArm)).setText(ila);
-        setButtonStyle(root.findViewById(R.id.btnInternalLeftArm), mek.getInternalCurrent(Locations.leftArm));
+        setButtonStyle(root.findViewById(R.id.btnInternalLeftArm), mek.getInternalCurrent(Locations.leftArm), mek.getInternalMax(Locations.leftArm));
         ((Button)root.findViewById(R.id.btnInternalRightArm)).setText(ira);
-        setButtonStyle(root.findViewById(R.id.btnInternalRightArm), mek.getInternalCurrent(Locations.rightArm));
+        setButtonStyle(root.findViewById(R.id.btnInternalRightArm), mek.getInternalCurrent(Locations.rightArm), mek.getInternalMax(Locations.rightArm));
         ((Button)root.findViewById(R.id.btnInternalCenterTorso)).setText(ict);
-        setButtonStyle(root.findViewById(R.id.btnInternalCenterTorso), mek.getInternalCurrent(Locations.centerTorso));
+        setButtonStyle(root.findViewById(R.id.btnInternalCenterTorso), mek.getInternalCurrent(Locations.centerTorso), mek.getInternalMax(Locations.centerTorso));
         ((Button)root.findViewById(R.id.btnInternalLeftTorso)).setText(ilt);
-        setButtonStyle(root.findViewById(R.id.btnInternalLeftTorso), mek.getInternalCurrent(Locations.leftTorso));
+        setButtonStyle(root.findViewById(R.id.btnInternalLeftTorso), mek.getInternalCurrent(Locations.leftTorso), mek.getInternalMax(Locations.leftTorso));
         ((Button)root.findViewById(R.id.btnInternalRightTorso)).setText(irt);
-        setButtonStyle(root.findViewById(R.id.btnInternalRightTorso), mek.getInternalCurrent(Locations.rightTorso));
+        setButtonStyle(root.findViewById(R.id.btnInternalRightTorso), mek.getInternalCurrent(Locations.rightTorso), mek.getInternalMax(Locations.rightTorso));
         ((Button)root.findViewById(R.id.btnInternalLeftLeg)).setText(ill);
-        setButtonStyle(root.findViewById(R.id.btnInternalLeftLeg), mek.getInternalCurrent(Locations.leftLeg));
+        setButtonStyle(root.findViewById(R.id.btnInternalLeftLeg), mek.getInternalCurrent(Locations.leftLeg), mek.getInternalMax(Locations.leftLeg));
         ((Button)root.findViewById(R.id.btnInternalRightLeg)).setText(irl);
-        setButtonStyle(root.findViewById(R.id.btnInternalRightLeg), mek.getInternalCurrent(Locations.rightLeg));
+        setButtonStyle(root.findViewById(R.id.btnInternalRightLeg), mek.getInternalCurrent(Locations.rightLeg), mek.getInternalMax(Locations.rightLeg));
     }
 
-    private void setButtonStyle(View button, int armorCurrent) {
-        if (armorCurrent > 0) {
+    private void setButtonStyle(View button, int armorCurrent, int armorMax) {
+        if (armorCurrent == armorMax) {
             button.setBackgroundColor(getActivity().getResources().getColor(R.color.statusGood));
-        } else {
+        } else if (armorCurrent > 0) {
             button.setBackgroundColor(getActivity().getResources().getColor(R.color.statusBad));
+        } else {
+            button.setBackgroundColor(getActivity().getResources().getColor(R.color.statusCritical));
         }
     }
 
     @Override
     public void onClick(View view) {
-        adjustArmor(view ,-1);
+        adjustArmorPrepare(view, -1);
     }
 
     @Override
     public boolean onLongClick(View view) {
-        adjustArmor(view, 1);
+        adjustArmorPrepare(view, 1);
         return true;
     }
 
-    private void adjustArmor(View view, int adjustBy) {
+    private void adjustArmorPrepare(View view, int adjustBy) {
         Locations location;
+        int locType;
         switch (view.getId()) {
             case R.id.btnHead:
                 location = Locations.head;
-                mek.setArmorCurrent(location, mek.getArmorCurrent(location) + adjustBy);
+                locType = 0;
                 break;
             case R.id.btnCenterTorso:
                 location = Locations.centerTorso;
-                mek.setArmorCurrent(location, mek.getArmorCurrent(location) + adjustBy);
+                locType = 0;
                 break;
             case R.id.btnLeftTorso:
                 location = Locations.leftTorso;
-                mek.setArmorCurrent(location, mek.getArmorCurrent(location) + adjustBy);
+                locType = 0;
                 break;
             case R.id.btnRightTorso:
                 location = Locations.rightTorso;
-                mek.setArmorCurrent(location, mek.getArmorCurrent(location) + adjustBy);
+                locType = 0;
                 break;
             case R.id.btnLeftArm:
                 location = Locations.leftArm;
-                mek.setArmorCurrent(location, mek.getArmorCurrent(location) + adjustBy);
+                locType = 0;
                 break;
             case R.id.btnRightArm:
                 location = Locations.rightArm;
-                mek.setArmorCurrent(location, mek.getArmorCurrent(location) + adjustBy);
+                locType = 0;
                 break;
             case R.id.btnLeftLeg:
                 location = Locations.leftLeg;
-                mek.setArmorCurrent(location, mek.getArmorCurrent(location) + adjustBy);
+                locType = 0;
                 break;
             case R.id.btnRightLeg:
                 location = Locations.rightLeg;
-                mek.setArmorCurrent(location, mek.getArmorCurrent(location) + adjustBy);
+                locType = 0;
                 break;
-
             case R.id.btnRearCenter:
                 location = Locations.centerTorso;
-                mek.setArmorRearCurrent(location, mek.getArmorRearCurrent(location) + adjustBy);
+                locType = 1;
                 break;
             case R.id.btnRearLeft:
                 location = Locations.leftTorso;
-                mek.setArmorRearCurrent(location, mek.getArmorRearCurrent(location) + adjustBy);
+                locType = 1;
                 break;
             case R.id.btnRearRight:
                 location = Locations.rightTorso;
-                mek.setArmorRearCurrent(location, mek.getArmorRearCurrent(location) + adjustBy);
+                locType = 1;
                 break;
-
             case R.id.btnInternalHead:
                 location = Locations.head;
-                mek.setInternalCurrent(location, mek.getInternalCurrent(location) + adjustBy);
+                locType = -1;
                 break;
             case R.id.btnInternalCenterTorso:
                 location = Locations.centerTorso;
-                mek.setInternalCurrent(location, mek.getInternalCurrent(location) + adjustBy);
+                locType = -1;
                 break;
             case R.id.btnInternalLeftTorso:
                 location = Locations.leftTorso;
-                mek.setInternalCurrent(location, mek.getInternalCurrent(location) + adjustBy);
+                locType = -1;
                 break;
             case R.id.btnInternalRightTorso:
                 location = Locations.rightTorso;
-                mek.setInternalCurrent(location, mek.getInternalCurrent(location) + adjustBy);
+                locType = -1;
                 break;
             case R.id.btnInternalLeftArm:
                 location = Locations.leftArm;
-                mek.setInternalCurrent(location, mek.getInternalCurrent(location) + adjustBy);
+                locType = -1;
                 break;
             case R.id.btnInternalRightArm:
                 location = Locations.rightArm;
-                mek.setInternalCurrent(location, mek.getInternalCurrent(location) + adjustBy);
+                locType = -1;
                 break;
             case R.id.btnInternalLeftLeg:
                 location = Locations.leftLeg;
-                mek.setInternalCurrent(location, mek.getInternalCurrent(location) + adjustBy);
+                locType = -1;
                 break;
-            case R.id.btnInternalRightLeg:
+            default: //case R.id.btnInternalRightLeg:
                 location = Locations.rightLeg;
-                mek.setInternalCurrent(location, mek.getInternalCurrent(location) + adjustBy);
+                locType = -1;
                 break;
-
         }
+
+        adjustArmor(location, locType, adjustBy);
+    }
+
+    private void adjustArmor(Locations location, int locType, int adjustBy) {
+        switch (locType) {
+            case 0:
+                int rvA = validateStructureLevel(location, adjustBy, locType);
+                mek.setArmorCurrent(location, mek.getArmorCurrent(location) + adjustBy);
+                if (rvA == -1) { //location destroyed, display message and pass to IS
+                    armorToastMessage(location, R.string.armor_destroyed);
+                    adjustArmor(location, -1, adjustBy); //change to IS
+                } else if (rvA == 1) { //rv must equal 1, so display an appropriate message only
+                    armorToastMessage(location, R.string.location_maxed);
+                }
+                break;
+            case 1:
+                int rvRA = validateStructureLevel(location, adjustBy, locType);
+                mek.setArmorRearCurrent(location, mek.getArmorRearCurrent(location) + adjustBy);
+                if (rvRA == -1) { //location destroyed, display message and pass to IS
+                    armorToastMessage(location, R.string.armor_rear_destroyed);
+                    adjustArmor(location, -1, adjustBy); //change to IS
+                } else if (rvRA == 1) { //rv must equal 1, so display an appropriate message only
+                    armorToastMessage(location, R.string.location_maxed);
+                }
+                break;
+            default: //case -1:
+                int rvIS = validateStructureLevel(location, adjustBy, locType);
+                mek.setInternalCurrent(location, mek.getInternalCurrent(location) + adjustBy);
+                if (rvIS == -1) { //location destroyed, display popup message
+                    ISMessage(location);
+                } else if (rvIS == 1) { //rv must equal 1, so display an appropriate message only
+                    armorToastMessage(location, R.string.location_maxed);
+                }
+                break;
+        }
+
         updateView();
+    }
+
+    private void ISMessage(Locations location) {
+        ((ActivityMain) getActivity()).displayMessage(getString(R.string.internal_destroyed));
+    }
+
+    private void armorToastMessage(Locations location, int message) {
+        Toast.makeText(getActivity(), getString(message), Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Validates that the armor operation is valid
+     *
+     * @param location     location to check
+     * @param adjustBy     how much we adjust it by
+     * @param locationType 0 for armor, 1 for rear, -1 for internal
+     * @return 0 - can proceed.  -1 means location is destroyed, 1 means location has max value already
+     */
+    private int validateStructureLevel(Locations location, int adjustBy, int locationType) {
+        int currentValue = 0;
+        int maxValue = 0;
+        switch (locationType) {
+            case 0:
+                currentValue = mek.getArmorCurrent(location);
+                maxValue = mek.getArmorMax(location);
+                break;
+            case 1:
+                currentValue = mek.getArmorRearCurrent(location);
+                maxValue = mek.getArmorRearMax(location);
+                break;
+            case -1:
+                currentValue = mek.getInternalCurrent(location);
+                maxValue = mek.getInternalMax(location);
+                break;
+        }
+
+        if (adjustBy < 0 && currentValue == 0)
+            return -1;
+        else if (adjustBy > 0 && currentValue == maxValue)
+            return 1;
+        return 0;
     }
 }

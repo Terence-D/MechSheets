@@ -89,7 +89,7 @@ public class FragmentComponents extends BaseFragment implements View.OnClickList
                 root.findViewById(id).setBackgroundColor(getActivity().getResources().getColor(R.color.statusGood));
                 root.findViewById(id).setEnabled(true);
             } else {
-                root.findViewById(id).setBackgroundColor(getActivity().getResources().getColor(R.color.statusBad));
+                root.findViewById(id).setBackgroundColor(getActivity().getResources().getColor(R.color.statusCritical));
                 root.findViewById(id).setEnabled(true);
             }
             CheckForNonTargetableComponent(list[i], id);
