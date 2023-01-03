@@ -23,7 +23,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '27.0.3'
+    namespace 'ca.coffeeshopstudio.meksheets'
 }
 
 dependencies {
