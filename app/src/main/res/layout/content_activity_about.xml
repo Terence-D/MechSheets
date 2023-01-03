@@ -6,7 +6,7 @@
   ~
   -->
 
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -93,4 +93,4 @@
             android:text="@string/license_url" />
     </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>
