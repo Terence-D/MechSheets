@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2018
+  ~ Copyright (c) 2023
   ~ Terry Doerksen
   ~ https://creativecommons.org/licenses/by-nc/4.0/
   ~
@@ -25,9 +25,10 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="64dp"
             android:layout_height="64dp"
+            android:contentDescription="@string/previous"
             android:scaleType="fitXY"
             android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
-            android:tint="@color/accent"
+            app:tint="@color/accent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,6 +37,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="64dp"
             android:layout_height="64dp"
+            android:contentDescription="@string/next"
             android:rotation="180"
             android:scaleType="fitXY"
             android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
@@ -48,6 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:contentDescription="@string/selection"
+            android:minHeight="48dp"
             app:layout_constraintEnd_toStartOf="@+id/btnNext"
             app:layout_constraintStart_toEndOf="@+id/btnPrv"
             app:layout_constraintTop_toTopOf="parent" />

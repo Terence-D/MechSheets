@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2018
+  ~ Copyright (c) 2023
   ~ Terry Doerksen
   ~ https://creativecommons.org/licenses/by-nc/4.0/
   ~
@@ -20,7 +20,7 @@
         android:orientation="vertical"
         tools:context=".views.ActivityMain">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
@@ -28,7 +28,6 @@
             <!-- row 1 -->
 
             <TextView
-                android:id="@+id/textView1"
                 style="@style/AppTheme.HeaderText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,7 +46,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="3" >
+            android:weightSum="3"
+            android:baselineAligned="false">
 
             <!-- col 1 -->
 
@@ -58,7 +58,6 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -66,84 +65,72 @@
                     android:text="@string/components_left_arm" />
 
                 <Button
-                    android:id="@+id/btnLA1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLA2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLA3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLA4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp" />
 
                 <Button
-                    android:id="@+id/btnLA5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp" />
 
                 <Button
-                    android:id="@+id/btnLA6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLA7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLA8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLA9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLA10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLA11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp" />
 
                 <Button
-                    android:id="@+id/btnLA12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -151,7 +138,6 @@
 
 
                 <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -159,84 +145,72 @@
                     android:text="@string/components_left_torso" />
 
                 <Button
-                    android:id="@+id/btnLT1"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_width="match_parent"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLT2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp" />
 
                 <Button
-                    android:id="@+id/btnLT3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLT4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLT5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp" />
 
                 <Button
-                    android:id="@+id/btnLT6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp" />
 
                 <Button
-                    android:id="@+id/btnLT7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp" />
 
                 <Button
-                    android:id="@+id/btnLT8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp" />
 
                 <Button
-                    android:id="@+id/btnLT9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLT10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp" />
 
                 <Button
-                    android:id="@+id/btnLT11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLT12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -252,42 +226,36 @@
                     android:text="@string/components_left_leg"/>
 
                 <Button
-                    android:id="@+id/btnLL1"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_width="match_parent"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLL2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLL3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLL4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnLL5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp" />
 
                 <Button
-                    android:id="@+id/btnLL6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -304,7 +272,6 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/textView11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -315,7 +282,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnH1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -323,7 +289,6 @@
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnH2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -331,7 +296,6 @@
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnH3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -339,7 +303,6 @@
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnH4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -347,7 +310,6 @@
                     android:layout_marginTop="8dp" />
 
                 <Button
-                    android:id="@+id/btnH5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -355,7 +317,6 @@
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnH6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -363,7 +324,6 @@
                     android:layout_marginTop="8dp" />
 
                 <TextView
-                    android:id="@+id/textView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -373,7 +333,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnCT1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -381,7 +340,6 @@
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnCT2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -389,7 +347,6 @@
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnCT3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -397,7 +354,6 @@
                     android:layout_marginTop="8dp" />
 
                 <Button
-                    android:id="@+id/btnCT4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -406,7 +362,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnCT5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -415,7 +370,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnCT6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -424,7 +378,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnCT7"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:layout_marginEnd="8dp"
@@ -433,7 +386,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnCT8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -442,7 +394,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnCT9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -451,7 +402,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnCT10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -460,7 +410,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnCT11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -469,7 +418,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnCT12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -487,7 +435,6 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -497,7 +444,6 @@
 />
 
                 <Button
-                    android:id="@+id/btnRA1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintHorizontal_weight="1"
@@ -506,7 +452,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRA2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintHorizontal_weight="1"
@@ -515,7 +460,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRA3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -523,7 +467,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRA4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -531,28 +474,24 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRA5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnRA6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnRA7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnRA8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -560,7 +499,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRA9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -568,7 +506,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRA10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -576,7 +513,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRA11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -584,7 +520,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRA12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -593,7 +528,6 @@
 
 
                 <TextView
-                    android:id="@+id/textView13"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -602,14 +536,12 @@
                     android:text="@string/components_right_torso"/>
 
                 <Button
-                    android:id="@+id/btnRT1"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_width="match_parent"
                     android:layout_marginTop="8dp"/>
 
                 <Button
-                    android:id="@+id/btnRT2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -617,7 +549,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRT3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -625,7 +556,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRT4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -633,7 +563,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRT5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -641,7 +570,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRT6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -649,7 +577,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRT7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -657,7 +584,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRT8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -665,7 +591,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRT9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -673,7 +598,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRT10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -681,7 +605,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRT11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -689,7 +612,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRT12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -697,7 +619,6 @@
                     />
 
                 <TextView
-                    android:id="@+id/textView14"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -707,7 +628,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRL1"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_width="match_parent"
@@ -715,7 +635,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRL2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -723,7 +642,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRL3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -731,7 +649,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRL4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -739,7 +656,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRL5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -747,7 +663,6 @@
                     />
 
                 <Button
-                    android:id="@+id/btnRL6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"

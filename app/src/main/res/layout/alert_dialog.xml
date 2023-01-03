@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2018
+  ~ Copyright (c) 2023
   ~ Terry Doerksen
   ~ https://creativecommons.org/licenses/by-nc/4.0/
   ~
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/textmsg"
+            android:id="@+id/textMsg"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:padding="8dp"

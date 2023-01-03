@@ -25,24 +25,18 @@ import static ca.coffeeshopstudio.meksheets.models.Locations.rightTorso;
 
 public class Mek {
 
-    private List<Equipment> equipment = new ArrayList<>();
+    private final List<Equipment> equipment = new ArrayList<>();
 
-    public class Component {
+    public static class Component {
         private String name = MTF_EMPTY;
         private boolean status = true;
 
         public String getName() {
             return name;
         }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
         public boolean isFunctioning() {
             return status;
         }
-
         public void setStatus(boolean status) {
             this.status = status;
         }
@@ -54,7 +48,7 @@ public class Mek {
         this.equipment.add(e);
     }
 
-    private List<Ammo> ammo = new ArrayList<>();
+    private final List<Ammo> ammo = new ArrayList<>();
 
     private static final String MTF_VERSION = "Version:1.";
     public static final String MTF_EMPTY = "-Empty-";
@@ -104,25 +98,24 @@ public class Mek {
     private String fileName = "";
     private int torsoTwist;
 
-    private int [] armorMax = new int[Locations.values().length];
-    private int [] armorCurrent = new int[Locations.values().length];
-    private int [] armorRearMax = new int[3]; //ct,lt,rt
-    private int [] armorRearCurrent = new int[3]; //ct,lt,rt
-    private int [] internalMax = new int[Locations.values().length];
-    private int [] internalCurrent = new int[Locations.values().length];
-    private Component[] laComponents = new Component[12];
-    private Component[] raComponents = new Component[12];
-    private Component[] ctComponents = new Component[12];
-    private Component[] hComponents = new Component[6];
-    private Component[] ltComponents = new Component[12];
-    private Component[] rtComponents = new Component[12];
-    private Component[] llComponents = new Component[6];
-    private Component[] rlComponents = new Component[6];
+    private final int [] armorMax = new int[Locations.values().length];
+    private final int [] armorCurrent = new int[Locations.values().length];
+    private final int [] armorRearMax = new int[3]; //ct,lt,rt
+    private final int [] armorRearCurrent = new int[3]; //ct,lt,rt
+    private final int [] internalMax = new int[Locations.values().length];
+    private final int [] internalCurrent = new int[Locations.values().length];
+    private final Component[] laComponents = new Component[12];
+    private final Component[] raComponents = new Component[12];
+    private final Component[] ctComponents = new Component[12];
+    private final Component[] hComponents = new Component[6];
+    private final Component[] ltComponents = new Component[12];
+    private final Component[] rtComponents = new Component[12];
+    private final Component[] llComponents = new Component[6];
+    private final Component[] rlComponents = new Component[6];
 
     public List<Equipment> getEquipment() {
         return equipment;
     }
-    private int privateHeatSinksDestroyed = 0;
 
     public Mek() {
         for (int i = 0; i < laComponents.length; i++) {
@@ -168,7 +161,7 @@ public class Mek {
     }
 
     public int getCurrentHeatSinks() {
-        privateHeatSinksDestroyed = getDestroyedHeatsinkCount();
+        int privateHeatSinksDestroyed = getDestroyedHeatsinkCount();
         return heatSinksMax - privateHeatSinksDestroyed;
     }
 
@@ -362,7 +355,7 @@ public class Mek {
         }
     }
 
-    public class Ammo {
+    public static class Ammo {
         private String name;
         private Locations location;
         private int shotsFired;
@@ -401,7 +394,7 @@ public class Mek {
         }
     }
 
-    public class Equipment {
+    public static class Equipment {
         private String name;
         private boolean checked = false;
 
@@ -485,10 +478,6 @@ public class Mek {
         while ((component != null) && !component.startsWith(" ") && !component.isEmpty() && position < getComponents(location).length - 1);
     }
 
-    public void removeEquipment(String equipment) {
-        this.equipment.remove(equipment);
-    }
-
     public int getHeatLevel() {
         return heatLevel;
     }
@@ -530,12 +519,6 @@ public class Mek {
     }
 
     public void readMTF(BufferedReader br) throws IOException {
-//        File sdcard = Environment.getExternalStorageDirectory();
-//        File file = new File(sdcard,"/download/Locust LCT-1V.mtf");
-//
-//        //Read text from file
-//        StringBuilder text = new StringBuilder();
-
         String line;
         if (! validateMekFile(br)) {
             throw new IOException("invalid file format!");
@@ -544,7 +527,6 @@ public class Mek {
             extractMekInfo(line, br);
         }
         br.close();
-
         //if we got here, all is well!
     }
 
@@ -719,7 +701,7 @@ public class Mek {
             if (line.startsWith(MTF_ARMOR_LL))
                 setArmorMax(leftLeg, Integer.parseInt(line.substring(MTF_ARMOR_LL.length())));
             if (line.startsWith(MTF_ARMOR_RL))
-                setArmorMax(Locations.rightLeg, Integer.parseInt(line.substring(MTF_ARMOR_RA.length())));
+                setArmorMax(Locations.rightLeg, Integer.parseInt(line.substring(MTF_ARMOR_RL.length())));
             if (line.startsWith(MTF_ARMOR_CTR))
                 setArmorRearMax(Locations.centerTorso, Integer.parseInt(line.substring(MTF_ARMOR_CTR.length())));
             if (line.startsWith(MTF_ARMOR_LTR))
@@ -744,24 +726,21 @@ public class Mek {
     }
 
     public static int extractNumbers(String s){
-        String numbers = "";
+        StringBuilder numbers = new StringBuilder();
 
         Pattern p = Pattern.compile("\\d+");
         Matcher m = p.matcher(s);
 
         while(m.find()){
-            numbers = numbers + Integer.parseInt(m.group());
+            numbers.append(Integer.parseInt(m.group()));
         }
-        return Integer.parseInt(numbers);
+        return Integer.parseInt(numbers.toString());
     }
 
     private int getHeatSinksForComponent(Component[] location) {
         int hsCount = 0;
 
-        boolean isDouble = false;
-
-        if (getHeatSinkType() != 0)
-            isDouble = true;
+        boolean isDouble = getHeatSinkType() != 0;
 
         if (!isDouble) {
             //regular heatsinks are easy - just count
@@ -785,6 +764,7 @@ public class Mek {
                     for (int hsPos = 0; hsPos < hsSize; hsPos++) {
                         if (!location[i + hsPos].isFunctioning()) {
                             isFunctioning = false;
+                            break;
                         }
                     }
                     i = i + hsSize - 1;

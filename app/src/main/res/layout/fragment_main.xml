@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2018
+  ~ Copyright (c) 2023
   ~ Terry Doerksen
   ~ https://creativecommons.org/licenses/by-nc/4.0/
   ~
@@ -32,20 +32,21 @@
 
         <ImageButton
             android:id="@+id/btnLoad"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="256dp"
             android:layout_height="256dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="@string/email"
             android:scaleType="fitXY"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:src="@drawable/ic_add_black_24dp"
-            android:tint="@color/textIcons"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/textIcons" />
 
         <TextView
             android:id="@+id/txtUnitCount"

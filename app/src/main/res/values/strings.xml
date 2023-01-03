@@ -30,7 +30,6 @@
     <string name="components_right_leg">Right Leg</string>
     <string name="components_head">Head</string>
     <string name="components_center_torso">Center Torso</string>
-    <string name="overview_movement">Movement</string>
     <string name="overview_title">Overview</string>
     <string name="overview_name">Name: %1$s</string>
     <string name="overview_tons">Tons: %1$d</string>
@@ -44,17 +43,8 @@
     <string name="overview_gunnery_skill">Gunnery: %1$d</string>
     <string name="overview_pilots_hits">Hits Taken: %1$d</string>
     <string name="overview_heat_scale">Heat Scale: %1$d</string>
-    <string name="activity_previous"><![CDATA[<]]></string>
-    <string name="activity_next"><![CDATA[>]]></string>
     <string name="main_title">Choose an MTF file to load</string>
     <string name="overview_ammo">%1$s: %2$d Shots Fired</string>
-    <string name="row_delete">X</string>
-    <string name="main_load">Load</string>
-    <string name="main_piloting">Pilot</string>
-    <string name="main_continue">Continue</string>
-    <string name="main_piloting_skill">Piloting: %1$1</string>
-    <string name="main_gunnery_skill">Gunnery: %1$1</string>
-    <string name="main_save">Save</string>
     <string name="overview_description">Notes</string>
     <string name="overview_save">Save</string>
     <string name="spinner_value_none">[Add]</string>
@@ -149,4 +139,11 @@ Mech Sheets software License - Copyright 2018 Terry Doerksen:
     <string name="armor_rear_destroyed">CRITICAL! Damage has transferred to the internal structure!</string>
     <string name="location_maxed">You are exceeding the maximum default value</string>
     <string name="internal_destroyed">The internal structure in this location has been completely destroyed!</string>
+
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="selection">Selection</string>
+    <string name="email">Email</string>
+    <string name="description">Description</string>
+    <string name="component_view_name">%1$d) %2$s</string>
 </resources>

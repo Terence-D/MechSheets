@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import java.util.Objects;
+
 import ca.coffeeshopstudio.meksheets.R;
 import ca.coffeeshopstudio.meksheets.models.Locations;
 import ca.coffeeshopstudio.meksheets.models.Mek;
@@ -34,8 +36,7 @@ public class FragmentComponents extends BaseFragment implements View.OnClickList
     }
 
     public static FragmentComponents newInstance() {
-        FragmentComponents fragment = new FragmentComponents();
-        return fragment;
+        return new FragmentComponents();
     }
 
     public static String getFragmentTag() {
@@ -81,15 +82,16 @@ public class FragmentComponents extends BaseFragment implements View.OnClickList
         for (int i = 0; i < list.length; i++) {
             int viewNumber = i+1;
             String viewName = "btn" + name + viewNumber;
-            int id = getResources().getIdentifier(viewName, "id", getActivity().getPackageName());
+            int id = getResources().getIdentifier(viewName, "id", requireActivity().getPackageName());
             String componentName = list[i].getName();
             componentName = componentName.replace("-", " ");
-            ((Button)root.findViewById(id)).setText(viewNumber + ") " + componentName);
+            String buttonText = String.format(getString(R.string.component_view_name), viewNumber, componentName);
+            ((Button)root.findViewById(id)).setText(buttonText);
             if (list[i].isFunctioning()) {
-                root.findViewById(id).setBackgroundColor(getActivity().getResources().getColor(R.color.statusGood));
+                root.findViewById(id).setBackgroundColor(requireActivity().getResources().getColor(R.color.statusGood));
                 root.findViewById(id).setEnabled(true);
             } else {
-                root.findViewById(id).setBackgroundColor(getActivity().getResources().getColor(R.color.statusCritical));
+                root.findViewById(id).setBackgroundColor(requireActivity().getResources().getColor(R.color.statusCritical));
                 root.findViewById(id).setEnabled(true);
             }
             CheckForNonTargetableComponent(list[i], id);
@@ -108,7 +110,7 @@ public class FragmentComponents extends BaseFragment implements View.OnClickList
                 sanitizedName.contains(sanitizedEndo) ||
                 sanitizedName.contains(sanitizedCase) ||
                 sanitizedName.contains(sanitizedFerro)) {
-            root.findViewById(id).setBackgroundColor(getActivity().getResources().getColor(R.color.textSecondary));
+            root.findViewById(id).setBackgroundColor(requireActivity().getResources().getColor(R.color.textSecondary));
             root.findViewById(id).setEnabled(false);
         }
     }

@@ -7,7 +7,8 @@
 
 package ca.coffeeshopstudio.meksheets.views;
 
-import android.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -22,18 +23,17 @@ public abstract class BaseFragment extends Fragment {
     protected Mek mek;
     protected View root;
 
-
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
+            throw new RuntimeException(context + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -47,7 +47,7 @@ public abstract class BaseFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        mek = ((ActivityMain) getActivity()).getMek();
+        mek = ((ActivityMain) requireActivity()).getMek();
         updateView();
     }
 
@@ -55,7 +55,7 @@ public abstract class BaseFragment extends Fragment {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean sawWindow = prefs.getBoolean(helpMainPref, false);
         if (!sawWindow) {
-            ((ActivityMain) getActivity()).displayMessage(helpMsg);
+            ((ActivityMain) requireActivity()).displayMessage(helpMsg);
             prefs.edit().putBoolean(helpMainPref, true).apply();
         }
     }

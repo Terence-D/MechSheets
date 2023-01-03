@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import ca.coffeeshopstudio.meksheets.R;
 import ca.coffeeshopstudio.meksheets.models.Locations;
 
@@ -34,8 +36,7 @@ public class FragmentArmor extends BaseFragment implements View.OnClickListener,
     }
 
     public static FragmentArmor newInstance() {
-        FragmentArmor fragment = new FragmentArmor();
-        return fragment;
+        return new FragmentArmor();
     }
 
     public static String getFragmentTag() {
@@ -131,11 +132,11 @@ public class FragmentArmor extends BaseFragment implements View.OnClickListener,
 
     private void setButtonStyle(View button, int armorCurrent, int armorMax) {
         if (armorCurrent == armorMax) {
-            button.setBackgroundColor(getActivity().getResources().getColor(R.color.statusGood));
+            button.setBackgroundColor(requireActivity().getResources().getColor(R.color.statusGood));
         } else if (armorCurrent > 0) {
-            button.setBackgroundColor(getActivity().getResources().getColor(R.color.statusBad));
+            button.setBackgroundColor(requireActivity().getResources().getColor(R.color.statusBad));
         } else {
-            button.setBackgroundColor(getActivity().getResources().getColor(R.color.statusCritical));
+            button.setBackgroundColor(requireActivity().getResources().getColor(R.color.statusCritical));
         }
     }
 
@@ -153,83 +154,64 @@ public class FragmentArmor extends BaseFragment implements View.OnClickListener,
     private void adjustArmorPrepare(View view, int adjustBy) {
         Locations location;
         int locType;
-        switch (view.getId()) {
-            case R.id.btnHead:
-                location = Locations.head;
-                locType = 0;
-                break;
-            case R.id.btnCenterTorso:
-                location = Locations.centerTorso;
-                locType = 0;
-                break;
-            case R.id.btnLeftTorso:
-                location = Locations.leftTorso;
-                locType = 0;
-                break;
-            case R.id.btnRightTorso:
-                location = Locations.rightTorso;
-                locType = 0;
-                break;
-            case R.id.btnLeftArm:
-                location = Locations.leftArm;
-                locType = 0;
-                break;
-            case R.id.btnRightArm:
-                location = Locations.rightArm;
-                locType = 0;
-                break;
-            case R.id.btnLeftLeg:
-                location = Locations.leftLeg;
-                locType = 0;
-                break;
-            case R.id.btnRightLeg:
-                location = Locations.rightLeg;
-                locType = 0;
-                break;
-            case R.id.btnRearCenter:
-                location = Locations.centerTorso;
-                locType = 1;
-                break;
-            case R.id.btnRearLeft:
-                location = Locations.leftTorso;
-                locType = 1;
-                break;
-            case R.id.btnRearRight:
-                location = Locations.rightTorso;
-                locType = 1;
-                break;
-            case R.id.btnInternalHead:
-                location = Locations.head;
-                locType = -1;
-                break;
-            case R.id.btnInternalCenterTorso:
-                location = Locations.centerTorso;
-                locType = -1;
-                break;
-            case R.id.btnInternalLeftTorso:
-                location = Locations.leftTorso;
-                locType = -1;
-                break;
-            case R.id.btnInternalRightTorso:
-                location = Locations.rightTorso;
-                locType = -1;
-                break;
-            case R.id.btnInternalLeftArm:
-                location = Locations.leftArm;
-                locType = -1;
-                break;
-            case R.id.btnInternalRightArm:
-                location = Locations.rightArm;
-                locType = -1;
-                break;
-            case R.id.btnInternalLeftLeg:
-                location = Locations.leftLeg;
-                locType = -1;
-                break;
-            default: //case R.id.btnInternalRightLeg:
-                location = Locations.rightLeg;
-                locType = -1;
-                break;
+        int id = view.getId();//case R.id.btnInternalRightLeg:
+        if (id == R.id.btnHead) {
+            location = Locations.head;
+            locType = 0;
+        } else if (id == R.id.btnCenterTorso) {
+            location = Locations.centerTorso;
+            locType = 0;
+        } else if (id == R.id.btnLeftTorso) {
+            location = Locations.leftTorso;
+            locType = 0;
+        } else if (id == R.id.btnRightTorso) {
+            location = Locations.rightTorso;
+            locType = 0;
+        } else if (id == R.id.btnLeftArm) {
+            location = Locations.leftArm;
+            locType = 0;
+        } else if (id == R.id.btnRightArm) {
+            location = Locations.rightArm;
+            locType = 0;
+        } else if (id == R.id.btnLeftLeg) {
+            location = Locations.leftLeg;
+            locType = 0;
+        } else if (id == R.id.btnRightLeg) {
+            location = Locations.rightLeg;
+            locType = 0;
+        } else if (id == R.id.btnRearCenter) {
+            location = Locations.centerTorso;
+            locType = 1;
+        } else if (id == R.id.btnRearLeft) {
+            location = Locations.leftTorso;
+            locType = 1;
+        } else if (id == R.id.btnRearRight) {
+            location = Locations.rightTorso;
+            locType = 1;
+        } else if (id == R.id.btnInternalHead) {
+            location = Locations.head;
+            locType = -1;
+        } else if (id == R.id.btnInternalCenterTorso) {
+            location = Locations.centerTorso;
+            locType = -1;
+        } else if (id == R.id.btnInternalLeftTorso) {
+            location = Locations.leftTorso;
+            locType = -1;
+        } else if (id == R.id.btnInternalRightTorso) {
+            location = Locations.rightTorso;
+            locType = -1;
+        } else if (id == R.id.btnInternalLeftArm) {
+            location = Locations.leftArm;
+            locType = -1;
+        } else if (id == R.id.btnInternalRightArm) {
+            location = Locations.rightArm;
+            locType = -1;
+        } else if (id == R.id.btnInternalLeftLeg) {
+            location = Locations.leftLeg;
+            locType = -1;
+        } else {
+            location = Locations.rightLeg;
+            locType = -1;
         }
 
         adjustArmor(location, locType, adjustBy);
@@ -241,29 +223,29 @@ public class FragmentArmor extends BaseFragment implements View.OnClickListener,
                 int rvA = validateStructureLevel(location, adjustBy, locType);
                 mek.setArmorCurrent(location, mek.getArmorCurrent(location) + adjustBy);
                 if (rvA == -1) { //location destroyed, display message and pass to IS
-                    armorToastMessage(location, R.string.armor_destroyed);
+                    armorToastMessage(R.string.armor_destroyed);
                     adjustArmor(location, -1, adjustBy); //change to IS
                 } else if (rvA == 1) { //rv must equal 1, so display an appropriate message only
-                    armorToastMessage(location, R.string.location_maxed);
+                    armorToastMessage(R.string.location_maxed);
                 }
                 break;
             case 1:
                 int rvRA = validateStructureLevel(location, adjustBy, locType);
                 mek.setArmorRearCurrent(location, mek.getArmorRearCurrent(location) + adjustBy);
                 if (rvRA == -1) { //location destroyed, display message and pass to IS
-                    armorToastMessage(location, R.string.armor_rear_destroyed);
+                    armorToastMessage(R.string.armor_rear_destroyed);
                     adjustArmor(location, -1, adjustBy); //change to IS
                 } else if (rvRA == 1) { //rv must equal 1, so display an appropriate message only
-                    armorToastMessage(location, R.string.location_maxed);
+                    armorToastMessage(R.string.location_maxed);
                 }
                 break;
             default: //case -1:
                 int rvIS = validateStructureLevel(location, adjustBy, locType);
                 mek.setInternalCurrent(location, mek.getInternalCurrent(location) + adjustBy);
                 if (rvIS == -1) { //location destroyed, display popup message
-                    ISMessage(location);
+                    ISMessage();
                 } else if (rvIS == 1) { //rv must equal 1, so display an appropriate message only
-                    armorToastMessage(location, R.string.location_maxed);
+                    armorToastMessage(R.string.location_maxed);
                 }
                 break;
         }
@@ -271,11 +253,11 @@ public class FragmentArmor extends BaseFragment implements View.OnClickListener,
         updateView();
     }
 
-    private void ISMessage(Locations location) {
-        ((ActivityMain) getActivity()).displayMessage(getString(R.string.internal_destroyed));
+    private void ISMessage() {
+        ((ActivityMain) requireActivity()).displayMessage(getString(R.string.internal_destroyed));
     }
 
-    private void armorToastMessage(Locations location, int message) {
+    private void armorToastMessage(int message) {
         Toast.makeText(getActivity(), getString(message), Toast.LENGTH_LONG).show();
     }
 

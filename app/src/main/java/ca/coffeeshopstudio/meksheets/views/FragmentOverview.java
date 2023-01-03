@@ -8,7 +8,6 @@
 package ca.coffeeshopstudio.meksheets.views;
 
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -132,7 +131,7 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
         boolean reducedJumpRange = false;
         boolean legsBlownOff = false;
 
-        //calculate damage penalities
+        //calculate damage penalties
         //for walking / running - hips cut us in half per destroyed hip.  actuators do not matter
         if (mek.getInternalCurrent(Locations.leftLeg) == 0 || mek.getInternalCurrent(Locations.rightLeg) == 0) {
             walkSpeed = 1;
@@ -264,19 +263,11 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
         button.setTag(id);
         button.setLongClickable(true);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                adjustAmmoUse(view, 1);
-            }
-        });
+        button.setOnClickListener(view -> adjustAmmoUse(view, 1));
 
-        button.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                adjustAmmoUse(view, -1);
-                return true;
-            }
+        button.setOnLongClickListener(view -> {
+            adjustAmmoUse(view, -1);
+            return true;
         });
 
         ammoList.addView(button);
@@ -295,44 +286,33 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
         List<String> destroyedGear = getDestroyedGear();
 
         equipmentList.removeAllViews();
-        addEquipmentCheckbox(getString(R.string.all), false, false, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (int i = 0; i < equipmentList.getChildCount(); i++) {
-                    if (equipmentList.getChildAt(i) instanceof CheckBox) {
-                        ((CheckBox) equipmentList.getChildAt(i)).setChecked(((CheckBox) view).isChecked());
-                        for (final Mek.Equipment equipment : mek.getEquipment()) {
-                            equipment.setChecked(((CheckBox) equipmentList.getChildAt(i)).isChecked());
-                        }
+        addEquipmentCheckbox(getString(R.string.all), false, false, view -> {
+            for (int i = 0; i < equipmentList.getChildCount(); i++) {
+                if (equipmentList.getChildAt(i) instanceof CheckBox) {
+                    ((CheckBox) equipmentList.getChildAt(i)).setChecked(((CheckBox) view).isChecked());
+                    for (final Mek.Equipment equipment : mek.getEquipment()) {
+                        equipment.setChecked(((CheckBox) equipmentList.getChildAt(i)).isChecked());
                     }
                 }
             }
         });
         for (final Mek.Equipment equipment : mek.getEquipment()) {
             boolean foundGear = false;
+
+            List<Integer> removeAt = new ArrayList<>();
             for (int i = 0; i < destroyedGear.size(); i++) {
                 String destroyedItem = sanitizeString(destroyedGear.get(i));
                 String itemSearchingFor = sanitizeString(equipment.getName());
                 if (destroyedItem.contains(itemSearchingFor) || itemSearchingFor.contains(destroyedItem)) {
                     foundGear = true;
-                    destroyedGear.remove(i);
+                    removeAt.add(i);
                 }
             }
-            if (!foundGear) {
-                addEquipmentCheckbox(equipment.getName(), equipment.isChecked(), false, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        equipment.setChecked(!equipment.isChecked());
-                    }
-                });
-            } else {
-                addEquipmentCheckbox(equipment.getName(), equipment.isChecked(), true, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        equipment.setChecked(!equipment.isChecked());
-                    }
-                });
-            }
+            if (foundGear)
+                for (int n : removeAt) {
+                    destroyedGear.remove(n);
+                }
+            addEquipmentCheckbox(equipment.getName(), equipment.isChecked(), foundGear, view -> equipment.setChecked(!equipment.isChecked()));
         }
 
     }
@@ -402,15 +382,13 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        switch (seekBar.getId()) {
-            case R.id.seekHeat:
-                mek.setHeatLevel(i);
-                updateHeat();
-                break;
-            case R.id.seekPilotHits:
-                mek.getPilot().setHits(i);
-                updatePilot();
-                break;
+        int id = seekBar.getId();
+        if (id == R.id.seekHeat) {
+            mek.setHeatLevel(i);
+            updateHeat();
+        } else if (id == R.id.seekPilotHits) {
+            mek.getPilot().setHits(i);
+            updatePilot();
         }
     }
 
@@ -426,60 +404,44 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnSave:
-                String description;
-                description = String.valueOf(((TextView)root.findViewById(R.id.txtDescription)).getText());
-                mek.setDescription(description);
-                ((ActivityMain)getActivity()).save();
-                break;
-            case R.id.btnDelete:
-                showDeleteRequest();
-                break;
-            case R.id.btnReset:
-                showResetRequest();
-                break;
-            default:
-                adjustSkill(view, 1);
-            break;
+        int id = view.getId();
+        if (id == R.id.btnSave) {
+            String description;
+            description = String.valueOf(((TextView) root.findViewById(R.id.txtDescription)).getText());
+            mek.setDescription(description);
+            ((ActivityMain) requireActivity()).save();
+        } else if (id == R.id.btnDelete) {
+            showDeleteRequest();
+        } else if (id == R.id.btnReset) {
+            showResetRequest();
+        } else {
+            adjustSkill(view, 1);
         }
     }
 
     private void showResetRequest() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setTitle(R.string.app_name);
         builder.setMessage(getString(R.string.overview_confirm_reset, mek.getName()));
-        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                mek.reset();
-                updateView();
-            }
+        builder.setPositiveButton(android.R.string.yes, (dialog, id) -> {
+            dialog.dismiss();
+            mek.reset();
+            updateView();
         });
-        builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
+        builder.setNegativeButton(android.R.string.no, (dialog, id) -> dialog.dismiss());
         AlertDialog alert = builder.create();
         alert.show();
     }
 
     private void showDeleteRequest() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setTitle(R.string.app_name);
         builder.setMessage(getString(R.string.overview_confirm_delete, mek.getName()));
-        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                ((ActivityMain)getActivity()).delete();
-            }
+        builder.setPositiveButton(android.R.string.yes, (dialog, id) -> {
+            dialog.dismiss();
+            ((ActivityMain) requireActivity()).delete();
         });
-        builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
+        builder.setNegativeButton(android.R.string.no, (dialog, id) -> dialog.dismiss());
         AlertDialog alert = builder.create();
         alert.show();
     }
@@ -491,13 +453,11 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
     }
 
     private void adjustSkill(View view, int adjustBy) {
-        switch (view.getId()) {
-            case R.id.btnPilotSkill:
-                mek.getPilot().setPiloting(mek.getPilot().getPiloting() + adjustBy);
-                break;
-            case R.id.btnGunnerySkill:
-                mek.getPilot().setGunnery(mek.getPilot().getGunnery() + adjustBy);
-                break;
+        int id = view.getId();
+        if (id == R.id.btnPilotSkill) {
+            mek.getPilot().setPiloting(mek.getPilot().getPiloting() + adjustBy);
+        } else if (id == R.id.btnGunnerySkill) {
+            mek.getPilot().setGunnery(mek.getPilot().getGunnery() + adjustBy);
         }
         updatePilot();
     }

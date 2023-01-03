@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import ca.coffeeshopstudio.meksheets.R;
 
 /**
@@ -35,8 +37,7 @@ public class FragmentMain extends BaseFragment implements View.OnClickListener {
     }
 
     public static FragmentMain newInstance() {
-        FragmentMain fragment = new FragmentMain();
-        return fragment;
+        return new FragmentMain();
     }
 
     public static String getFragmentTag() {
@@ -49,7 +50,7 @@ public class FragmentMain extends BaseFragment implements View.OnClickListener {
         root = inflater.inflate(R.layout.fragment_main, container, false);
         root.findViewById(R.id.btnLoad).setOnClickListener(this);
 
-        int unitCount = ((ActivityMain) getActivity()).getMekCount();
+        int unitCount = ((ActivityMain) requireActivity()).getMekCount();
         ((TextView) root.findViewById(R.id.txtUnitCount)).setText(getString(R.string.main_units_loaded, unitCount));
 
         loadDialog(R.string.help_main, "main");
@@ -64,10 +65,8 @@ public class FragmentMain extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnLoad:
-                performFileSearch();
-                break;
+        if (view.getId() == R.id.btnLoad) {
+            performFileSearch();
         }
     }
 
@@ -85,7 +84,7 @@ public class FragmentMain extends BaseFragment implements View.OnClickListener {
             // Pull that URI using resultData.getData().
             if (resultData != null) {
                 Uri uri = resultData.getData();
-                ((ActivityMain) getActivity()).onFragmentInteraction(uri);
+                ((ActivityMain) requireActivity()).onFragmentInteraction(uri);
             }
         }
     }

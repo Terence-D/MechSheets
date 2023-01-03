@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import ca.coffeeshopstudio.meksheets.models.Mek;
 
@@ -71,7 +72,7 @@ public class FileOperations {
         List<Mek> meks = new ArrayList<>();
 
         File files = context.getFilesDir();
-        for (File file : files.listFiles()) {
+        for (File file : Objects.requireNonNull(files.listFiles())) {
             if (file.getName().endsWith(".json")) {
                 Mek mek = readFile(context, file.getName());
                 if (mek != null)

@@ -7,11 +7,11 @@
 
 package ca.coffeeshopstudio.meksheets.views;
 
-import android.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,11 +41,11 @@ import ca.coffeeshopstudio.meksheets.models.Mek;
 public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private static final String BUNDLE_CURRENT_FRAGMENT = "CURRENT_FRAG";
-    private static String TAG = "MekSheets";
-    private static String BUNDLE_CURRENT_MEK = "CURRENT_MEK";
+    private static final String TAG = "MekSheets";
+    private static final String BUNDLE_CURRENT_MEK = "CURRENT_MEK";
 
     private List<Mek> meks = new ArrayList<>();
-    private List<String> spinnerValues = new ArrayList<>();
+    private final List<String> spinnerValues = new ArrayList<>();
 
     private int currentMek = -1;
     private Fragment fragment;
@@ -54,26 +54,19 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
     private  BottomNavigationView navigation;
 
     private String tag;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            save();
-            switch (item.getItemId()) {
-                case R.id.navigation_overview:
+    private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = item -> {
+                save();
+                if (item.getTitle().toString().equals(getString(R.string.nav_overview)) ||
+                        item.getTitle().toString().equals(getString(R.string.nav_components))) {
                     initFragment(FragmentOverview.newInstance(), FragmentOverview.getFragmentTag());
                     return true;
-                case R.id.navigation_armor:
+                } else if (item.getTitle().toString().equals(getString(R.string.nav_armor))) {
                     initFragment(FragmentArmor.newInstance(), FragmentArmor.getFragmentTag());
                     return true;
-                case R.id.navigation_components:
-                    initFragment(FragmentComponents.newInstance(), FragmentComponents.getFragmentTag());
-                    return true;
-            }
-            return false;
-        }
-    };
+                }
+                return false;
+            };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,9 +87,6 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         spinner = findViewById(R.id.spinner);
-
-        //Toolbar tb = findViewById(R.id.toolbar);
-        //setSupportActionBar(tb);
 
         getActiveMeks();
 
@@ -135,15 +125,12 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_about:
-                startActivity(new Intent(this, ActivityAbout.class));
-                return true;
-            case R.id.menu_help:
-                getHelpMsg();
-                return true;
-            default:
-                break;
+        if (item.getTitle().toString().equals(getString(R.string.menu_about))) {
+            startActivity(new Intent(this, ActivityAbout.class));
+            return true;
+        } else if (item.getTitle().toString().equals(getString(R.string.menu_about))) {
+            getHelpMsg();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -167,7 +154,7 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.alert_dialog, null);
 
-        TextView msg = view.findViewById(R.id.textmsg);
+        TextView msg = view.findViewById(R.id.textMsg);
         msg.setText(Html.fromHtml(getString(helpMsg)));
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         //alertDialog.setTitle(R.string.help_title);
@@ -182,10 +169,9 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.alert_dialog, null);
 
-        TextView msg = view.findViewById(R.id.textmsg);
+        TextView msg = view.findViewById(R.id.textMsg);
         msg.setText(Html.fromHtml(helpMsg));
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        //alertDialog.setTitle(R.string.help_title);
 
         alertDialog.setView(view);
         alertDialog.setPositiveButton(android.R.string.ok, null);
@@ -195,10 +181,6 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
 
     private void getActiveMeks() {
         meks = FileOperations.getJsonFiles(getApplicationContext());
-
-        //currentMek = meks.size() - 1; //0 is none.
-
-        //updateSpinner();
     }
 
     public Mek getMek() {
@@ -217,9 +199,7 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
             if (value == null)
                 value = "null";
             if (mek.getDescription() != null) {
-                int len = 4;
-                if (mek.getDescription().length() < 4)
-                    len = mek.getDescription().length();
+                int len = Math.min(mek.getDescription().length(), 4);
                 value += ": " + mek.getDescription().substring(0, len);
             }
             spinnerValues.add(value);
@@ -237,7 +217,7 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
         else
             navigation.setVisibility(View.VISIBLE);
 
-        getFragmentManager().beginTransaction().
+        getSupportFragmentManager().beginTransaction().
                 replace(R.id.main, fragment, tag).commit();
         getFragmentManager().executePendingTransactions();
     }
@@ -252,17 +232,7 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
     }
 
     private void readTextFromUri(Uri uri) throws IOException {
-
         addMek(uri);
-//
-//        StringBuilder stringBuilder = new StringBuilder();
-//        String line;
-//        while ((line = reader.readLine()) != null) {
-//            stringBuilder.append(line);
-//        }
-//        fileInputStream.close();
-//        parcelFileDescriptor.close();
-//        return stringBuilder.toString();
     }
 
     private void addMek(Uri uri) throws FileNotFoundException {
@@ -288,13 +258,10 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnPrv:
-                changeSelection(-1);
-                break;
-            case R.id.btnNext:
-                changeSelection(1);
-                break;
+        if (view.getId() == R.id.btnPrv) {
+            changeSelection(-1);
+        } else if (view.getId() == R.id.btnNext) {
+            changeSelection(1);
         }
         updateTopBar();
     }
@@ -305,7 +272,7 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         save();
         if (currentMek == -1) {

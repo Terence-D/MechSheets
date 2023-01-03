@@ -9,17 +9,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_overview"
         android:icon="@drawable/ic_assignment_black_24dp"
         android:title="@string/nav_overview" />
 
     <item
-        android:id="@+id/navigation_armor"
         android:icon="@drawable/ic_accessibility_black_24dp"
         android:title="@string/nav_armor" />
 
     <item
-        android:id="@+id/navigation_components"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/nav_components" />
 

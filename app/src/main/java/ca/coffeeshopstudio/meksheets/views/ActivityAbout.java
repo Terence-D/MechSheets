@@ -15,8 +15,9 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.view.View;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 import ca.coffeeshopstudio.meksheets.R;
 
@@ -29,21 +30,18 @@ public class ActivityAbout extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         if (fab != null) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent Email = new Intent(Intent.ACTION_SEND);
-                    Email.setType("text/email");
-                    Email.putExtra(Intent.EXTRA_EMAIL,
-                            new String[]{"support@coffeeshopstudio.ca"});  //developer 's email
-                    Email.putExtra(Intent.EXTRA_SUBJECT,
-                            "Budget Miser"); // Email 's Subject
-                    startActivity(Intent.createChooser(Email, "Send Feedback:"));
-                }
+            fab.setOnClickListener(view -> {
+                Intent Email = new Intent(Intent.ACTION_SEND);
+                Email.setType("text/email");
+                Email.putExtra(Intent.EXTRA_EMAIL,
+                        new String[]{"support@coffeeshopstudio.ca"});  //developer 's email
+                Email.putExtra(Intent.EXTRA_SUBJECT,
+                        "Budget Miser"); // Email 's Subject
+                startActivity(Intent.createChooser(Email, "Send Feedback:"));
             });
         }
 
