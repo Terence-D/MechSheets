@@ -128,7 +128,7 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
         if (item.getTitle().toString().equals(getString(R.string.menu_about))) {
             startActivity(new Intent(this, ActivityAbout.class));
             return true;
-        } else if (item.getTitle().toString().equals(getString(R.string.menu_about))) {
+        } else if (item.getTitle().toString().equals(getString(R.string.menu_help))) {
             getHelpMsg();
             return true;
         }
@@ -326,24 +326,6 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
         spinner.setOnItemSelectedListener(null);
         spinner.setSelection(currentMek + 1);
         spinner.setOnItemSelectedListener(this);
-
-//        } else if (currentMek >= meks.size() - 1) {
-//        else{
-//                save();
-//                fragment.onResume();
-//            }
-//
-//
-//            if (currentMek < meks.size() - 1) {
-//                currentMek++;
-//                if (fragment instanceof FragmentMain) {
-//                    initFragment(FragmentOverview.newInstance());
-//                } else {
-//                    save();
-//                    fragment.onResume();
-//                }
-//            }
-//        }
     }
 
     private void updateTopBar () {

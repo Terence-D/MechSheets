@@ -11,17 +11,24 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import ca.coffeeshopstudio.meksheets.models.Mek;
+import okio.Path;
 
 public class FileOperations {
     public static void writeFile(Context context, Mek obj) {
@@ -82,4 +89,44 @@ public class FileOperations {
 
         return meks;
     }
-}
+
+    public static boolean unzip(File zipFile, String fileToExtract, File exportPath)
+    {
+        InputStream inputStream;
+        ZipInputStream zipInputStream;
+        try
+        {
+            String filename;
+            inputStream = new FileInputStream(zipFile);
+            zipInputStream = new ZipInputStream(new BufferedInputStream(inputStream));
+            ZipEntry zipEntry;
+            byte[] buffer = new byte[1024];
+            int count;
+
+            while ((zipEntry = zipInputStream.getNextEntry()) != null)
+            {
+                filename = zipEntry.getName();
+                if (Objects.equals(filename, fileToExtract)) {
+                    String simpleName = new File(filename).getName();
+                    String path = exportPath + Path.DIRECTORY_SEPARATOR + simpleName;
+                    FileOutputStream fileOutputStream = new FileOutputStream(path);
+
+                    while ((count = zipInputStream.read(buffer)) != -1)
+                    {
+                        fileOutputStream.write(buffer, 0, count);
+                    }
+
+                    fileOutputStream.close();
+                    zipInputStream.closeEntry();
+                }
+            }
+            zipInputStream.close();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }}

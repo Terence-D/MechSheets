@@ -12,14 +12,21 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.Objects;
+import java.io.File;
+import java.io.IOException;
 
+import ca.coffeeshopstudio.meksheets.DownloadProgressCallback;
+import ca.coffeeshopstudio.meksheets.Downloader;
+import ca.coffeeshopstudio.meksheets.FileOperations;
 import ca.coffeeshopstudio.meksheets.R;
+import okio.Path;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,8 +36,10 @@ import ca.coffeeshopstudio.meksheets.R;
  * Use the {@link FragmentMain#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentMain extends BaseFragment implements View.OnClickListener {
+public class FragmentMain extends BaseFragment implements View.OnClickListener, DownloadProgressCallback {
     private static final int READ_REQUEST_CODE = 42;
+    private ProgressBar progressBar;
+    private TextView raw;
 
     public FragmentMain() {
         // Required empty public constructor
@@ -49,6 +58,9 @@ public class FragmentMain extends BaseFragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_main, container, false);
         root.findViewById(R.id.btnLoad).setOnClickListener(this);
+        root.findViewById(R.id.btnDownload).setOnClickListener(this);
+        progressBar = root.findViewById(R.id.progressBar);
+        raw = root.findViewById(R.id.textView7);
 
         int unitCount = ((ActivityMain) requireActivity()).getMekCount();
         ((TextView) root.findViewById(R.id.txtUnitCount)).setText(getString(R.string.main_units_loaded, unitCount));
@@ -67,6 +79,17 @@ public class FragmentMain extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         if (view.getId() == R.id.btnLoad) {
             performFileSearch();
+        } else if (view.getId() == R.id.btnDownload) {
+            Downloader downloader = new Downloader(this);
+            try {
+                File cacheDir = new File(requireContext().getCacheDir(), getString(R.string.dest_megamek));
+//                downloader.Start(getString(R.string.mega_mek_path), cacheDir);
+                downloader.Start("https://127.0.0.1/test", cacheDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            Uri path = Uri.parse(getString(R.string.mega_mek_path));
+//            OnlineToolkit.downloadFromUrl(path, getContext(), "megamek.zip");
         }
     }
 
@@ -108,5 +131,26 @@ public class FragmentMain extends BaseFragment implements View.OnClickListener {
         intent.setType("application/octet-stream");
 
         startActivityForResult(intent, READ_REQUEST_CODE);
+    }
+
+    @Override
+    public void onProgressChanged(long rawProgressAmount, int percent) {
+        progressBar.setProgress(percent);
+    }
+
+    @Override
+    public void onFail() {
+        requireActivity().runOnUiThread(() -> raw.setText("failed"));
+        File downloadedFile = new File(requireActivity().getCacheDir() + Path.DIRECTORY_SEPARATOR + getString(R.string.dest_megamek));
+        String toLocation = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+
+        boolean extractResult = FileOperations.unzip(downloadedFile, getString(R.string.mechs_file), new File(toLocation));
+//        boolean extractResult = FileOperations.unzip(downloadedFile, getString(R.string.mechs_file), requireActivity().getFilesDir());
+    }
+
+    @Override
+    public void onComplete(File downloadedFile) {
+        requireActivity().runOnUiThread(() -> raw.setText("success"));
+        boolean extractResult = FileOperations.unzip(downloadedFile, getString(R.string.mechs_file), requireActivity().getFilesDir());
     }
 }

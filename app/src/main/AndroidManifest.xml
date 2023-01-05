@@ -9,6 +9,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -33,6 +34,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ca.coffeeshopstudio.meksheets.views.ActivityMain" />
         </activity>
+        <receiver android:name=".Downloader"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+            </intent-filter>
+        </receiver>
     </application>
-
 </manifest>
