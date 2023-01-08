@@ -24,9 +24,9 @@ import java.util.List;
 
 import ca.coffeeshopstudio.meksheets.R;
 import ca.coffeeshopstudio.meksheets.models.Locations;
-import ca.coffeeshopstudio.meksheets.models.Mek;
+import ca.coffeeshopstudio.meksheets.models.Mech;
 
-import static ca.coffeeshopstudio.meksheets.models.Mek.MTF_JUMP_COMPONENT;
+import static ca.coffeeshopstudio.meksheets.models.Mech.MTF_JUMP_COMPONENT;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,11 +78,11 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
 
     @Override
     void updateView () {
-        String name = getString(R.string.overview_name, mek.getName());
-        String tons = getString(R.string.overview_tons, mek.getTons());
+        String name = getString(R.string.overview_name, mech.getName());
+        String tons = getString(R.string.overview_tons, mech.getTons());
         ((TextView) root.findViewById(R.id.txtName)).setText(name);
         ((TextView) root.findViewById(R.id.txtTons)).setText(tons);
-        ((TextView) root.findViewById(R.id.txtDescription)).setText(mek.getDescription());
+        ((TextView) root.findViewById(R.id.txtDescription)).setText(mech.getDescription());
         updateSpeeds();
         updateEquipmentList();
         updateAmmoList();
@@ -91,57 +91,57 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
     }
 
     private void updatePilot() {
-        String piloting = getString(R.string.overview_pilot_skill, mek.getPilot().getPiloting());
-        String gunnery = getString(R.string.overview_gunnery_skill, mek.getPilot().getGunnery());
-        String hits = getString(R.string.overview_pilots_hits, mek.getPilot().getHits());
+        String piloting = getString(R.string.overview_pilot_skill, mech.getPilot().getPiloting());
+        String gunnery = getString(R.string.overview_gunnery_skill, mech.getPilot().getGunnery());
+        String hits = getString(R.string.overview_pilots_hits, mech.getPilot().getHits());
         ((TextView) root.findViewById(R.id.btnPilotSkill)).setText(piloting);
         ((TextView) root.findViewById(R.id.btnGunnerySkill)).setText(gunnery);
         ((TextView) root.findViewById(R.id.txtPilotHits)).setText(hits);
-        if (mek.getPilot().getHits() > 0 && mek.getPilot().getHits() < 6)
+        if (mech.getPilot().getHits() > 0 && mech.getPilot().getHits() < 6)
             ((TextView) root.findViewById(R.id.txtPilotHits)).setTextColor(getResources().getColor(R.color.statusBad));
-        else if (mek.getPilot().getHits() == 0)
+        else if (mech.getPilot().getHits() == 0)
             ((TextView) root.findViewById(R.id.txtPilotHits)).setTextColor(getResources().getColor(R.color.statusGood));
         else
             ((TextView) root.findViewById(R.id.txtPilotHits)).setTextColor(getResources().getColor(R.color.statusCritical));
         ((SeekBar) root.findViewById(R.id.seekPilotHits)).setOnSeekBarChangeListener(null);
-        ((SeekBar) root.findViewById(R.id.seekPilotHits)).setProgress(mek.getPilot().getHits());
+        ((SeekBar) root.findViewById(R.id.seekPilotHits)).setProgress(mech.getPilot().getHits());
         ((SeekBar) root.findViewById(R.id.seekPilotHits)).setOnSeekBarChangeListener(this);
     }
 
     private void updateHeat() {
-        String heat = getString(R.string.overview_heatsinks, mek.getCurrentHeatSinks(), mek.getMaxHeatSinks());
-        String heatLevel = getString(R.string.overview_heat_scale, mek.getHeatLevel());
+        String heat = getString(R.string.overview_heatsinks, mech.getCurrentHeatSinks(), mech.getMaxHeatSinks());
+        String heatLevel = getString(R.string.overview_heat_scale, mech.getHeatLevel());
         ((TextView) root.findViewById(R.id.txtHeatsinks)).setText(heat);
-        if (mek.getCurrentHeatSinks() < mek.getMaxHeatSinks())
+        if (mech.getCurrentHeatSinks() < mech.getMaxHeatSinks())
             ((TextView) root.findViewById(R.id.txtHeatsinks)).setTextColor(getResources().getColor(R.color.statusCritical));
         else
             ((TextView) root.findViewById(R.id.txtHeatsinks)).setTextColor(getResources().getColor(R.color.statusGood));
 
         ((TextView) root.findViewById(R.id.txtHeatScale)).setText(heatLevel);
         ((SeekBar) root.findViewById(R.id.seekHeat)).setOnSeekBarChangeListener(null);
-        ((SeekBar) root.findViewById(R.id.seekHeat)).setProgress(mek.getHeatLevel());
+        ((SeekBar) root.findViewById(R.id.seekHeat)).setProgress(mech.getHeatLevel());
         ((SeekBar) root.findViewById(R.id.seekHeat)).setOnSeekBarChangeListener(this);
     }
 
     private void updateSpeeds() {
         //get the basics
-        double walkSpeed = mek.getWalk();
-        int jumpSpeed = mek.getJump();
+        double walkSpeed = mech.getWalk();
+        int jumpSpeed = mech.getJump();
         boolean reducedSpeed = false;
         boolean reducedJumpRange = false;
         boolean legsBlownOff = false;
 
         //calculate damage penalties
         //for walking / running - hips cut us in half per destroyed hip.  actuators do not matter
-        if (mek.getInternalCurrent(Locations.leftLeg) == 0 || mek.getInternalCurrent(Locations.rightLeg) == 0) {
+        if (mech.getInternalCurrent(Locations.leftLeg) == 0 || mech.getInternalCurrent(Locations.rightLeg) == 0) {
             walkSpeed = 1;
             reducedSpeed = true;
             legsBlownOff = true;
         } else {
             int hipsDestroyed = 0;
-            if (!mek.getComponents(Locations.leftLeg)[0].isFunctioning())
+            if (!mech.getComponents(Locations.leftLeg)[0].isFunctioning())
                 hipsDestroyed++;
-            if (!mek.getComponents(Locations.rightLeg)[0].isFunctioning())
+            if (!mech.getComponents(Locations.rightLeg)[0].isFunctioning())
                 hipsDestroyed++;
             if (hipsDestroyed == 1) {
                 walkSpeed = walkSpeed / 2;
@@ -151,11 +151,11 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
                 reducedSpeed = true;
             } else { //hips are fine, check the actuators
                 for (int i = 1; i < 4; i++) {
-                    if (!mek.getComponents(Locations.leftLeg)[i].isFunctioning()) {
+                    if (!mech.getComponents(Locations.leftLeg)[i].isFunctioning()) {
                         reducedSpeed = true;
                         walkSpeed--;
                     }
-                    if (!mek.getComponents(Locations.rightLeg)[i].isFunctioning()) {
+                    if (!mech.getComponents(Locations.rightLeg)[i].isFunctioning()) {
                         walkSpeed--;
                         reducedSpeed = true;
                     }
@@ -165,34 +165,34 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
 
         //for jumpjets look for broken ones, subtract by 1 per
         for (int i = 0; i < 12; i++) {
-            if (!mek.getComponents(Locations.leftTorso)[i].isFunctioning() &&
-                    mek.getComponents(Locations.leftTorso)
+            if (!mech.getComponents(Locations.leftTorso)[i].isFunctioning() &&
+                    mech.getComponents(Locations.leftTorso)
                             [i].getName().replace(" ", "").contains(MTF_JUMP_COMPONENT)) {
                 jumpSpeed--;
                 reducedJumpRange = true;
             }
-            if (!mek.getComponents(Locations.rightTorso)[i].isFunctioning() &&
-                    mek.getComponents(Locations.rightTorso)
+            if (!mech.getComponents(Locations.rightTorso)[i].isFunctioning() &&
+                    mech.getComponents(Locations.rightTorso)
                             [i].getName().replace(" ", "").contains(MTF_JUMP_COMPONENT)) {
                 jumpSpeed--;
                 reducedJumpRange = true;
             }
-            if (!mek.getComponents(Locations.centerTorso)[i].isFunctioning() &&
-                    mek.getComponents(Locations.centerTorso)
+            if (!mech.getComponents(Locations.centerTorso)[i].isFunctioning() &&
+                    mech.getComponents(Locations.centerTorso)
                             [i].getName().replace(" ", "").contains(MTF_JUMP_COMPONENT)) {
                 jumpSpeed--;
                 reducedJumpRange = true;
             }
         }
         for (int i = 3; i < 6; i++) {
-            if (!mek.getComponents(Locations.leftLeg)[i].isFunctioning() &&
-                    mek.getComponents(Locations.leftLeg)
+            if (!mech.getComponents(Locations.leftLeg)[i].isFunctioning() &&
+                    mech.getComponents(Locations.leftLeg)
                             [i].getName().replace(" ", "").contains(MTF_JUMP_COMPONENT)) {
                 jumpSpeed--;
                 reducedJumpRange = true;
             }
-            if (!mek.getComponents(Locations.rightLeg)[i].isFunctioning() &&
-                    mek.getComponents(Locations.rightLeg)
+            if (!mech.getComponents(Locations.rightLeg)[i].isFunctioning() &&
+                    mech.getComponents(Locations.rightLeg)
                             [i].getName().replace(" ", "").contains(MTF_JUMP_COMPONENT)) {
                 jumpSpeed--;
                 reducedJumpRange = true;
@@ -235,18 +235,18 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
 
         ammoList.removeAllViews();
 
-        for (int i = 0; i < mek.getAmmo().size(); i++) {
-            if (!destroyedGear.contains(mek.getAmmo().get(i).getName())) {
-                addAmmoButton(i, mek.getAmmo().get(i), false);
+        for (int i = 0; i < mech.getAmmo().size(); i++) {
+            if (!destroyedGear.contains(mech.getAmmo().get(i).getName())) {
+                addAmmoButton(i, mech.getAmmo().get(i), false);
             } else {
-                addAmmoButton(i, mek.getAmmo().get(i), true);
-                destroyedGear.remove(mek.getAmmo().get(i).getName());
+                addAmmoButton(i, mech.getAmmo().get(i), true);
+                destroyedGear.remove(mech.getAmmo().get(i).getName());
             }
         }
 
     }
 
-    private void addAmmoButton(int id, Mek.Ammo item, boolean disabled) {
+    private void addAmmoButton(int id, Mech.Ammo item, boolean disabled) {
         Button button = new Button(getActivity());
         String ammo = getString(R.string.overview_ammo, item.getName(), item.getShotsFired());
         button.setText(ammo);
@@ -275,8 +275,8 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
 
     private void adjustAmmoUse(View view, int increment) {
         int id = (Integer) view.getTag();
-        Mek.Ammo item = mek.getAmmo().get(id);
-        mek.setAmmoIncrememntShotsFired(id, increment);
+        Mech.Ammo item = mech.getAmmo().get(id);
+        mech.setAmmoIncrememntShotsFired(id, increment);
         String ammo = getString(R.string.overview_ammo, item.getName(), item.getShotsFired());
         ((TextView) view).setText(ammo);
     }
@@ -290,13 +290,13 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
             for (int i = 0; i < equipmentList.getChildCount(); i++) {
                 if (equipmentList.getChildAt(i) instanceof CheckBox) {
                     ((CheckBox) equipmentList.getChildAt(i)).setChecked(((CheckBox) view).isChecked());
-                    for (final Mek.Equipment equipment : mek.getEquipment()) {
+                    for (final Mech.Equipment equipment : mech.getEquipment()) {
                         equipment.setChecked(((CheckBox) equipmentList.getChildAt(i)).isChecked());
                     }
                 }
             }
         });
-        for (final Mek.Equipment equipment : mek.getEquipment()) {
+        for (final Mech.Equipment equipment : mech.getEquipment()) {
             boolean foundGear = false;
 
             List<Integer> removeAt = new ArrayList<>();
@@ -329,48 +329,48 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
 
     private List<String> getDestroyedGear() {
         List<String> rv = new ArrayList<>();
-        for (Mek.Component component : mek.getComponents(Locations.head) ) {
+        for (Mech.Component component : mech.getComponents(Locations.head) ) {
             if (!component.isFunctioning()) {
                 String componentName = component.getName().replace(" (R)", "");
                 rv.add(componentName + ", " + "Head");
             }
-        }        for (Mek.Component component : mek.getComponents(Locations.centerTorso) ) {
+        }        for (Mech.Component component : mech.getComponents(Locations.centerTorso) ) {
             if (!component.isFunctioning()) {
                 String componentName = component.getName().replace(" (R)", "");
                 rv.add(componentName + ", " + "Center Torso");
             }
         }
-        for (Mek.Component component : mek.getComponents(Locations.leftTorso) ) {
+        for (Mech.Component component : mech.getComponents(Locations.leftTorso) ) {
             if (!component.isFunctioning()) {
                 String componentName = component.getName().replace(" (R)", "");
                 rv.add(componentName + ", " + "Left Torso");
             }
         }
-        for (Mek.Component component : mek.getComponents(Locations.rightTorso) ) {
+        for (Mech.Component component : mech.getComponents(Locations.rightTorso) ) {
             if (!component.isFunctioning()) {
                 String componentName = component.getName().replace(" (R)", "");
                 rv.add(componentName + ", " + "Right Torso");
             }
         }
-        for (Mek.Component component : mek.getComponents(Locations.leftLeg) ) {
+        for (Mech.Component component : mech.getComponents(Locations.leftLeg) ) {
             if (!component.isFunctioning()) {
                 String componentName = component.getName().replace(" (R)", "");
                 rv.add(componentName + ", " + "Left Leg");
             }
         }
-        for (Mek.Component component : mek.getComponents(Locations.rightLeg) ) {
+        for (Mech.Component component : mech.getComponents(Locations.rightLeg) ) {
             if (!component.isFunctioning()) {
                 String componentName = component.getName().replace(" (R)", "");
                 rv.add(componentName + ", " + "Right Leg");
             }
         }
-        for (Mek.Component component : mek.getComponents(Locations.leftArm) ) {
+        for (Mech.Component component : mech.getComponents(Locations.leftArm) ) {
             if (!component.isFunctioning()) {
                 String componentName = component.getName().replace(" (R)", "");
                 rv.add(componentName + ", " + "Left Arm");
             }
         }
-        for (Mek.Component component : mek.getComponents(Locations.rightArm) ) {
+        for (Mech.Component component : mech.getComponents(Locations.rightArm) ) {
             if (!component.isFunctioning()) {
                 String componentName = component.getName().replace(" (R)", "");
                 rv.add(componentName + ", " + "Right Arm");
@@ -384,10 +384,10 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
         int id = seekBar.getId();
         if (id == R.id.seekHeat) {
-            mek.setHeatLevel(i);
+            mech.setHeatLevel(i);
             updateHeat();
         } else if (id == R.id.seekPilotHits) {
-            mek.getPilot().setHits(i);
+            mech.getPilot().setHits(i);
             updatePilot();
         }
     }
@@ -408,7 +408,7 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
         if (id == R.id.btnSave) {
             String description;
             description = String.valueOf(((TextView) root.findViewById(R.id.txtDescription)).getText());
-            mek.setDescription(description);
+            mech.setDescription(description);
             ((ActivityMain) requireActivity()).save();
         } else if (id == R.id.btnDelete) {
             showDeleteRequest();
@@ -422,10 +422,10 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
     private void showResetRequest() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setTitle(R.string.app_name);
-        builder.setMessage(getString(R.string.overview_confirm_reset, mek.getName()));
+        builder.setMessage(getString(R.string.overview_confirm_reset, mech.getName()));
         builder.setPositiveButton(android.R.string.yes, (dialog, id) -> {
             dialog.dismiss();
-            mek.reset();
+            mech.reset();
             updateView();
         });
         builder.setNegativeButton(android.R.string.no, (dialog, id) -> dialog.dismiss());
@@ -436,7 +436,7 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
     private void showDeleteRequest() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setTitle(R.string.app_name);
-        builder.setMessage(getString(R.string.overview_confirm_delete, mek.getName()));
+        builder.setMessage(getString(R.string.overview_confirm_delete, mech.getName()));
         builder.setPositiveButton(android.R.string.yes, (dialog, id) -> {
             dialog.dismiss();
             ((ActivityMain) requireActivity()).delete();
@@ -455,9 +455,9 @@ public class FragmentOverview extends BaseFragment implements SeekBar.OnSeekBarC
     private void adjustSkill(View view, int adjustBy) {
         int id = view.getId();
         if (id == R.id.btnPilotSkill) {
-            mek.getPilot().setPiloting(mek.getPilot().getPiloting() + adjustBy);
+            mech.getPilot().setPiloting(mech.getPilot().getPiloting() + adjustBy);
         } else if (id == R.id.btnGunnerySkill) {
-            mek.getPilot().setGunnery(mek.getPilot().getGunnery() + adjustBy);
+            mech.getPilot().setGunnery(mech.getPilot().getGunnery() + adjustBy);
         }
         updatePilot();
     }

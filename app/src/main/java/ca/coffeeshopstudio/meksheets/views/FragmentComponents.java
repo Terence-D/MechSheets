@@ -15,11 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import java.util.Objects;
-
 import ca.coffeeshopstudio.meksheets.R;
 import ca.coffeeshopstudio.meksheets.models.Locations;
-import ca.coffeeshopstudio.meksheets.models.Mek;
+import ca.coffeeshopstudio.meksheets.models.Mech;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,17 +66,17 @@ public class FragmentComponents extends BaseFragment implements View.OnClickList
 
     @Override
     void updateView() {
-        updateComponentList("LA", mek.getComponents(Locations.leftArm));
-        updateComponentList("RA", mek.getComponents(Locations.rightArm));
-        updateComponentList("H", mek.getComponents(Locations.head));
-        updateComponentList("CT", mek.getComponents(Locations.centerTorso));
-        updateComponentList("LT", mek.getComponents(Locations.leftTorso));
-        updateComponentList("RT", mek.getComponents(Locations.rightTorso));
-        updateComponentList("LL", mek.getComponents(Locations.leftLeg));
-        updateComponentList("RL", mek.getComponents(Locations.rightLeg));
+        updateComponentList("LA", mech.getComponents(Locations.leftArm));
+        updateComponentList("RA", mech.getComponents(Locations.rightArm));
+        updateComponentList("H", mech.getComponents(Locations.head));
+        updateComponentList("CT", mech.getComponents(Locations.centerTorso));
+        updateComponentList("LT", mech.getComponents(Locations.leftTorso));
+        updateComponentList("RT", mech.getComponents(Locations.rightTorso));
+        updateComponentList("LL", mech.getComponents(Locations.leftLeg));
+        updateComponentList("RL", mech.getComponents(Locations.rightLeg));
     }
 
-    void updateComponentList(String name, Mek.Component[] list) {
+    void updateComponentList(String name, Mech.Component[] list) {
         for (int i = 0; i < list.length; i++) {
             int viewNumber = i+1;
             String viewName = "btn" + name + viewNumber;
@@ -98,13 +96,13 @@ public class FragmentComponents extends BaseFragment implements View.OnClickList
         }
     }
 
-    private void CheckForNonTargetableComponent(Mek.Component component, int id) {
+    private void CheckForNonTargetableComponent(Mech.Component component, int id) {
         String sanitizedName = sanitizeString(component.getName());
 
-        String sanitizedEmpty = sanitizeString(Mek.MTF_EMPTY);
-        String sanitizedEndo = sanitizeString(Mek.MTF_ENDO);
-        String sanitizedCase = sanitizeString(Mek.MTF_CASE.toString());
-        String sanitizedFerro = sanitizeString(Mek.MTF_FERRO);
+        String sanitizedEmpty = sanitizeString(Mech.MTF_EMPTY);
+        String sanitizedEndo = sanitizeString(Mech.MTF_ENDO);
+        String sanitizedCase = sanitizeString(Mech.MTF_CASE.toString());
+        String sanitizedFerro = sanitizeString(Mech.MTF_FERRO);
 
         if (sanitizedName.contains(sanitizedEmpty) ||
                 sanitizedName.contains(sanitizedEndo) ||
@@ -120,30 +118,30 @@ public class FragmentComponents extends BaseFragment implements View.OnClickList
         String viewName = getResources().getResourceEntryName(view.getId());
 
         viewName = viewName.substring(3); //get rid of "btn"
-        int componentNumber = Mek.extractNumbers(viewName) - 1;
+        int componentNumber = Mech.extractNumbers(viewName) - 1;
         if (viewName.startsWith("H")) {
-            mek.toggleComponent(Locations.head, componentNumber);
+            mech.toggleComponent(Locations.head, componentNumber);
         } else
         if (viewName.startsWith("CT")) {
-            mek.toggleComponent(Locations.centerTorso, componentNumber);
+            mech.toggleComponent(Locations.centerTorso, componentNumber);
         } else
         if (viewName.startsWith("LA")) {
-            mek.toggleComponent(Locations.leftArm, componentNumber);
+            mech.toggleComponent(Locations.leftArm, componentNumber);
         } else
         if (viewName.startsWith("RA")) {
-            mek.toggleComponent(Locations.rightArm, componentNumber);
+            mech.toggleComponent(Locations.rightArm, componentNumber);
         } else
         if (viewName.startsWith("LT")) {
-            mek.toggleComponent(Locations.leftTorso, componentNumber);
+            mech.toggleComponent(Locations.leftTorso, componentNumber);
         } else
         if (viewName.startsWith("RT")) {
-            mek.toggleComponent(Locations.rightTorso, componentNumber);
+            mech.toggleComponent(Locations.rightTorso, componentNumber);
         } else
         if (viewName.startsWith("LL")) {
-            mek.toggleComponent(Locations.leftLeg, componentNumber);
+            mech.toggleComponent(Locations.leftLeg, componentNumber);
         } else
         if (viewName.startsWith("RL")) {
-            mek.toggleComponent(Locations.rightLeg, componentNumber);
+            mech.toggleComponent(Locations.rightLeg, componentNumber);
         }
         updateView();
     }

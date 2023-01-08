@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2023
-  ~ Terry Doerksen
-  ~ https://creativecommons.org/licenses/by-nc/4.0/
-  ~
-  -->
-
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,12 +12,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.ActivityMain"
-            android:exported="true">
+        <activity
+            android:name=".MechDetailHostActivity"
+            android:exported="true"
+            android:label="@string/title_activity_mech_detail_host"
+            android:resizeableActivity="true"
+            tools:targetApi="24">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".views.ActivityMain"
+            android:exported="true">
         </activity>
         <activity
             android:name=".views.ActivityAbout"
@@ -34,11 +41,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ca.coffeeshopstudio.meksheets.views.ActivityMain" />
         </activity>
-        <receiver android:name=".Downloader"
+
+        <receiver
+            android:name=".Downloader"
             android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
     </application>
+
 </manifest>

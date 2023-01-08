@@ -36,7 +36,7 @@ import java.util.List;
 
 import ca.coffeeshopstudio.meksheets.FileOperations;
 import ca.coffeeshopstudio.meksheets.R;
-import ca.coffeeshopstudio.meksheets.models.Mek;
+import ca.coffeeshopstudio.meksheets.models.Mech;
 
 public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -44,7 +44,7 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
     private static final String TAG = "MekSheets";
     private static final String BUNDLE_CURRENT_MEK = "CURRENT_MEK";
 
-    private List<Mek> meks = new ArrayList<>();
+    private List<Mech> meks = new ArrayList<>();
     private final List<String> spinnerValues = new ArrayList<>();
 
     private int currentMek = -1;
@@ -183,7 +183,7 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
         meks = FileOperations.getJsonFiles(getApplicationContext());
     }
 
-    public Mek getMek() {
+    public Mech getMek() {
         if (meks.size() == 0 || currentMek == -1)
             return null;
         return meks.get(currentMek);
@@ -194,7 +194,7 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerValues);
         spinnerValues.clear();
         spinnerValues.add(getString(R.string.spinner_value_none));
-        for (Mek mek : meks) {
+        for (Mech mek : meks) {
             String value = mek.getName();
             if (value == null)
                 value = "null";
@@ -241,7 +241,7 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
         assert inputStream != null;
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-        Mek mek = new Mek();
+        Mech mek = new Mech();
         try {
             mek.readMTF(reader);
             FileOperations.writeFile(getApplicationContext(), mek);
@@ -304,7 +304,7 @@ public class ActivityMain extends AppCompatActivity implements BaseFragment.OnFr
 
     }
 
-    private void addToList(Mek mek) {
+    private void addToList(Mech mek) {
         meks.add(mek);
         currentMek++;
 

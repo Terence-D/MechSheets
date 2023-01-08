@@ -15,12 +15,12 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.view.View;
 
-import ca.coffeeshopstudio.meksheets.models.Mek;
+import ca.coffeeshopstudio.meksheets.models.Mech;
 
 public abstract class BaseFragment extends Fragment {
     public OnFragmentInteractionListener mListener;
 
-    protected Mek mek;
+    protected Mech mech;
     protected View root;
 
     public interface OnFragmentInteractionListener {
@@ -47,7 +47,7 @@ public abstract class BaseFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        mek = ((ActivityMain) requireActivity()).getMek();
+        mech = ((ActivityMain) requireActivity()).getMek();
         updateView();
     }
 

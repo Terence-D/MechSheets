@@ -19,7 +19,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,11 +26,11 @@ import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import ca.coffeeshopstudio.meksheets.models.Mek;
+import ca.coffeeshopstudio.meksheets.models.Mech;
 import okio.Path;
 
 public class FileOperations {
-    public static void writeFile(Context context, Mek obj) {
+    public static void writeFile(Context context, Mech obj) {
         Gson gson = new Gson();
 
         FileOutputStream outputStream;
@@ -49,7 +48,7 @@ public class FileOperations {
         }
     }
 
-    private static Mek readFile(Context context, String fileName) {
+    private static Mech readFile(Context context, String fileName) {
         FileInputStream fis;
         try {
             fis = context.openFileInput(fileName);
@@ -64,7 +63,7 @@ public class FileOperations {
 
             String json = sb.toString();
             Gson gson = new Gson();
-            return gson.fromJson(json, Mek.class);
+            return gson.fromJson(json, Mech.class);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -75,13 +74,13 @@ public class FileOperations {
         context.deleteFile(fileName);
     }
 
-    public static List<Mek> getJsonFiles(Context context) {
-        List<Mek> meks = new ArrayList<>();
+    public static List<Mech> getJsonFiles(Context context) {
+        List<Mech> meks = new ArrayList<>();
 
         File files = context.getFilesDir();
         for (File file : Objects.requireNonNull(files.listFiles())) {
             if (file.getName().endsWith(".json")) {
-                Mek mek = readFile(context, file.getName());
+                Mech mek = readFile(context, file.getName());
                 if (mek != null)
                     meks.add(mek);
             }

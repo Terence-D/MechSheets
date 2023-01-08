@@ -151,4 +151,7 @@ Mech Sheets software License - Copyright 2018 Terry Doerksen:
     <string name="mega_mek_path">https://github.com/MegaMek/megamek/releases/download/v0.49.11/megamek-windows-0.49.11.zip</string>
     <string name="mechs_file">megamek-windows-0.49.11/data/mechfiles/mechs.zip</string>
     <string name="dest_megamek">megamek.zip</string>
+    <string name="title_activity_mech_detail_host">MechDetailHostActivity</string>
+    <string name="title_mech_list">Mechs</string>
+    <string name="title_mech_detail">Mech Detail</string>
 </resources>

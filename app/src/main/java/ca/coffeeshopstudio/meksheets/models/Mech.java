@@ -23,7 +23,7 @@ import static ca.coffeeshopstudio.meksheets.models.Locations.rightArm;
 import static ca.coffeeshopstudio.meksheets.models.Locations.rightLeg;
 import static ca.coffeeshopstudio.meksheets.models.Locations.rightTorso;
 
-public class Mek {
+public class Mech {
 
     private final List<Equipment> equipment = new ArrayList<>();
 
@@ -117,7 +117,7 @@ public class Mek {
         return equipment;
     }
 
-    public Mek() {
+    public Mech() {
         for (int i = 0; i < laComponents.length; i++) {
             laComponents[i] = new Component();
         }
