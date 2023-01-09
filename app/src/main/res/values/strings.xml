@@ -43,7 +43,7 @@
     <string name="overview_gunnery_skill">Gunnery: %1$d</string>
     <string name="overview_pilots_hits">Hits Taken: %1$d</string>
     <string name="overview_heat_scale">Heat Scale: %1$d</string>
-    <string name="main_title">Choose an MTF file to load</string>
+    <string name="main_title">To load a Mech, choose one of the buttons below.  If you are new to this app, choose the "Import from a Collection" option to get started</string>
     <string name="overview_ammo">%1$s: %2$d Shots Fired</string>
     <string name="overview_description">Notes</string>
     <string name="overview_save">Save</string>
@@ -154,4 +154,6 @@ Mech Sheets software License - Copyright 2018 Terry Doerksen:
     <string name="title_activity_mech_detail_host">MechDetailHostActivity</string>
     <string name="title_mech_list">Mechs</string>
     <string name="title_mech_detail">Mech Detail</string>
+    <string name="open_importer">Import from a Collection</string>
+    <string name="add_single">(Legacy) Add a single MTF entry</string>
 </resources>

@@ -58,9 +58,9 @@ public class FragmentMain extends BaseFragment implements View.OnClickListener, 
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_main, container, false);
         root.findViewById(R.id.btnLoad).setOnClickListener(this);
-        root.findViewById(R.id.btnDownload).setOnClickListener(this);
-        progressBar = root.findViewById(R.id.progressBar);
-        raw = root.findViewById(R.id.textView7);
+        root.findViewById(R.id.btnBulkAdd).setOnClickListener(this);
+        //progressBar = root.findViewById(R.id.progressBar);
+        raw = root.findViewById(R.id.txtAddMultiple);
 
         int unitCount = ((ActivityMain) requireActivity()).getMekCount();
         ((TextView) root.findViewById(R.id.txtUnitCount)).setText(getString(R.string.main_units_loaded, unitCount));
@@ -79,7 +79,7 @@ public class FragmentMain extends BaseFragment implements View.OnClickListener, 
     public void onClick(View view) {
         if (view.getId() == R.id.btnLoad) {
             performFileSearch();
-        } else if (view.getId() == R.id.btnDownload) {
+        } else if (view.getId() == R.id.btnBulkAdd) {
             Downloader downloader = new Downloader(this);
             try {
                 File cacheDir = new File(requireContext().getCacheDir(), getString(R.string.dest_megamek));
