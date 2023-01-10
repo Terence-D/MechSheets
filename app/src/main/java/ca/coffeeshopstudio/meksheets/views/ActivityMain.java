@@ -34,7 +34,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.coffeeshopstudio.meksheets.FileOperations;
+import ca.coffeeshopstudio.meksheets.utils.FileOperations;
 import ca.coffeeshopstudio.meksheets.R;
 import ca.coffeeshopstudio.meksheets.models.Mech;
 

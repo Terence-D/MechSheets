@@ -6,7 +6,7 @@
     app:startDestination="@id/fragment_mech_detail">
     <fragment
         android:id="@+id/fragment_mech_detail"
-        android:name="ca.coffeeshopstudio.meksheets.MechDetailFragment"
+        android:name="ca.coffeeshopstudio.meksheets.FragmentStartImport"
         android:label="@string/title_mech_detail"
         tools:layout="@layout/fragment_mech_detail">
         <argument

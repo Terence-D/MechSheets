@@ -16,6 +16,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context="ca.coffeeshopstudio.meksheets.MechDetailHostActivity"
+        tools:context="ca.coffeeshopstudio.meksheets.ActivityMainHost"
         tools:listitem="@layout/mech_list_content" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,32 +29,6 @@ import ca.coffeeshopstudio.meksheets.repositories.MechRepository
  */
 
 class MechListFragment : Fragment() {
-    /**
-     * Method to intercept global key events in the
-     * item list fragment to trigger keyboard shortcuts
-     * Currently provides a toast when Ctrl + Z and Ctrl + F
-     * are triggered
-     */
-    private val unhandledKeyEventListenerCompat =
-        ViewCompat.OnUnhandledKeyEventListenerCompat { v, event ->
-            if (event.keyCode == KeyEvent.KEYCODE_Z && event.isCtrlPressed) {
-                Toast.makeText(
-                    v.context,
-                    "Undo (Ctrl + Z) shortcut triggered",
-                    Toast.LENGTH_LONG
-                ).show()
-                true
-            } else if (event.keyCode == KeyEvent.KEYCODE_F && event.isCtrlPressed) {
-                Toast.makeText(
-                    v.context,
-                    "Find (Ctrl + F) shortcut triggered",
-                    Toast.LENGTH_LONG
-                ).show()
-                true
-            }
-            false
-        }
-
     private var _binding: FragmentMechListBinding? = null
 
     // This property is only valid between onCreateView and
@@ -75,8 +49,6 @@ class MechListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        ViewCompat.addOnUnhandledKeyEventListener(view, unhandledKeyEventListenerCompat)
 
         val recyclerView: RecyclerView = binding.mechList
 
@@ -121,7 +93,7 @@ class MechListFragment : Fragment() {
                     val mech = itemView.tag as Mech
                     val bundle = Bundle()
                     bundle.putString(
-                        MechDetailFragment.ARG_ITEM_ID,
+                        FragmentStartImport.ARG_ITEM_ID,
                         mech.name
                     )
                     if (itemDetailFragmentContainer != null) {

@@ -9,7 +9,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import ca.coffeeshopstudio.meksheets.databinding.ActivityMechDetailBinding
 
-class MechDetailHostActivity : AppCompatActivity() {
+class ActivityMainHost : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 

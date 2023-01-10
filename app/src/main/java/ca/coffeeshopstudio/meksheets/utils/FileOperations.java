@@ -5,7 +5,7 @@
  *
  */
 
-package ca.coffeeshopstudio.meksheets;
+package ca.coffeeshopstudio.meksheets.utils;
 
 import android.content.Context;
 

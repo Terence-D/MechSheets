@@ -11,31 +11,22 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/container_margin"
-        android:layout_marginEnd="@dimen/container_margin"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context="ca.coffeeshopstudio.meksheets.MechDetailHostActivity"
+        tools:context="ca.coffeeshopstudio.meksheets.ActivityMainHost"
         tools:listitem="@layout/mech_list_content" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/item_width" />
-
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mech_detail_nav_container"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/container_margin"
         app:defaultNavHost="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintStart_toEndOf="@id/mech_list"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/primary_details_sub_nav_graph" />
 

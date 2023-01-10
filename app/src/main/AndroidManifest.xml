@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MechDetailHostActivity"
+            android:name=".ActivityMainHost"
             android:exported="true"
             android:label="@string/title_activity_mech_detail_host"
             android:resizeableActivity="true"
@@ -43,7 +43,7 @@
         </activity>
 
         <receiver
-            android:name=".Downloader"
+            android:name=".utils.Downloader"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />

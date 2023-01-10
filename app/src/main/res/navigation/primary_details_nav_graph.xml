@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/mech_detail_fragment"
-        android:name="ca.coffeeshopstudio.meksheets.MechDetailFragment"
+        android:name="ca.coffeeshopstudio.meksheets.FragmentStartImport"
         android:label="mech_detail"
         tools:layout="@layout/fragment_mech_detail">
         <argument

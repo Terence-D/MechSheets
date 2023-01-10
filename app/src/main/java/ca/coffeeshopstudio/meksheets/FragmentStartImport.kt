@@ -19,7 +19,7 @@ import ca.coffeeshopstudio.meksheets.views.ActivityMain
  * in two-pane mode (on larger screen devices) or self-contained
  * on handsets.
  */
-class MechDetailFragment : Fragment() {
+class FragmentStartImport : Fragment() {
 
     /**
      * The placeholder content this fragment is presenting.

@@ -1,6 +1,4 @@
-package ca.coffeeshopstudio.meksheets;
-
-import android.os.Environment;
+package ca.coffeeshopstudio.meksheets.utils;
 
 import androidx.annotation.NonNull;
 
@@ -8,7 +6,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -17,7 +14,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okio.Path;
 
 public class Downloader {
     OkHttpClient client;

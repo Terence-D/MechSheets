@@ -22,9 +22,9 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.IOException;
 
-import ca.coffeeshopstudio.meksheets.DownloadProgressCallback;
-import ca.coffeeshopstudio.meksheets.Downloader;
-import ca.coffeeshopstudio.meksheets.FileOperations;
+import ca.coffeeshopstudio.meksheets.utils.DownloadProgressCallback;
+import ca.coffeeshopstudio.meksheets.utils.Downloader;
+import ca.coffeeshopstudio.meksheets.utils.FileOperations;
 import ca.coffeeshopstudio.meksheets.R;
 import okio.Path;
 
