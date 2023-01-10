@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mech_list_fragment"
-        android:name="ca.coffeeshopstudio.meksheets.MechListFragment"
+        android:name="ca.coffeeshopstudio.meksheets.FragmentMechList"
         android:label="MechListFragment">
         <action
             android:id="@+id/show_mech_detail"
@@ -17,7 +17,7 @@
         android:id="@+id/mech_detail_fragment"
         android:name="ca.coffeeshopstudio.meksheets.FragmentStartImport"
         android:label="mech_detail"
-        tools:layout="@layout/fragment_mech_detail">
+        tools:layout="@layout/fragment_start_import">
         <argument
             android:name="item_id"
             android:defaultValue=""

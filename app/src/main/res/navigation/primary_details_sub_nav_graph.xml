@@ -8,7 +8,7 @@
         android:id="@+id/fragment_mech_detail"
         android:name="ca.coffeeshopstudio.meksheets.FragmentStartImport"
         android:label="@string/title_mech_detail"
-        tools:layout="@layout/fragment_mech_detail">
+        tools:layout="@layout/fragment_start_import">
         <argument
             android:name="item_id"
             android:defaultValue=""

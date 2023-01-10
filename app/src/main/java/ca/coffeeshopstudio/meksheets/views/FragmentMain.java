@@ -56,7 +56,7 @@ public class FragmentMain extends BaseFragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_main, container, false);
+        root = inflater.inflate(R.layout.fragment_mainold, container, false);
         root.findViewById(R.id.btnLoad).setOnClickListener(this);
         root.findViewById(R.id.btnBulkAdd).setOnClickListener(this);
         //progressBar = root.findViewById(R.id.progressBar);
