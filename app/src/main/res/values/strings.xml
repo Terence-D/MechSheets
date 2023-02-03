@@ -1,152 +1,182 @@
-<!--
-  ~ Copyright (c) 2018
-  ~ Terry Doerksen
-  ~ https://creativecommons.org/licenses/by-nc/4.0/
-  ~
-  -->
-
 <resources>
     <string name="app_name">Mech Sheets</string>
-    <string name="nav_overview">Overview</string>
-    <string name="nav_armor">Armor</string>
-    <string name="nav_components">Components</string>
-    <string name="components_title">Components</string>
-    <string name="armor_h">Head\n%1$d \\ %2$d</string>
-    <string name="armor_ct">Center Torso\n%1$d \\ %2$d</string>
-    <string name="armor_lt">Left Torso\n%1$d \\ %2$d</string>
-    <string name="armor_rt">Right Torso\n%1$d \\ %2$d</string>
-    <string name="armor_la">Left Arm\n%1$d \\ %2$d</string>
-    <string name="armor_ra">Right Arm\n%1$d \\ %2$d</string>
-    <string name="armor_ll">Left Leg\n%1$d \\ %2$d</string>
-    <string name="armor_rl">Right Leg\n%1$d \\ %2$d</string>
-    <string name="armor_title">Armor</string>
-    <string name="armor_rear">Rear</string>
-    <string name="armor_internal">Internal</string>
-    <string name="components_left_arm">Left Arm</string>
-    <string name="components_left_torso">Left Torso</string>
-    <string name="components_left_leg">Left Leg</string>
-    <string name="components_right_arm">Right Arm</string>
-    <string name="components_right_torso">Right Torso</string>
-    <string name="components_right_leg">Right Leg</string>
-    <string name="components_head">Head</string>
-    <string name="components_center_torso">Center Torso</string>
-    <string name="overview_movement">Movement</string>
-    <string name="overview_title">Overview</string>
-    <string name="overview_name">Name: %1$s</string>
-    <string name="overview_tons">Tons: %1$d</string>
-    <string name="overview_walking">Walking: %1$d</string>
-    <string name="overview_running">Running: %1$d</string>
-    <string name="overview_jumping">Jumping: %1$d</string>
-    <string name="overview_equipment">Equipment</string>
-    <string name="overview_heatsinks">Heatsinks: %1$d / %2$d remaining</string>
-    <string name="overview_pilot_details">Pilot Details</string>
-    <string name="overview_pilot_skill">Piloting: %1$d</string>
-    <string name="overview_gunnery_skill">Gunnery: %1$d</string>
-    <string name="overview_pilots_hits">Hits Taken: %1$d</string>
-    <string name="overview_heat_scale">Heat Scale: %1$d</string>
-    <string name="activity_previous"><![CDATA[<]]></string>
-    <string name="activity_next"><![CDATA[>]]></string>
-    <string name="main_title">Choose an MTF file to load</string>
-    <string name="overview_ammo">%1$s: %2$d Shots Fired</string>
-    <string name="row_delete">X</string>
-    <string name="main_load">Load</string>
-    <string name="main_piloting">Pilot</string>
-    <string name="main_continue">Continue</string>
-    <string name="main_piloting_skill">Piloting: %1$1</string>
-    <string name="main_gunnery_skill">Gunnery: %1$1</string>
-    <string name="main_save">Save</string>
-    <string name="overview_description">Notes</string>
-    <string name="overview_save">Save</string>
-    <string name="spinner_value_none">[Add]</string>
-    <string name="overview_delete">Delete</string>
-    <string name="overview_confirm_delete">Are you sure you want to PERMANENTLY REMOVE the %1$s?</string>
-    <string name="main_units_loaded">There are %1$d units loaded</string>
-    <string name="menu_about">About</string>
-    <string name="title_activity_about">About</string>
-    <string name="libraries">3rd Party Libraries</string>
-    <string name="legal_gson">Use of the GSON Library is used under the Apache 2.0 License - a link to the project and license is below.</string>
-    <string name="version">Version: %1$s (build %2$d)</string>
-    <string name="website_apache">http://www.apache.org/licenses/LICENSE-2.0</string>
-    <string name="website_gson">https://github.com/google/gson</string>
-    <string name="website_material_icons">https://github.com/google/material-design-icons</string>
-    <string name="website_creative_common">http://creativecommons.org/licenses/by/4.0/</string>
-    <string name="legal_material_icons">Use of the Material Icons are used under the Creative Common Attribution 4.0 International License (CC-BY 4.0) - links to the project and license are:</string>
-    <string name="legal">Legal</string>
-    <string name="legal_contents">
-        The Mech Sheets application is (and will remain) a non-commercial, open source application (released under CC-BY-NC-4.0 license) designed to make game play of the Classic BattleTech table top game (by Catalyst Game Labs) easier when paper record sheets are not an option.   This application is fan made to make the authors life easier and hopefully can be of use to others. \n
-\n
-The above mentioned license covers only the application and it\’s source code - Classic BattleTech, BattleTech, BattleMech, \‘Mech, and MechWarrior are registered trademarks and/or trademarks of The Topps Company, Inc. in the United States and/or other countries.   All rights reserved to the appropriate owners and original content creators. I have received permission to use the above terms and make this application available to others free of charge.  Any issues please contact me and I will make the appropriate adjustments and corrections.  Thank you. \n
-\n
-Mech Sheets software License - Copyright 2018 Terry Doerksen:
-    </string>
-    <string name="license_url">https://creativecommons.org/licenses/by-nc/4.0/legalcode\n\n\n\n\n\n</string>
-    <string name="overview_movementtorso_twist">Torso Twist</string>
-    <string name="overview_twist_front">Center</string>
-    <string name="overview_twist_left">Left</string>
-    <string name="overview_twist_right">Right</string>
-    <string name="help_main">
-        <![CDATA[
-            <h1>Help: Starting Out</h1>
-            <p>To start using this app, you will need MTF files copied to your phone.  MTF files come from the excellent PC game MegaMek:<br/><br/>
-            1) Download and extract the latest version of MegaMek to your computer.<br/>
-            2) Find the MTF files included with MegaMek.<br/>
-            3) Copy the MTF files to your device.<br/>
-            4) Click on the giant + symbol and find the mechs you want.<br/><br/>
-            Note: If you copied the MTF files to your devices external SD Card you may have to tap on the menu button at the top left of the Files window and tap Show SD Card.
-        ]]>
-    </string>
-    <string name="help_armor">
-        <![CDATA[
-            <h1>Help: Armor</h1>
-            <p>When a mech takes damage, use this screen to record damage to each locations armor and internal structure.<br/><br/>
-            <b>Single Tap:</b> Each single tap will reduce the armor in that location by 1.<br/>
-            <b>Long Tap:</b> Holding your finger down on a location will restore that location by 1 point.<br/><br/>
-            When that location is destroyed, the color will change to red.
-        ]]>
-    </string>
-    <string name="help_components">
-        <![CDATA[
-            <h1>Help: Components</h1>
-            <p>When a mech takes critical damage, use this screen to record damage to each component that is hit.<br/><br/>
-            <b>Single Tap:</b> Each single tap will destroy that component in that location.<br/>
-            <b>Long Tap:</b> Holding your finger down on a destroyed component will return it to functional status.<br/><br/>
-            When a component is destroyed, it will affect the Overview screen - for example destroying a weapon here will disable it in the Overview screen.  Damaging a leg will reduce it\'s indicated speed.  When a component is destroyed, the color will change to red.
-        ]]>
-    </string>
-    <string name="help_overview">
-        <![CDATA[
-            <h1>Help: Overview</h1>
-            <p>This shows the overview of your unit.  As leg or jump jet damage occurs, the blue Walk/Run/Jump values will turn red and be reduced.
-            <h1>Help: Equipment</h1>
-            <p>Weapons can be tapped on to help you remember what weapons you are firing.  If a weapon is destroyed, it will be grayed out.  Tapping [ALL] will either select or deselect all weapons.<br/>
-            <p>Each ton of ammo appears as a button that you can click on each time the weapon is fired.
-            <p>As heat sinks are destroyed, the remaining heat sinks counter will adjust and will turn red.  Use the Heat Scale to track how much heat the mech currently has.
-            <h1>Help: Pilot Details</h1>
-            <b>Single Tap:</b> Each single tap will increase the Piloting or Gunnery skill value by 1.<br/>
-            <b>Long Tap:</b> Holding down your finger on the button will decrease the Piloting or Gunnery skill value by 1.<br/><br/>
-            <p>As the Mechwarrior takes damage, adjust the Hits Taken slider accordingly to keep track.<br/><br/>
-            <p>Notes can be used to enter in whatever information you wish.  TAP SAVE WHEN DONE!
-        ]]>
-    </string>
-    <string name="invalid_file_format">
-        <![CDATA[
-            <h1>Invalid File!</h1>
-            <p>This does not appear to be a supported file format.  If this should be a valid file, please contact me and provide me the MTF file you were trying to load.
-        ]]>
-    </string>
-    <string name="all">[ALL]</string>
-    <string name="menu_help">Help</string>
-    <string name="overview_reset">Reset</string>
-    <string name="overview_confirm_reset">This will reset this %1$s back to stock - fully repaired - status.  This will reset:\n\n
+    <string name="roll">Roll</string>
+    <string name="tab_mech_list">Mechs</string>
+    <string name="tab_import">Import</string>
+    <string name="tab_help">Help</string>
+    <string name="tab_options">Options</string>
+    <string name="navigation_drawer">Navigation Drawer</string>
+    <string name="logo">App logo</string>
+    <string name="navigation_rail">Navigation Rail</string>
+    <string name="navigation_bottom">Bottom Navigation</string>
+    <string name="import_single_mtf">Import Single Mech</string>
+    <string name="import_single_mtf_details">Tap here to import from a single MTF file on your device.</string>
+    <string name="import_multiple">Import Multiple Mechs</string>
+    <string name="import_multiple_details">Tap here to import one or many Mechs from a Zip file on your device.</string>
+    <string name="empty_list">Tap on the Import button to start adding mechs to use!</string>
+    <string name="overview">Overview</string>
+    <string name="tab_rs_overivew">Overview</string>
+    <string name="tab_rs_armor">Armor</string>
+    <string name="tab_rs_components">Components</string>
+    <string name="mech_name">"Name: "</string>
+    <string name="mech_weight">"Tons: "</string>
+    <string name="mech_walking">Walk</string>
+    <string name="mech_running">Run</string>
+    <string name="mech_jumping">Jump</string>
+    <string name="equipment">Equipment</string>
+    <string name="shots_fired">Shots Fired: </string>
+    <string name="heat_sinks">Heat Sinks: </string>
+    <string name="heat">Heat</string>
+    <string name="heat_scale">Heat Scale: </string>
+    <string name="decrease">Decrease</string>
+    <string name="increase">Increase</string>
+    <string name="ammo">Ammo</string>
+    <string name="fire_all">Use All</string>
+    <string name="description">Notes</string>
+    <string name="save_description">Save Description</string>
+    <string name="tab_rs_pilot">Pilot</string>
+    <string name="piloting">Piloting</string>
+    <string name="gunnery">Gunnery</string>
+    <string name="hits">Hits</string>
+    <string name="armor">Armor</string>
+    <string name="rear_armor">Rear Armor</string>
+    <string name="internal_structure">Internal Structure</string>
+    <string name="adjust_damage">Adjust Damage</string>
+    <string name="hit_for">"hit for"</string>
+    <string name="done">Done</string>
+    <string name="damage">Damage</string>
+    <string name="components">Components</string>
+    <string name="reset">Reset</string>
+    <string name="delete">Delete</string>
+    <string name="confirm_reset">This will reset this %1$s back to stock - fully repaired - status.  This will reset:\n\n
         - Equipment selection\n
         - Ammo used\n
         - Heat Level\n
         - Armor / Internal Damage\n
         - Individual components\n
         \n
-        Are you sure you want this?</string>
-    <string name="armor_destroyed">CRITICAL! Damage has transferred to the internal structure!</string>
-    <string name="armor_rear_destroyed">CRITICAL! Damage has transferred to the internal structure!</string>
-    <string name="location_maxed">You are exceeding the maximum default value</string>
-    <string name="internal_destroyed">The internal structure in this location has been completely destroyed!</string>
+        Are you sure you want this?    </string>
+    <string name="confirm_delete">Are you sure you want to PERMANENTLY REMOVE the %1$s?</string>
+    <string name="settings">Settings</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="follow_system">Follow System</string>
+    <string name="always_dark">Always Dark</string>
+    <string name="always_light">Always Light</string>
+
+    <string name="about">About</string>
+    <string name="libraries">3rd Party Libraries</string>
+    <string name="legal_gson">Use of the GSON Library is used under the Apache 2.0 License - a link to the project and license is below.</string>
+    <string name="version">Version: %1$s (build %2$d)</string>
+    <string name="website_apache">http://www.apache.org/licenses/LICENSE-2.0</string>
+    <string name="website_gson">https://github.com/google/gson</string>
+    <string name="legal">Legal</string>
+    <string name="legal_contents_a">
+        The Mech Sheets application is (and will remain) a non-commercial, open source application (released under CC-BY-NC-4.0 license) designed to make game play of the Classic BattleTech table top game (by Catalyst Game Labs) easier when paper record sheets are not an option.   This application is fan made to make the authors life easier and hopefully can be of use to others. \n
+\n
+The above mentioned license covers only the application and it\’s source code - Classic BattleTech, BattleTech, BattleMech, \‘Mech, and MechWarrior are registered trademarks and/or trademarks of The Topps Company, Inc. in the United States and/or other countries.   All rights reserved to the appropriate owners and original content creators. A link to Catalyst Game Labs - with all of their amazing products that I as a fan enjoy and love - is included below to learn more about their game universes!
+    </string>
+    <string name="legal_contents_b">
+I have received permission to use the above terms and make this application available to others free of charge.  Any issues please contact me and I will make the appropriate adjustments and corrections.  Thank you. Mech Sheets software License - Copyright 2023 Terry Doerksen.
+    </string>
+    <string name="license_url">https://creativecommons.org/licenses/by-nc/4.0/legalcode</string>
+    <string name="apache_title">Apache 2.0 License</string>
+    <string name="gson_title">GSON Library</string>
+    <string name="cc_by_nc_4">CC-BY-NC-4.0 License</string>
+    <string name="source_code">Source Code</string>
+    <string name="website_source_code">https://github.com/Terence-D/MechSheets</string>
+    <string name="website_catalyst">https://www.catalystgamelabs.com/</string>
+    <string name="catalyst">Catalyst Game Labs</string>
+    <string name="dynamic_colors">Dynamic Colors</string>
+    <string name="use_dynamic">Dynamic Colors based on your System Colors</string>
+    <string name="contact_me">Contact Me</string>
+    <string name="email_address">support@coffeeshopstudio.ca</string>
+    <string name="subject_line">Mech Sheets</string>
+    <string name="email_chooser">Send Feedback:</string>
+    <string name="folder_filter">Folder Filter</string>
+    <string name="change_name">Search</string>
+    <string name="extracting">Extracting</string>
+    <string name="import_mechs">Import Mechs</string>
+    <string name="missing_imports">Once you tap on Import Multiple Mechs and complete the import, the available units will be displayed here.</string>
+    <string name="team_color">Team Color</string>
+    <string name="import_from_mm">Import from MegaMek</string>
+    <string name="import_mm_details">Tap here to import from the full MegaMek download</string>
+    <string name="help_starting">Don\'t forget you can press the \'?\' button at any time for assistance!</string>
+    <string name="url_megamek">https://megamek.org</string>
+    <string name="mega_mek">MegaMek</string>
+
+    <string name="help_import_title">Help - Starting Import</string>
+    <string name="help_import">
+        Welcome to Mech Sheets!  This app does not include any record sheets directly - instead the
+        app reads "MTF" files - which are available from the excellent free PC Game called MegaMek.
+        A link to their page is below.  To get started, I have tried to simplify the process from
+        the older version:\n\n
+
+        To get started, you will first need to download MegaMek (the Development version for
+        Windows) - note that MegaMek is approx 600Mb in size, which means if you are downloading on
+        your device you may incur data charges, please check with your provider!!
+    </string>
+    <string name="help_import_download_warning">\nIt is recommended to first download on a PC!\n</string>
+    <string name="help_import_2">
+        Once downloaded, you have 3 options:\n\n
+
+        1) You can simply copy the entire file to your phone if you have space, and use the
+        "Import from MegaMek" option.  This is the easiest, but also the slowest.  It will take
+        awhile and your device may appear to stop responding.  Just wait for it to finish, it should
+        take no more than a few minutes.  Once done you will be able to choose a mech from the
+        list.\n\n
+
+        2) To save space and time, inside the MegaMek.zip file is a "mechs.zip" file - if you
+        extract just that file and copy to your phone, Use the "Import Multiple Mechs" option for
+        this much faster process.\n\n
+
+        3) Finally, you can also extract the individual MTF files or if you have some customized or
+        from other sources, import them directly using "Import Single Mech".  This is the same
+        functionality as the older 1.3 version of Mech Sheets.\n\n
+
+        For the first 2 options, once done you will see a list of mechs you can use.  Simply tap
+        on any of them to add them to Mech Sheets and get playing!\n\n
+    </string>
+    <string name="help_recordsheet_title">Help - Record Sheet</string>
+    <string name="help_overview_title">Overview</string>
+    <string name="help_overview">
+        This shows the overview of your unit.  As leg or jump jet damage occurs, the  Walk/Run/Jump values will turn red and be reduced.  You can also edit the name of the unit to anything you like.
+    </string>
+    <string name="help_equipment_title">Equipment</string>
+    <string name="help_equipment">
+        Weapons and equipment can be tapped on to help you remember what weapons you are firing.  If a weapon is destroyed, it will show a different color.\n\n
+        Note:  At this time Mech Sheets cannot determine with 100% accuracy which item was destroyed.  For example if you have 2 identical weapons that take up 3 spaces each,
+        and 2 components are damaged, Mech Sheets cannot determine if its one weapon destroyed, or 2.
+        Tapping [ALL] will either select or deselect all weapons.
+    </string>
+    <string name="help_ammo_title">Ammo</string>
+    <string name="help_ammo">
+        Each ton of ammo appears as a button that you can click on each time the weapon is fired.
+    </string>
+    <string name="help_heat_title">Heat</string>
+    <string name="help_heat">
+        As heat sinks are destroyed, the remaining heat sinks counter will adjust and will turn red.  Use the Heat Scale to track how much heat the mech currently has.
+    </string>
+    <string name="help_details_title">Notes</string>
+    <string name="help_details">
+        use this to include any other information you wish to track
+    </string>
+    <string name="help_pilot_title">Pilot</string>
+    <string name="help_pilot">Here you can adjust the pilots skills up or down, as well as any hits they may have taken.  As they take more hits, the color will change.  You can also change the default name to something more appropriate</string>
+    <string name="help_color_title">Team Color</string>
+    <string name="help_color">Choosing a color here will adjust the Pilot icon in the list of Units - useful to quickly associate different units to different teams</string>
+    <string name="help_armor_title">Armor</string>
+    <string name="help_armor">
+        When a mech takes damage, use this screen to record damage to each locations armor and internal structure.\n\n
+
+        Tapping on a location will bring up the Damage Popup.  Here you can tap on a button to automatically set the damage to that,
+        or if you prefer use the plus / minus buttons to fine tune the amount of damage taken.\n\n
+
+        When a location such as an arm or leg is destroyed, additional damage taken will transfer to the next logical location (torso) automatically.  Components will also automatically be destroyed as locations are destroyed.
+    </string>
+    <string name="help_components_title">Components</string>
+    <string name="help_components">
+        When a mech takes critical damage, use this screen to record damage to each component that is hit.\n\n
+        When a component is destroyed, it will affect the Overview screen - for example destroying a weapon here will change its color indicating it might be destroyed in the Overview screen, and damaging a leg will reduce it\'s indicated speed.  When a component is destroyed, the color will change to red.
+    </string>
+
 </resources>

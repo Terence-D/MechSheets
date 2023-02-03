@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="location_names">
+        <item>L Torso</item>
+        <item>C Torso</item>
+        <item>R Torso</item>
+        <item>Left Arm</item>
+        <item>Right Arm</item>
+        <item>Left Leg</item>
+        <item>Right Leg</item>
+        <item>Head</item>
+    </string-array>
+</resources>
