@@ -1,0 +1,1019 @@
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/utils/FileOperations.java
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/utils/FileOperations.java b/app/src/main/java/ca/coffeeshopstudio/meksheets/utils/FileOperations.java
+deleted file mode 100644
+--- a/app/src/main/java/ca/coffeeshopstudio/meksheets/utils/FileOperations.java	(revision 4e727ffefc52012638faa8c88a9e85b83c32c877)
++++ /dev/null	(revision 4e727ffefc52012638faa8c88a9e85b83c32c877)
+@@ -1,131 +0,0 @@
+-/*
+- * Copyright (c) 2018
+- * Terry Doerksen
+- * https://creativecommons.org/licenses/by-nc/4.0/
+- *
+- */
+-
+-package ca.coffeeshopstudio.meksheets.utils;
+-
+-import android.content.Context;
+-
+-import com.google.gson.Gson;
+-
+-import java.io.BufferedInputStream;
+-import java.io.BufferedReader;
+-import java.io.File;
+-import java.io.FileInputStream;
+-import java.io.FileOutputStream;
+-import java.io.IOException;
+-import java.io.InputStream;
+-import java.io.InputStreamReader;
+-import java.util.ArrayList;
+-import java.util.Calendar;
+-import java.util.List;
+-import java.util.Objects;
+-import java.util.zip.ZipEntry;
+-import java.util.zip.ZipInputStream;
+-
+-import ca.coffeeshopstudio.meksheets.models.Mech;
+-import okio.Path;
+-
+-public class FileOperations {
+-    public static void writeFile(Context context, Mech obj) {
+-        Gson gson = new Gson();
+-
+-        FileOutputStream outputStream;
+-
+-        if (obj.getFileName().equals(""))
+-            obj.setFileName(obj.getName() + Calendar.getInstance().getTimeInMillis() + ".json");
+-
+-        String input = gson.toJson(obj);
+-        try {
+-            outputStream = context.openFileOutput(obj.getFileName(), Context.MODE_PRIVATE);
+-            outputStream.write(input.getBytes());
+-            outputStream.close();
+-        } catch (Exception e) {
+-            e.printStackTrace();
+-        }
+-    }
+-
+-    private static Mech readFile(Context context, String fileName) {
+-        FileInputStream fis;
+-        try {
+-            fis = context.openFileInput(fileName);
+-
+-            InputStreamReader isr = new InputStreamReader(fis);
+-            BufferedReader bufferedReader = new BufferedReader(isr);
+-            StringBuilder sb = new StringBuilder();
+-            String line;
+-            while ((line = bufferedReader.readLine()) != null) {
+-                sb.append(line);
+-            }
+-
+-            String json = sb.toString();
+-            Gson gson = new Gson();
+-            return gson.fromJson(json, Mech.class);
+-        } catch (Exception e) {
+-            e.printStackTrace();
+-            return null;
+-        }
+-    }
+-
+-    public static void deleteFile(Context context, String fileName) {
+-        context.deleteFile(fileName);
+-    }
+-
+-    public static List<Mech> getJsonFiles(Context context) {
+-        List<Mech> meks = new ArrayList<>();
+-
+-        File files = context.getFilesDir();
+-        for (File file : Objects.requireNonNull(files.listFiles())) {
+-            if (file.getName().endsWith(".json")) {
+-                Mech mek = readFile(context, file.getName());
+-                if (mek != null)
+-                    meks.add(mek);
+-            }
+-        }
+-
+-        return meks;
+-    }
+-
+-    public static boolean unzip(File zipFile, String fileToExtract, File exportPath)
+-    {
+-        InputStream inputStream;
+-        ZipInputStream zipInputStream;
+-        try
+-        {
+-            String filename;
+-            inputStream = new FileInputStream(zipFile);
+-            zipInputStream = new ZipInputStream(new BufferedInputStream(inputStream));
+-            ZipEntry zipEntry;
+-            byte[] buffer = new byte[1024];
+-            int count;
+-
+-            while ((zipEntry = zipInputStream.getNextEntry()) != null)
+-            {
+-                filename = zipEntry.getName();
+-                if (Objects.equals(filename, fileToExtract)) {
+-                    String simpleName = new File(filename).getName();
+-                    String path = exportPath + Path.DIRECTORY_SEPARATOR + simpleName;
+-                    FileOutputStream fileOutputStream = new FileOutputStream(path);
+-
+-                    while ((count = zipInputStream.read(buffer)) != -1)
+-                    {
+-                        fileOutputStream.write(buffer, 0, count);
+-                    }
+-
+-                    fileOutputStream.close();
+-                    zipInputStream.closeEntry();
+-                }
+-            }
+-            zipInputStream.close();
+-        }
+-        catch(IOException e)
+-        {
+-            e.printStackTrace();
+-            return false;
+-        }
+-
+-        return true;
+-    }}
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/utils/FileUtil.kt
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/utils/FileUtil.kt b/app/src/main/java/ca/coffeeshopstudio/meksheets/utils/FileUtil.kt
+deleted file mode 100644
+--- a/app/src/main/java/ca/coffeeshopstudio/meksheets/utils/FileUtil.kt	(revision 4e727ffefc52012638faa8c88a9e85b83c32c877)
++++ /dev/null	(revision 4e727ffefc52012638faa8c88a9e85b83c32c877)
+@@ -1,42 +0,0 @@
+-package ca.coffeeshopstudio.meksheets.utils
+-
+-import android.content.Context
+-import ca.coffeeshopstudio.meksheets.models.Mech
+-import com.google.gson.Gson
+-import java.io.BufferedReader
+-import java.io.FileInputStream
+-import java.io.InputStreamReader
+-import java.util.*
+-
+-class FileUtil {
+-    fun getJsonFiles(context: Context): List<Mech>? {
+-        val meks: MutableList<Mech> = ArrayList()
+-        val files = context.filesDir
+-        for (file in Objects.requireNonNull(files.listFiles())) {
+-            if (file.name.endsWith(".json")) {
+-                val mek = readFile(context, file.name)
+-                if (mek != null) meks.add(mek)
+-            }
+-        }
+-        return meks
+-    }
+-
+-    private fun readFile(context: Context, fileName: String): Mech? {
+-        val fis: FileInputStream
+-        return try {
+-            fis = context.openFileInput(fileName)
+-            val isr = InputStreamReader(fis)
+-            val bufferedReader = BufferedReader(isr)
+-            val sb = StringBuilder()
+-            var line: String?
+-            while (bufferedReader.readLine().also { line = it } != null) {
+-                sb.append(line)
+-            }
+-            val json = sb.toString()
+-            val gson = Gson()
+-            gson.fromJson(json, Mech::class.java)
+-        } catch (e: Exception) {
+-            e.printStackTrace()
+-            null
+-        }
+-    }}
+\ No newline at end of file
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/models/ImportMech.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/models/ImportMech.kt b/app/src/main/java/ca/coffeeshopstudio/meksheets/models/ImportMech.kt
+new file mode 100644
+--- /dev/null	(date 1673412819173)
++++ b/app/src/main/java/ca/coffeeshopstudio/meksheets/models/ImportMech.kt	(date 1673412819173)
+@@ -0,0 +1,6 @@
++package ca.coffeeshopstudio.meksheets.models
++
++class ImportMech(name: String) {
++    var name: String = ""
++    var folder: String = ""
++}
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_import_mech_list.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_import_mech_list.xml b/app/src/main/res/layout/fragment_import_mech_list.xml
+new file mode 100644
+--- /dev/null	(date 1673412258735)
++++ b/app/src/main/res/layout/fragment_import_mech_list.xml	(date 1673412258735)
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/list"
++    android:name="ca.coffeeshopstudio.meksheets.FragmentImportMech"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:layout_marginLeft="16dp"
++    android:layout_marginRight="16dp"
++    app:layoutManager="LinearLayoutManager"
++    tools:context=".FragmentImportMech"
++    tools:listitem="@layout/fragment_import_mech" />
+\ No newline at end of file
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/FragmentStartImport.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ca.coffeeshopstudio.meksheets\r\n\r\nimport android.app.Activity\r\nimport android.content.Intent\r\nimport android.net.Uri\r\nimport android.os.Bundle\r\nimport androidx.fragment.app.Fragment\r\nimport com.google.android.material.appbar.CollapsingToolbarLayout\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.ImageButton\r\nimport android.widget.TextView\r\nimport androidx.activity.result.ActivityResultLauncher\r\nimport androidx.activity.result.contract.ActivityResultContracts\r\nimport androidx.fragment.app.activityViewModels\r\nimport ca.coffeeshopstudio.meksheets.databinding.FragmentStartImportBinding\r\nimport ca.coffeeshopstudio.meksheets.models.Mech\r\nimport ca.coffeeshopstudio.meksheets.repositories.MechRepository\r\nimport ca.coffeeshopstudio.meksheets.viewmodels.MechViewModel\r\nimport ca.coffeeshopstudio.meksheets.views.ActivityMain\r\n\r\n/**\r\n * A fragment representing a single Mech detail screen.\r\n * This fragment is either contained in a [FragmentMechList]\r\n * in two-pane mode (on larger screen devices) or self-contained\r\n * on handsets.\r\n */\r\nclass FragmentStartImport : Fragment() {\r\n    private var item: Mech? = null\r\n    private var btnLoad: ImageButton? = null\r\n    private var toolbarLayout: CollapsingToolbarLayout? = null\r\n\r\n    private var _binding: FragmentStartImportBinding? = null\r\n    private lateinit var resultLauncher: ActivityResultLauncher<Intent>\r\n    private val viewModel: MechViewModel by activityViewModels()\r\n\r\n    // This property is only valid between onCreateView and\r\n    // onDestroyView.\r\n    private val binding get() = _binding!!\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n\r\n        resultLauncher =\r\n            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->\r\n                if (result.resultCode == Activity.RESULT_OK) {\r\n                    val resultData: Intent? = result.data\r\n                    val uri: Uri? = resultData?.data\r\n                    viewModel.addMech(uri!!, requireContext())\r\n                }\r\n            }\r\n        arguments?.let {\r\n            if (it.containsKey(ARG_ITEM_ID)) {\r\n                item = viewModel.mechSet.value?.get(it.getString(ARG_ITEM_ID))\r\n                if (item != null) {\r\n                    startActivity(Intent(requireContext(), ActivityMain::class.java))\r\n                }\r\n            }\r\n        }\r\n    }\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater, container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View {\r\n        _binding = FragmentStartImportBinding.inflate(inflater, container, false)\r\n        val rootView = binding.root\r\n        btnLoad = binding.btnLoad\r\n        toolbarLayout = binding.toolbarLayout\r\n        updateContent()\r\n        return rootView\r\n    }\r\n\r\n    //The fragment argument representing the item ID that this fragment represents.\r\n    companion object {\r\n        const val ARG_ITEM_ID = \"item_id\"\r\n    }\r\n\r\n    override fun onDestroyView() {\r\n        super.onDestroyView()\r\n        _binding = null\r\n    }\r\n\r\n    private fun updateContent() {\r\n        toolbarLayout?.title = item?.name\r\n\r\n        btnLoad?.setOnClickListener {\r\n            performFileSearch()\r\n        }\r\n    }\r\n\r\n    private fun performFileSearch() {\r\n\r\n        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)\r\n        intent.addCategory(Intent.CATEGORY_OPENABLE)\r\n        intent.type = \"application/octet-stream\"\r\n        resultLauncher.launch(intent)\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/FragmentStartImport.kt b/app/src/main/java/ca/coffeeshopstudio/meksheets/FragmentStartImport.kt
+--- a/app/src/main/java/ca/coffeeshopstudio/meksheets/FragmentStartImport.kt	(revision 4e727ffefc52012638faa8c88a9e85b83c32c877)
++++ b/app/src/main/java/ca/coffeeshopstudio/meksheets/FragmentStartImport.kt	(date 1673415239845)
+@@ -10,13 +10,12 @@
+ import android.view.View
+ import android.view.ViewGroup
+ import android.widget.ImageButton
+-import android.widget.TextView
+ import androidx.activity.result.ActivityResultLauncher
+ import androidx.activity.result.contract.ActivityResultContracts
+ import androidx.fragment.app.activityViewModels
++import androidx.navigation.fragment.findNavController
+ import ca.coffeeshopstudio.meksheets.databinding.FragmentStartImportBinding
+ import ca.coffeeshopstudio.meksheets.models.Mech
+-import ca.coffeeshopstudio.meksheets.repositories.MechRepository
+ import ca.coffeeshopstudio.meksheets.viewmodels.MechViewModel
+ import ca.coffeeshopstudio.meksheets.views.ActivityMain
+ 
+@@ -29,6 +28,7 @@
+ class FragmentStartImport : Fragment() {
+     private var item: Mech? = null
+     private var btnLoad: ImageButton? = null
++    private var btnImport: ImageButton? = null
+     private var toolbarLayout: CollapsingToolbarLayout? = null
+ 
+     private var _binding: FragmentStartImportBinding? = null
+@@ -67,6 +67,7 @@
+         _binding = FragmentStartImportBinding.inflate(inflater, container, false)
+         val rootView = binding.root
+         btnLoad = binding.btnLoad
++        btnImport = binding.btnBulkAdd
+         toolbarLayout = binding.toolbarLayout
+         updateContent()
+         return rootView
+@@ -88,10 +89,12 @@
+         btnLoad?.setOnClickListener {
+             performFileSearch()
+         }
++        btnImport?.setOnClickListener {
++            findNavController().navigate(R.id.action_mech_detail_fragment_to_fragmentImportMech)
++        }
+     }
+ 
+     private fun performFileSearch() {
+-
+         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+         intent.addCategory(Intent.CATEGORY_OPENABLE)
+         intent.type = "application/octet-stream"
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/FragmentImportMech.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/FragmentImportMech.kt b/app/src/main/java/ca/coffeeshopstudio/meksheets/FragmentImportMech.kt
+new file mode 100644
+--- /dev/null	(date 1673413929424)
++++ b/app/src/main/java/ca/coffeeshopstudio/meksheets/FragmentImportMech.kt	(date 1673413929424)
+@@ -0,0 +1,64 @@
++package ca.coffeeshopstudio.meksheets
++
++import android.os.Bundle
++import androidx.fragment.app.Fragment
++import androidx.recyclerview.widget.GridLayoutManager
++import androidx.recyclerview.widget.LinearLayoutManager
++import androidx.recyclerview.widget.RecyclerView
++import android.view.LayoutInflater
++import android.view.View
++import android.view.ViewGroup
++import androidx.fragment.app.activityViewModels
++import ca.coffeeshopstudio.meksheets.placeholder.PlaceholderContent
++import ca.coffeeshopstudio.meksheets.viewmodels.MechViewModel
++
++/**
++ * A fragment representing a list of Items.
++ */
++class FragmentImportMech : Fragment() {
++    private val viewModel: MechViewModel by activityViewModels()
++
++    private var columnCount = 2
++
++    override fun onCreate(savedInstanceState: Bundle?) {
++        super.onCreate(savedInstanceState)
++
++        arguments?.let {
++            columnCount = it.getInt(ARG_COLUMN_COUNT)
++        }
++    }
++
++    override fun onCreateView(
++        inflater: LayoutInflater, container: ViewGroup?,
++        savedInstanceState: Bundle?
++    ): View? {
++        val view = inflater.inflate(R.layout.fragment_import_mech_list, container, false)
++
++        // Set the adapter
++        if (view is RecyclerView) {
++            with(view) {
++                layoutManager = when {
++                    columnCount <= 1 -> LinearLayoutManager(context)
++                    else -> GridLayoutManager(context, columnCount)
++                }
++                adapter = MechRecyclerViewAdapter(PlaceholderContent.ITEMS)
++            }
++        }
++        return view
++    }
++
++    companion object {
++
++        // TODO: Customize parameter argument names
++        const val ARG_COLUMN_COUNT = "column-count"
++
++        // TODO: Customize parameter initialization
++        @JvmStatic
++        fun newInstance(columnCount: Int) =
++            FragmentImportMech().apply {
++                arguments = Bundle().apply {
++                    putInt(ARG_COLUMN_COUNT, columnCount)
++                }
++            }
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/viewmodels/MechViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ca.coffeeshopstudio.meksheets.viewmodels\r\n\r\nimport android.content.Context\r\nimport android.net.Uri\r\nimport androidx.collection.ArrayMap\r\nimport androidx.lifecycle.LiveData\r\nimport androidx.lifecycle.MutableLiveData\r\nimport androidx.lifecycle.ViewModel\r\nimport ca.coffeeshopstudio.meksheets.models.Mech\r\nimport ca.coffeeshopstudio.meksheets.repositories.MechRepository\r\nimport ca.coffeeshopstudio.meksheets.utils.FileOperations\r\nimport com.google.gson.Gson\r\nimport kotlinx.coroutines.CoroutineScope\r\nimport kotlinx.coroutines.Dispatchers\r\nimport kotlinx.coroutines.flow.MutableStateFlow\r\nimport kotlinx.coroutines.flow.StateFlow\r\nimport kotlinx.coroutines.flow.asStateFlow\r\nimport kotlinx.coroutines.flow.update\r\nimport kotlinx.coroutines.launch\r\nimport java.io.*\r\nimport java.util.*\r\nimport kotlin.collections.ArrayList\r\n\r\ndata class MechState(\r\n    val firstDieValue: Int? = null,\r\n    val secondDieValue: Int? = null,\r\n    val numberOfRolls: Int = 0,\r\n)\r\n\r\nclass MechViewModel : ViewModel() {\r\n\r\n    val mechList: MutableLiveData<List<Mech>> by lazy {\r\n        MutableLiveData<List<Mech>>()\r\n    }\r\n    val mechSet: MutableLiveData<ArrayMap<String, Mech>> by lazy {\r\n        MutableLiveData<ArrayMap<String, Mech>>()\r\n    }\r\n\r\n    fun init(context: Context)  {\r\n        CoroutineScope(Dispatchers.IO).launch {\r\n            loadJson(context)\r\n        }\r\n    }\r\n\r\n    fun addMech(uri: Uri, context: Context): String? {\r\n        val inputStream: InputStream? = context.contentResolver.openInputStream(uri)\r\n        val reader = BufferedReader(InputStreamReader(inputStream))\r\n\r\n        val mech = Mech()\r\n        try {\r\n            mech.readMTF(reader)\r\n            FileOperations.writeFile(context, mech)\r\n            loadJson(context)\r\n        } catch (ioe: IOException) {\r\n            return ioe.localizedMessage\r\n        }\r\n        return null\r\n    }\r\n\r\n    private fun loadJson(context: Context) {\r\n        val files = context.filesDir\r\n        val list: ArrayList<Mech> = ArrayList()\r\n        val set: ArrayMap<String, Mech>  = ArrayMap()\r\n        for (file in Objects.requireNonNull(files?.listFiles())) {\r\n            if (file.name.endsWith(\".json\")) {\r\n                val mech = readFile(file.name, context)\r\n                if (mech != null) {\r\n                    list.add(mech)\r\n                    set[mech.name] = mech\r\n                }\r\n            }\r\n        }\r\n        mechList.postValue(list)\r\n        mechSet.postValue(set)\r\n    }\r\n\r\n    private fun readFile(fileName: String, context: Context): Mech? {\r\n        val fis: FileInputStream\r\n        return try {\r\n            fis = context.openFileInput(fileName)\r\n            val isr = InputStreamReader(fis)\r\n            val bufferedReader = BufferedReader(isr)\r\n            val sb = StringBuilder()\r\n            var line: String?\r\n            while (bufferedReader.readLine().also { line = it } != null) {\r\n                sb.append(line)\r\n            }\r\n            val json = sb.toString()\r\n            val gson = Gson()\r\n            gson.fromJson(json, Mech::class.java)\r\n        } catch (e: Exception) {\r\n            e.printStackTrace()\r\n            null\r\n        }\r\n    }\r\n\r\n\r\n    //private val _uiState = MutableStateFlow(MechState())\r\n    //val uiState: StateFlow<MechState> = _uiState.asStateFlow()\r\n\r\n    // Handle business logic\r\n//    fun rollDice() {\r\n//        _uiState.update { currentState ->\r\n//            currentState.copy(\r\n//                numberOfRolls = 1,\r\n//            )\r\n//        }\r\n//    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/viewmodels/MechViewModel.kt b/app/src/main/java/ca/coffeeshopstudio/meksheets/viewmodels/MechViewModel.kt
+--- a/app/src/main/java/ca/coffeeshopstudio/meksheets/viewmodels/MechViewModel.kt	(revision 4e727ffefc52012638faa8c88a9e85b83c32c877)
++++ b/app/src/main/java/ca/coffeeshopstudio/meksheets/viewmodels/MechViewModel.kt	(date 1673413155802)
+@@ -21,12 +21,6 @@
+ import java.util.*
+ import kotlin.collections.ArrayList
+ 
+-data class MechState(
+-    val firstDieValue: Int? = null,
+-    val secondDieValue: Int? = null,
+-    val numberOfRolls: Int = 0,
+-)
+-
+ class MechViewModel : ViewModel() {
+ 
+     val mechList: MutableLiveData<List<Mech>> by lazy {
+@@ -63,7 +57,7 @@
+         val set: ArrayMap<String, Mech>  = ArrayMap()
+         for (file in Objects.requireNonNull(files?.listFiles())) {
+             if (file.name.endsWith(".json")) {
+-                val mech = readFile(file.name, context)
++                val mech = FileOperations.readFile(context, file.name)
+                 if (mech != null) {
+                     list.add(mech)
+                     set[mech.name] = mech
+@@ -73,37 +67,4 @@
+         mechList.postValue(list)
+         mechSet.postValue(set)
+     }
+-
+-    private fun readFile(fileName: String, context: Context): Mech? {
+-        val fis: FileInputStream
+-        return try {
+-            fis = context.openFileInput(fileName)
+-            val isr = InputStreamReader(fis)
+-            val bufferedReader = BufferedReader(isr)
+-            val sb = StringBuilder()
+-            var line: String?
+-            while (bufferedReader.readLine().also { line = it } != null) {
+-                sb.append(line)
+-            }
+-            val json = sb.toString()
+-            val gson = Gson()
+-            gson.fromJson(json, Mech::class.java)
+-        } catch (e: Exception) {
+-            e.printStackTrace()
+-            null
+-        }
+-    }
+-
+-
+-    //private val _uiState = MutableStateFlow(MechState())
+-    //val uiState: StateFlow<MechState> = _uiState.asStateFlow()
+-
+-    // Handle business logic
+-//    fun rollDice() {
+-//        _uiState.update { currentState ->
+-//            currentState.copy(
+-//                numberOfRolls = 1,
+-//            )
+-//        }
+-//    }
+ }
+\ No newline at end of file
+Index: app/src/main/res/navigation/primary_details_nav_graph.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<navigation xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:id=\"@+id/nav_graph\"\r\n    app:startDestination=\"@id/mech_list_fragment\">\r\n\r\n    <fragment\r\n        android:id=\"@+id/mech_list_fragment\"\r\n        android:name=\"ca.coffeeshopstudio.meksheets.FragmentMechList\"\r\n        android:label=\"MechListFragment\">\r\n        <action\r\n            android:id=\"@+id/show_mech_detail\"\r\n            app:destination=\"@id/mech_detail_fragment\" />\r\n    </fragment>\r\n    <fragment\r\n        android:id=\"@+id/mech_detail_fragment\"\r\n        android:name=\"ca.coffeeshopstudio.meksheets.FragmentStartImport\"\r\n        android:label=\"mech_detail\"\r\n        tools:layout=\"@layout/fragment_start_import\">\r\n        <argument\r\n            android:name=\"item_id\"\r\n            android:defaultValue=\"\"\r\n            app:argType=\"string\" />\r\n    </fragment>\r\n</navigation>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/navigation/primary_details_nav_graph.xml b/app/src/main/res/navigation/primary_details_nav_graph.xml
+--- a/app/src/main/res/navigation/primary_details_nav_graph.xml	(revision 4e727ffefc52012638faa8c88a9e85b83c32c877)
++++ b/app/src/main/res/navigation/primary_details_nav_graph.xml	(date 1673414640814)
+@@ -22,5 +22,13 @@
+             android:name="item_id"
+             android:defaultValue=""
+             app:argType="string" />
++        <action
++            android:id="@+id/action_mech_detail_fragment_to_fragmentImportMech"
++            app:destination="@id/fragment_import_mech" />
+     </fragment>
++    <fragment
++        android:id="@+id/fragment_import_mech"
++        android:name="ca.coffeeshopstudio.meksheets.FragmentImportMech"
++        android:label="fragment_import_mech_list"
++        tools:layout="@layout/fragment_import_mech_list" />
+ </navigation>
+\ No newline at end of file
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/views/ActivityMain.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\r\n * Copyright (c) 2018\r\n * Terry Doerksen\r\n * https://creativecommons.org/licenses/by-nc/4.0/\r\n *\r\n */\r\n\r\npackage ca.coffeeshopstudio.meksheets.views;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.fragment.app.Fragment;\r\nimport android.content.Intent;\r\nimport android.net.Uri;\r\nimport android.os.Bundle;\r\nimport com.google.android.material.bottomnavigation.BottomNavigationView;\r\nimport androidx.appcompat.app.AlertDialog;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport android.text.Html;\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.Menu;\r\nimport android.view.MenuItem;\r\nimport android.view.View;\r\nimport android.widget.AdapterView;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.Spinner;\r\nimport android.widget.TextView;\r\n\r\nimport java.io.BufferedReader;\r\nimport java.io.FileNotFoundException;\r\nimport java.io.IOException;\r\nimport java.io.InputStream;\r\nimport java.io.InputStreamReader;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\nimport ca.coffeeshopstudio.meksheets.utils.FileOperations;\r\nimport ca.coffeeshopstudio.meksheets.R;\r\nimport ca.coffeeshopstudio.meksheets.models.Mech;\r\n\r\npublic class ActivityMain extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener, View.OnClickListener, AdapterView.OnItemSelectedListener {\r\n\r\n    private static final String BUNDLE_CURRENT_FRAGMENT = \"CURRENT_FRAG\";\r\n    private static final String TAG = \"MekSheets\";\r\n    private static final String BUNDLE_CURRENT_MEK = \"CURRENT_MEK\";\r\n\r\n    private List<Mech> meks = new ArrayList<>();\r\n    private final List<String> spinnerValues = new ArrayList<>();\r\n\r\n    private int currentMek = -1;\r\n    private Fragment fragment;\r\n\r\n    private Spinner spinner;\r\n    private  BottomNavigationView navigation;\r\n\r\n    private String tag;\r\n    private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener\r\n            = item -> {\r\n                save();\r\n                if (item.getTitle().toString().equals(getString(R.string.nav_overview)) ||\r\n                        item.getTitle().toString().equals(getString(R.string.nav_components))) {\r\n                    initFragment(FragmentOverview.newInstance(), FragmentOverview.getFragmentTag());\r\n                    return true;\r\n                } else if (item.getTitle().toString().equals(getString(R.string.nav_armor))) {\r\n                    initFragment(FragmentArmor.newInstance(), FragmentArmor.getFragmentTag());\r\n                    return true;\r\n                }\r\n                return false;\r\n            };\r\n\r\n    @Override\r\n    public boolean onCreateOptionsMenu(Menu menu) {\r\n        getMenuInflater().inflate(R.menu.main, menu);\r\n\r\n        return true;\r\n    }\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_record_sheet);\r\n\r\n        findViewById(R.id.btnNext).setOnClickListener(this);\r\n        findViewById(R.id.btnPrv).setOnClickListener(this);\r\n\r\n        navigation = findViewById(R.id.navigation);\r\n        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);\r\n\r\n        spinner = findViewById(R.id.spinner);\r\n\r\n        getActiveMeks();\r\n\r\n        if (savedInstanceState != null) {\r\n            //config change\r\n            String current = savedInstanceState.getString(BUNDLE_CURRENT_MEK);\r\n            if (!current.equals(\"\")) {\r\n                for (int i = 0; i < meks.size(); i++) {\r\n                    if (meks.get(i).getFileName().equals(current))\r\n                        currentMek = i;\r\n                }\r\n            }\r\n\r\n            String currentFragment = savedInstanceState.getString(BUNDLE_CURRENT_FRAGMENT);\r\n            assert currentFragment != null;\r\n            if (currentFragment.equals(FragmentOverview.class.getSimpleName())) {\r\n                initFragment(FragmentOverview.newInstance(), FragmentOverview.getFragmentTag());\r\n            } else if (currentFragment.equals(FragmentMain.class.getSimpleName())) {\r\n                currentMek = -1;\r\n                initFragment(FragmentMain.newInstance(), FragmentMain.getFragmentTag());\r\n            } else if (currentFragment.equals(FragmentArmor.class.getSimpleName())) {\r\n                initFragment(FragmentArmor.newInstance(), FragmentArmor.getFragmentTag());\r\n            } else if (currentFragment.equals(FragmentComponents.class.getSimpleName())) {\r\n                initFragment(FragmentComponents.newInstance(), FragmentComponents.getFragmentTag());\r\n            }\r\n        } else {\r\n            if (currentMek == -1)\r\n                initFragment(FragmentMain.newInstance(), FragmentMain.getFragmentTag());\r\n            else\r\n                initFragment(FragmentOverview.newInstance(), FragmentOverview.getFragmentTag());\r\n        }\r\n        updateTopBar();\r\n        updateSpinner();\r\n        //changeSelection();\r\n    }\r\n\r\n    @Override\r\n    public boolean onOptionsItemSelected(MenuItem item) {\r\n        if (item.getTitle().toString().equals(getString(R.string.menu_about))) {\r\n            startActivity(new Intent(this, ActivityAbout.class));\r\n            return true;\r\n        } else if (item.getTitle().toString().equals(getString(R.string.menu_help))) {\r\n            getHelpMsg();\r\n            return true;\r\n        }\r\n        return super.onOptionsItemSelected(item);\r\n    }\r\n\r\n    public void getHelpMsg() {\r\n        int helpMsg = R.string.help_main;\r\n        if (tag.equals(FragmentArmor.getFragmentTag())) {\r\n            helpMsg = R.string.help_armor;\r\n        }\r\n        if (tag.equals(FragmentComponents.getFragmentTag())) {\r\n            helpMsg = R.string.help_components;\r\n        }\r\n        if (tag.equals(FragmentOverview.getFragmentTag())) {\r\n            helpMsg = R.string.help_overview;\r\n        }\r\n\r\n        displayMessage(helpMsg);\r\n    }\r\n\r\n    public void displayMessage(int helpMsg) {\r\n        LayoutInflater inflater = LayoutInflater.from(this);\r\n        View view = inflater.inflate(R.layout.alert_dialog, null);\r\n\r\n        TextView msg = view.findViewById(R.id.textMsg);\r\n        msg.setText(Html.fromHtml(getString(helpMsg)));\r\n        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);\r\n        //alertDialog.setTitle(R.string.help_title);\r\n\r\n        alertDialog.setView(view);\r\n        alertDialog.setPositiveButton(android.R.string.ok, null);\r\n        AlertDialog alert = alertDialog.create();\r\n        alert.show();\r\n    }\r\n\r\n    public void displayMessage(String helpMsg) {\r\n        LayoutInflater inflater = LayoutInflater.from(this);\r\n        View view = inflater.inflate(R.layout.alert_dialog, null);\r\n\r\n        TextView msg = view.findViewById(R.id.textMsg);\r\n        msg.setText(Html.fromHtml(helpMsg));\r\n        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);\r\n\r\n        alertDialog.setView(view);\r\n        alertDialog.setPositiveButton(android.R.string.ok, null);\r\n        AlertDialog alert = alertDialog.create();\r\n        alert.show();\r\n    }\r\n\r\n    private void getActiveMeks() {\r\n        meks = FileOperations.getJsonFiles(getApplicationContext());\r\n    }\r\n\r\n    public Mech getMek() {\r\n        if (meks.size() == 0 || currentMek == -1)\r\n            return null;\r\n        return meks.get(currentMek);\r\n    }\r\n\r\n    private void updateSpinner() {\r\n        spinner.setOnItemSelectedListener(null);\r\n        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerValues);\r\n        spinnerValues.clear();\r\n        spinnerValues.add(getString(R.string.spinner_value_none));\r\n        for (Mech mek : meks) {\r\n            String value = mek.getName();\r\n            if (value == null)\r\n                value = \"null\";\r\n            if (mek.getDescription() != null) {\r\n                int len = Math.min(mek.getDescription().length(), 4);\r\n                value += \": \" + mek.getDescription().substring(0, len);\r\n            }\r\n            spinnerValues.add(value);\r\n        }\r\n        spinner.setAdapter(spinnerArrayAdapter);\r\n        spinner.setSelection(currentMek + 1);\r\n        spinner.setOnItemSelectedListener(this);\r\n    }\r\n\r\n    private void initFragment(Fragment fragment, String tag) {\r\n        this.fragment = fragment;\r\n        this.tag = tag;\r\n        if (fragment instanceof FragmentMain )\r\n            navigation.setVisibility(View.GONE);\r\n        else\r\n            navigation.setVisibility(View.VISIBLE);\r\n\r\n        getSupportFragmentManager().beginTransaction().\r\n                replace(R.id.main, fragment, tag).commit();\r\n        getFragmentManager().executePendingTransactions();\r\n    }\r\n\r\n    @Override\r\n    public void onFragmentInteraction(Uri uri) {\r\n        try {\r\n            readTextFromUri(uri);\r\n        } catch (IOException e) {\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n\r\n    private void readTextFromUri(Uri uri) throws IOException {\r\n        addMek(uri);\r\n    }\r\n\r\n    private void addMek(Uri uri) throws FileNotFoundException {\r\n        InputStream inputStream = getContentResolver().openInputStream(uri);\r\n\r\n        assert inputStream != null;\r\n        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));\r\n\r\n        Mech mek = new Mech();\r\n        try {\r\n            mek.readMTF(reader);\r\n            FileOperations.writeFile(getApplicationContext(), mek);\r\n\r\n            addToList(mek);\r\n            currentMek = meks.size() - 1;\r\n            initFragment(FragmentOverview.newInstance(), FragmentOverview.getFragmentTag());\r\n        } catch (IOException ioe) {\r\n            Log.d(TAG, \"readTextFromUri: \" + ioe.getLocalizedMessage());\r\n            displayMessage(R.string.invalid_file_format);\r\n        }\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View view) {\r\n        if (view.getId() == R.id.btnPrv) {\r\n            changeSelection(-1);\r\n        } else if (view.getId() == R.id.btnNext) {\r\n            changeSelection(1);\r\n        }\r\n        updateTopBar();\r\n    }\r\n\r\n    public void save() {\r\n        if (currentMek >= 0 && meks.size() > 0)\r\n            FileOperations.writeFile(getApplicationContext(), meks.get(currentMek));\r\n    }\r\n\r\n    @Override\r\n    protected void onSaveInstanceState(@NonNull Bundle outState) {\r\n        super.onSaveInstanceState(outState);\r\n        save();\r\n        if (currentMek == -1) {\r\n            outState.putString(BUNDLE_CURRENT_MEK, \"\");\r\n        } else {\r\n            outState.putString(BUNDLE_CURRENT_MEK, meks.get(currentMek).getFileName());\r\n        }\r\n        outState.putString(BUNDLE_CURRENT_FRAGMENT, fragment.getClass().getSimpleName());\r\n    }\r\n\r\n    @Override\r\n    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {\r\n        if (i == 0) {\r\n            currentMek = -1;\r\n            initFragment(FragmentMain.newInstance(), FragmentMain.getFragmentTag());\r\n        } else {\r\n            currentMek = i - 1;\r\n            if (fragment instanceof FragmentMain) {\r\n                initFragment(FragmentOverview.newInstance(), FragmentOverview.getFragmentTag());\r\n            } else {\r\n                fragment.onResume();\r\n            }\r\n        }\r\n        updateTopBar();\r\n    }\r\n\r\n    @Override\r\n    public void onNothingSelected(AdapterView<?> adapterView) {\r\n\r\n    }\r\n\r\n    private void addToList(Mech mek) {\r\n        meks.add(mek);\r\n        currentMek++;\r\n\r\n        updateSpinner();\r\n    }\r\n\r\n    private void changeSelection(int incrementBy) {\r\n        currentMek = currentMek + incrementBy;\r\n\r\n        if (currentMek <= -1) {\r\n            currentMek = -1; //never go below -1\r\n            initFragment(FragmentMain.newInstance(), FragmentMain.getFragmentTag());\r\n        } else if (fragment instanceof FragmentMain) {\r\n            initFragment(FragmentOverview.newInstance(), FragmentOverview.getFragmentTag());\r\n        } else {\r\n            save();\r\n            fragment.onResume();\r\n        }\r\n        spinner.setOnItemSelectedListener(null);\r\n        spinner.setSelection(currentMek + 1);\r\n        spinner.setOnItemSelectedListener(this);\r\n    }\r\n\r\n    private void updateTopBar () {\r\n        if (currentMek == -1)\r\n            findViewById(R.id.btnPrv).setVisibility(View.INVISIBLE);\r\n        else\r\n            findViewById(R.id.btnPrv).setVisibility(View.VISIBLE);\r\n        if (currentMek == meks.size() - 1)\r\n            findViewById(R.id.btnNext).setVisibility(View.INVISIBLE);\r\n        else\r\n            findViewById(R.id.btnNext).setVisibility(View.VISIBLE);\r\n\r\n    }\r\n\r\n    public void delete() {\r\n        FileOperations.deleteFile(getApplicationContext(), meks.get(currentMek).getFileName());\r\n        getActiveMeks();\r\n        if (currentMek >= meks.size())\r\n            currentMek = meks.size()-1;\r\n        updateTopBar();\r\n        updateSpinner();\r\n    }\r\n\r\n    public int getMekCount() {\r\n        return meks.size();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/views/ActivityMain.java b/app/src/main/java/ca/coffeeshopstudio/meksheets/views/ActivityMain.java
+--- a/app/src/main/java/ca/coffeeshopstudio/meksheets/views/ActivityMain.java	(revision 4e727ffefc52012638faa8c88a9e85b83c32c877)
++++ b/app/src/main/java/ca/coffeeshopstudio/meksheets/views/ActivityMain.java	(date 1673414856578)
+@@ -180,7 +180,7 @@
+     }
+ 
+     private void getActiveMeks() {
+-        meks = FileOperations.getJsonFiles(getApplicationContext());
++        meks = FileOperations.Companion.getJsonFiles(getApplicationContext());
+     }
+ 
+     public Mech getMek() {
+@@ -244,7 +244,7 @@
+         Mech mek = new Mech();
+         try {
+             mek.readMTF(reader);
+-            FileOperations.writeFile(getApplicationContext(), mek);
++            FileOperations.Companion.writeFile(getApplicationContext(), mek);
+ 
+             addToList(mek);
+             currentMek = meks.size() - 1;
+@@ -268,7 +268,7 @@
+ 
+     public void save() {
+         if (currentMek >= 0 && meks.size() > 0)
+-            FileOperations.writeFile(getApplicationContext(), meks.get(currentMek));
++            FileOperations.Companion.writeFile(getApplicationContext(), meks.get(currentMek));
+     }
+ 
+     @Override
+@@ -341,7 +341,7 @@
+     }
+ 
+     public void delete() {
+-        FileOperations.deleteFile(getApplicationContext(), meks.get(currentMek).getFileName());
++        FileOperations.Companion.deleteFile(getApplicationContext(), meks.get(currentMek).getFileName());
+         getActiveMeks();
+         if (currentMek >= meks.size())
+             currentMek = meks.size()-1;
+Index: app/src/main/res/layout/fragment_import_mech.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_import_mech.xml b/app/src/main/res/layout/fragment_import_mech.xml
+new file mode 100644
+--- /dev/null	(date 1673412258757)
++++ b/app/src/main/res/layout/fragment_import_mech.xml	(date 1673412258757)
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="wrap_content"
++    android:layout_height="wrap_content"
++    android:orientation="horizontal">
++
++    <TextView
++        android:id="@+id/item_number"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_margin="@dimen/text_margin"
++        android:textAppearance="?attr/textAppearanceListItem" />
++
++    <TextView
++        android:id="@+id/content"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_margin="@dimen/text_margin"
++        android:textAppearance="?attr/textAppearanceListItem" />
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/MechListFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/MechListFragment.kt b/app/src/main/java/ca/coffeeshopstudio/meksheets/FragmentMechList.kt
+rename from app/src/main/java/ca/coffeeshopstudio/meksheets/MechListFragment.kt
+rename to app/src/main/java/ca/coffeeshopstudio/meksheets/FragmentMechList.kt
+--- a/app/src/main/java/ca/coffeeshopstudio/meksheets/MechListFragment.kt	(revision 4e727ffefc52012638faa8c88a9e85b83c32c877)
++++ b/app/src/main/java/ca/coffeeshopstudio/meksheets/FragmentMechList.kt	(date 1673323334987)
+@@ -4,20 +4,21 @@
+ import android.content.ClipDescription
+ import android.os.Build
+ import android.os.Bundle
+-import android.view.KeyEvent
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
+ import android.widget.TextView
+ import android.widget.Toast
+-import androidx.core.view.ViewCompat
+ import androidx.fragment.app.Fragment
++import androidx.fragment.app.activityViewModels
++import androidx.lifecycle.Observer
+ import androidx.navigation.findNavController
+ import androidx.recyclerview.widget.RecyclerView
+ import ca.coffeeshopstudio.meksheets.databinding.FragmentMechListBinding
+ import ca.coffeeshopstudio.meksheets.databinding.MechListContentBinding
+ import ca.coffeeshopstudio.meksheets.models.Mech
+ import ca.coffeeshopstudio.meksheets.repositories.MechRepository
++import ca.coffeeshopstudio.meksheets.viewmodels.MechViewModel
+ 
+ /**
+  * A Fragment representing a list of Pings. This fragment
+@@ -28,8 +29,9 @@
+  * item details side-by-side using two vertical panes.
+  */
+ 
+-class MechListFragment : Fragment() {
++class FragmentMechList : Fragment() {
+     private var _binding: FragmentMechListBinding? = null
++    private val viewModel: MechViewModel by activityViewModels()
+ 
+     // This property is only valid between onCreateView and
+     // onDestroyView.
+@@ -40,7 +42,7 @@
+         savedInstanceState: Bundle?
+     ): View? {
+ 
+-        MechRepository.init(requireContext())
++        viewModel.init(requireContext())
+ 
+         _binding = FragmentMechListBinding.inflate(inflater, container, false)
+         return binding.root
+@@ -51,22 +53,16 @@
+         super.onViewCreated(view, savedInstanceState)
+ 
+         val recyclerView: RecyclerView = binding.mechList
+-
+         // Leaving this not using view binding as it relies on if the view is visible the current
+         // layout configuration (layout, layout-sw600dp)
+         val itemDetailFragmentContainer: View? = view.findViewById(R.id.mech_detail_nav_container)
+ 
+-        setupRecyclerView(recyclerView, itemDetailFragmentContainer)
+-    }
+-
+-    private fun setupRecyclerView(
+-        recyclerView: RecyclerView,
+-        itemDetailFragmentContainer: View?
+-    ) {
+-
+-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(
+-            MechRepository.MECH_LIST, itemDetailFragmentContainer
+-        )
++        viewModel.mechList.observe(viewLifecycleOwner, Observer { list ->
++            // Update the list UI
++            recyclerView.adapter = SimpleItemRecyclerViewAdapter(list,
++                itemDetailFragmentContainer
++            )
++        })
+     }
+ 
+     class SimpleItemRecyclerViewAdapter(
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/utils/FileOperations.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/utils/FileOperations.kt b/app/src/main/java/ca/coffeeshopstudio/meksheets/utils/FileOperations.kt
+new file mode 100644
+--- /dev/null	(date 1673414836896)
++++ b/app/src/main/java/ca/coffeeshopstudio/meksheets/utils/FileOperations.kt	(date 1673414836896)
+@@ -0,0 +1,138 @@
++/*
++ * Copyright (c) 2018
++ * Terry Doerksen
++ * https://creativecommons.org/licenses/by-nc/4.0/
++ *
++ */
++package ca.coffeeshopstudio.meksheets.utils
++
++import android.content.Context
++import ca.coffeeshopstudio.meksheets.models.Mech
++import com.google.gson.Gson
++import ca.coffeeshopstudio.meksheets.models.ImportMech
++import okio.Path.Companion.DIRECTORY_SEPARATOR
++import java.io.*
++import java.lang.Exception
++import java.lang.StringBuilder
++import java.nio.file.Path
++import java.nio.file.Paths
++import java.util.*
++import java.util.zip.ZipEntry
++import java.util.zip.ZipInputStream
++
++class FileOperations {
++    companion object {
++        fun writeFile(context: Context, obj: Mech) {
++            val gson = Gson()
++            val outputStream: FileOutputStream
++            if (obj.fileName == "") obj.fileName =
++                obj.name + Calendar.getInstance().timeInMillis + ".json"
++            val input = gson.toJson(obj)
++            try {
++                outputStream = context.openFileOutput(obj.fileName, Context.MODE_PRIVATE)
++                outputStream.write(input.toByteArray())
++                outputStream.close()
++            } catch (e: Exception) {
++                e.printStackTrace()
++            }
++        }
++
++        fun readFile(context: Context, fileName: String): Mech? {
++            val fis: FileInputStream
++            return try {
++                fis = context.openFileInput(fileName)
++                val isr = InputStreamReader(fis)
++                val bufferedReader = BufferedReader(isr)
++                val sb = StringBuilder()
++                var line: String?
++                while (bufferedReader.readLine().also { line = it } != null) {
++                    sb.append(line)
++                }
++                val json = sb.toString()
++                val gson = Gson()
++                gson.fromJson(json, Mech::class.java)
++            } catch (e: Exception) {
++                e.printStackTrace()
++                null
++            }
++        }
++
++        fun deleteFile(context: Context, fileName: String?) {
++            context.deleteFile(fileName)
++        }
++
++        fun getJsonFiles(context: Context): List<Mech> {
++            val meks: MutableList<Mech> = ArrayList()
++            val files = context.filesDir
++            for (file in Objects.requireNonNull(files.listFiles())) {
++                if (file.name.endsWith(".json")) {
++                    val mek = readFile(context, file.name)
++                    if (mek != null) meks.add(mek)
++                }
++            }
++            return meks
++        }
++
++        fun zipEntries(context: Context, fileName: String, fileFilter: String): List<ImportMech?>? {
++            val inputStream: InputStream
++            var zipInputStream: ZipInputStream
++            val list: ArrayList<ImportMech> = ArrayList()
++            val files = context.filesDir
++
++            try {
++                //having issues building a path in kotlin, so doing this for now.. bit lazy
++                for (file in Objects.requireNonNull(files.listFiles())) {
++                    if (file.name.equals(fileName)) {
++                        val input: InputStream
++                        input = FileInputStream(file)
++                        zipInputStream = ZipInputStream(BufferedInputStream(input))
++                        var zipEntry: ZipEntry
++                        while (zipInputStream.nextEntry.also { zipEntry = it } != null) {
++                            if (zipEntry.name.contains(fileFilter)) {
++                                val toImport = ImportMech(zipEntry.name)
++                                list.add(toImport)
++                                zipInputStream.closeEntry()
++                            }
++                        }
++                        zipInputStream.close()
++                    }
++                }
++            } catch (e: IOException) {
++                e.printStackTrace()
++                return ArrayList()
++            }
++            return list
++        }
++
++        fun unzip(zipFile: File?, fileToExtract: String?, exportPath: File): Boolean {
++            val inputStream: InputStream
++            val zipInputStream: ZipInputStream
++            try {
++                var filename: String
++                inputStream = FileInputStream(zipFile)
++                zipInputStream = ZipInputStream(BufferedInputStream(inputStream))
++                var zipEntry: ZipEntry
++                val buffer = ByteArray(1024)
++                var count: Int
++                while (zipInputStream.nextEntry.also { zipEntry = it } != null) {
++                    filename = zipEntry.name
++                    if (filename == fileToExtract) {
++                        val simpleName = File(filename).name
++                        val path = exportPath.toString() + DIRECTORY_SEPARATOR + simpleName
++                        val fileOutputStream = FileOutputStream(path)
++                        while (zipInputStream.read(buffer).also { count = it } != -1) {
++                            fileOutputStream.write(buffer, 0, count)
++                        }
++                        fileOutputStream.close()
++                        zipInputStream.closeEntry()
++                    }
++                }
++                zipInputStream.close()
++            } catch (e: IOException) {
++                e.printStackTrace()
++                return false
++            }
++            return true
++        }
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/views/FragmentMain.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\r\n * Copyright (c) 2018\r\n * Terry Doerksen\r\n * https://creativecommons.org/licenses/by-nc/4.0/\r\n *\r\n */\r\n\r\npackage ca.coffeeshopstudio.meksheets.views;\r\n\r\nimport android.app.Activity;\r\nimport android.app.Fragment;\r\nimport android.content.Intent;\r\nimport android.net.Uri;\r\nimport android.os.Bundle;\r\nimport android.os.Environment;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ProgressBar;\r\nimport android.widget.TextView;\r\n\r\nimport java.io.File;\r\nimport java.io.IOException;\r\n\r\nimport ca.coffeeshopstudio.meksheets.utils.DownloadProgressCallback;\r\nimport ca.coffeeshopstudio.meksheets.utils.Downloader;\r\nimport ca.coffeeshopstudio.meksheets.utils.FileOperations;\r\nimport ca.coffeeshopstudio.meksheets.R;\r\nimport okio.Path;\r\n\r\n/**\r\n * A simple {@link Fragment} subclass.\r\n * Activities that contain this fragment must implement the\r\n * {@link OnFragmentInteractionListener} interface\r\n * to handle interaction events.\r\n * Use the {@link FragmentMain#newInstance} factory method to\r\n * create an instance of this fragment.\r\n */\r\npublic class FragmentMain extends BaseFragment implements View.OnClickListener, DownloadProgressCallback {\r\n    private static final int READ_REQUEST_CODE = 42;\r\n    private ProgressBar progressBar;\r\n    private TextView raw;\r\n\r\n    public FragmentMain() {\r\n        // Required empty public constructor\r\n    }\r\n\r\n    public static FragmentMain newInstance() {\r\n        return new FragmentMain();\r\n    }\r\n\r\n    public static String getFragmentTag() {\r\n        return \"MAIN\";\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        root = inflater.inflate(R.layout.fragment_mainold, container, false);\r\n        root.findViewById(R.id.btnLoad).setOnClickListener(this);\r\n        root.findViewById(R.id.btnBulkAdd).setOnClickListener(this);\r\n        //progressBar = root.findViewById(R.id.progressBar);\r\n        raw = root.findViewById(R.id.txtAddMultiple);\r\n\r\n        int unitCount = ((ActivityMain) requireActivity()).getMekCount();\r\n        ((TextView) root.findViewById(R.id.txtUnitCount)).setText(getString(R.string.main_units_loaded, unitCount));\r\n\r\n        loadDialog(R.string.help_main, \"main\");\r\n\r\n        return root;\r\n    }\r\n\r\n    @Override\r\n    void updateView () {\r\n    }\r\n\r\n\r\n    @Override\r\n    public void onClick(View view) {\r\n        if (view.getId() == R.id.btnLoad) {\r\n            performFileSearch();\r\n        } else if (view.getId() == R.id.btnBulkAdd) {\r\n            Downloader downloader = new Downloader(this);\r\n            try {\r\n                File cacheDir = new File(requireContext().getCacheDir(), getString(R.string.dest_megamek));\r\n//                downloader.Start(getString(R.string.mega_mek_path), cacheDir);\r\n                downloader.Start(\"https://127.0.0.1/test\", cacheDir);\r\n            } catch (IOException e) {\r\n                e.printStackTrace();\r\n            }\r\n//            Uri path = Uri.parse(getString(R.string.mega_mek_path));\r\n//            OnlineToolkit.downloadFromUrl(path, getContext(), \"megamek.zip\");\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {\r\n\r\n        // The ACTION_OPEN_DOCUMENT intent was sent with the request code\r\n        // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the\r\n        // response to some other intent, and the code below shouldn't run at all.\r\n\r\n        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {\r\n            // The document selected by the user won't be returned in the intent.\r\n            // Instead, a URI to that document will be contained in the return intent\r\n            // provided to this method as a parameter.\r\n            // Pull that URI using resultData.getData().\r\n            if (resultData != null) {\r\n                Uri uri = resultData.getData();\r\n                ((ActivityMain) requireActivity()).onFragmentInteraction(uri);\r\n            }\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Fires an intent to spin up the \"file chooser\" UI and select an image.\r\n     */\r\n    public void performFileSearch() {\r\n\r\n        // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file\r\n        // browser.\r\n        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);\r\n\r\n        // Filter to only show results that can be \"opened\", such as a\r\n        // file (as opposed to a list of contacts or timezones)\r\n        intent.addCategory(Intent.CATEGORY_OPENABLE);\r\n\r\n        //intent.setType(\"*/*\");\r\n        //below will show only files that are not already part of the mime type list of the SA Framework\r\n        //found by Geont from the bt forums\r\n        intent.setType(\"application/octet-stream\");\r\n\r\n        startActivityForResult(intent, READ_REQUEST_CODE);\r\n    }\r\n\r\n    @Override\r\n    public void onProgressChanged(long rawProgressAmount, int percent) {\r\n        progressBar.setProgress(percent);\r\n    }\r\n\r\n    @Override\r\n    public void onFail() {\r\n        requireActivity().runOnUiThread(() -> raw.setText(\"failed\"));\r\n        File downloadedFile = new File(requireActivity().getCacheDir() + Path.DIRECTORY_SEPARATOR + getString(R.string.dest_megamek));\r\n        String toLocation = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();\r\n\r\n        boolean extractResult = FileOperations.unzip(downloadedFile, getString(R.string.mechs_file), new File(toLocation));\r\n//        boolean extractResult = FileOperations.unzip(downloadedFile, getString(R.string.mechs_file), requireActivity().getFilesDir());\r\n    }\r\n\r\n    @Override\r\n    public void onComplete(File downloadedFile) {\r\n        requireActivity().runOnUiThread(() -> raw.setText(\"success\"));\r\n        boolean extractResult = FileOperations.unzip(downloadedFile, getString(R.string.mechs_file), requireActivity().getFilesDir());\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/views/FragmentMain.java b/app/src/main/java/ca/coffeeshopstudio/meksheets/views/FragmentMain.java
+--- a/app/src/main/java/ca/coffeeshopstudio/meksheets/views/FragmentMain.java	(revision 4e727ffefc52012638faa8c88a9e85b83c32c877)
++++ b/app/src/main/java/ca/coffeeshopstudio/meksheets/views/FragmentMain.java	(date 1673414901371)
+@@ -144,13 +144,13 @@
+         File downloadedFile = new File(requireActivity().getCacheDir() + Path.DIRECTORY_SEPARATOR + getString(R.string.dest_megamek));
+         String toLocation = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+ 
+-        boolean extractResult = FileOperations.unzip(downloadedFile, getString(R.string.mechs_file), new File(toLocation));
++        boolean extractResult = FileOperations.Companion.unzip(downloadedFile, getString(R.string.mechs_file), new File(toLocation));
+ //        boolean extractResult = FileOperations.unzip(downloadedFile, getString(R.string.mechs_file), requireActivity().getFilesDir());
+     }
+ 
+     @Override
+     public void onComplete(File downloadedFile) {
+         requireActivity().runOnUiThread(() -> raw.setText("success"));
+-        boolean extractResult = FileOperations.unzip(downloadedFile, getString(R.string.mechs_file), requireActivity().getFilesDir());
++        boolean extractResult = FileOperations.Companion.unzip(downloadedFile, getString(R.string.mechs_file), requireActivity().getFilesDir());
+     }
+ }
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/placeholder/PlaceholderContent.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/placeholder/PlaceholderContent.kt b/app/src/main/java/ca/coffeeshopstudio/meksheets/placeholder/PlaceholderContent.kt
+new file mode 100644
+--- /dev/null	(date 1673412258679)
++++ b/app/src/main/java/ca/coffeeshopstudio/meksheets/placeholder/PlaceholderContent.kt	(date 1673412258679)
+@@ -0,0 +1,57 @@
++package ca.coffeeshopstudio.meksheets.placeholder
++
++import java.util.ArrayList
++import java.util.HashMap
++
++/**
++ * Helper class for providing sample content for user interfaces created by
++ * Android template wizards.
++ *
++ * TODO: Replace all uses of this class before publishing your app.
++ */
++object PlaceholderContent {
++
++    /**
++     * An array of sample (placeholder) items.
++     */
++    val ITEMS: MutableList<PlaceholderItem> = ArrayList()
++
++    /**
++     * A map of sample (placeholder) items, by ID.
++     */
++    val ITEM_MAP: MutableMap<String, PlaceholderItem> = HashMap()
++
++    private val COUNT = 25
++
++    init {
++        // Add some sample items.
++        for (i in 1..COUNT) {
++            addItem(createPlaceholderItem(i))
++        }
++    }
++
++    private fun addItem(item: PlaceholderItem) {
++        ITEMS.add(item)
++        ITEM_MAP.put(item.id, item)
++    }
++
++    private fun createPlaceholderItem(position: Int): PlaceholderItem {
++        return PlaceholderItem(position.toString(), "Item " + position, makeDetails(position))
++    }
++
++    private fun makeDetails(position: Int): String {
++        val builder = StringBuilder()
++        builder.append("Details about Item: ").append(position)
++        for (i in 0..position - 1) {
++            builder.append("\nMore details information here.")
++        }
++        return builder.toString()
++    }
++
++    /**
++     * A placeholder item representing a piece of content.
++     */
++    data class PlaceholderItem(val id: String, val content: String, val details: String) {
++        override fun toString(): String = content
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/viewmodels/MechImportViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/viewmodels/MechImportViewModel.kt b/app/src/main/java/ca/coffeeshopstudio/meksheets/viewmodels/MechImportViewModel.kt
+new file mode 100644
+--- /dev/null	(date 1673414889503)
++++ b/app/src/main/java/ca/coffeeshopstudio/meksheets/viewmodels/MechImportViewModel.kt	(date 1673414889503)
+@@ -0,0 +1,44 @@
++package ca.coffeeshopstudio.meksheets.viewmodels
++
++import android.content.Context
++import android.net.Uri
++import androidx.collection.ArrayMap
++import androidx.lifecycle.LiveData
++import androidx.lifecycle.MutableLiveData
++import androidx.lifecycle.ViewModel
++import ca.coffeeshopstudio.meksheets.models.ImportMech
++import ca.coffeeshopstudio.meksheets.models.Mech
++import ca.coffeeshopstudio.meksheets.repositories.MechRepository
++import ca.coffeeshopstudio.meksheets.utils.FileOperations
++import com.google.gson.Gson
++import kotlinx.coroutines.CoroutineScope
++import kotlinx.coroutines.Dispatchers
++import kotlinx.coroutines.flow.MutableStateFlow
++import kotlinx.coroutines.flow.StateFlow
++import kotlinx.coroutines.flow.asStateFlow
++import kotlinx.coroutines.flow.update
++import kotlinx.coroutines.launch
++import java.io.*
++import java.util.*
++import kotlin.collections.ArrayList
++
++class MechImportViewModel : ViewModel() {
++
++    val mechList: MutableLiveData<List<ImportMech?>> by lazy {
++        MutableLiveData<List<ImportMech?>>()
++    }
++    val mechSet: MutableLiveData<ArrayMap<String, Mech>> by lazy {
++        MutableLiveData<ArrayMap<String, Mech>>()
++    }
++
++    fun init(context: Context)  {
++        CoroutineScope(Dispatchers.IO).launch {
++            loadZip(context)
++        }
++    }
++
++    private fun loadZip(context: Context) {
++        val list: List<ImportMech?>? = FileOperations.zipEntries(context,"mechs.zip", ".mtf")
++        mechList.postValue(list)
++    }
++}
+\ No newline at end of file
+Index: .idea/navEditor.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"navEditor-manualLayoutAlgorithm2\">\r\n    <option name=\"myPositions\">\r\n      <map>\r\n        <entry key=\"primary_details_nav_graph.xml\">\r\n          <value>\r\n            <LayoutPositions>\r\n              <option name=\"myPositions\">\r\n                <map>\r\n                  <entry key=\"mech_detail_fragment\">\r\n                    <value>\r\n                      <LayoutPositions>\r\n                        <option name=\"myPosition\">\r\n                          <Point>\r\n                            <option name=\"x\" value=\"258\" />\r\n                            <option name=\"y\" value=\"12\" />\r\n                          </Point>\r\n                        </option>\r\n                      </LayoutPositions>\r\n                    </value>\r\n                  </entry>\r\n                  <entry key=\"mech_list_fragment\">\r\n                    <value>\r\n                      <LayoutPositions>\r\n                        <option name=\"myPosition\">\r\n                          <Point>\r\n                            <option name=\"x\" value=\"12\" />\r\n                            <option name=\"y\" value=\"12\" />\r\n                          </Point>\r\n                        </option>\r\n                        <option name=\"myPositions\">\r\n                          <map>\r\n                            <entry key=\"show_mech_detail\">\r\n                              <value>\r\n                                <LayoutPositions />\r\n                              </value>\r\n                            </entry>\r\n                          </map>\r\n                        </option>\r\n                      </LayoutPositions>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </LayoutPositions>\r\n          </value>\r\n        </entry>\r\n        <entry key=\"primary_details_sub_nav_graph.xml\">\r\n          <value>\r\n            <LayoutPositions>\r\n              <option name=\"myPositions\">\r\n                <map>\r\n                  <entry key=\"fragment_mech_detail\">\r\n                    <value>\r\n                      <LayoutPositions>\r\n                        <option name=\"myPosition\">\r\n                          <Point>\r\n                            <option name=\"x\" value=\"12\" />\r\n                            <option name=\"y\" value=\"12\" />\r\n                          </Point>\r\n                        </option>\r\n                      </LayoutPositions>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </LayoutPositions>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/navEditor.xml b/.idea/navEditor.xml
+--- a/.idea/navEditor.xml	(revision 4e727ffefc52012638faa8c88a9e85b83c32c877)
++++ b/.idea/navEditor.xml	(date 1673491988279)
+@@ -8,6 +8,18 @@
+             <LayoutPositions>
+               <option name="myPositions">
+                 <map>
++                  <entry key="fragment_import_mech">
++                    <value>
++                      <LayoutPositions>
++                        <option name="myPosition">
++                          <Point>
++                            <option name="x" value="12" />
++                            <option name="y" value="12" />
++                          </Point>
++                        </option>
++                      </LayoutPositions>
++                    </value>
++                  </entry>
+                   <entry key="mech_detail_fragment">
+                     <value>
+                       <LayoutPositions>
+@@ -16,6 +28,15 @@
+                             <option name="x" value="258" />
+                             <option name="y" value="12" />
+                           </Point>
++                        </option>
++                        <option name="myPositions">
++                          <map>
++                            <entry key="action_mech_detail_fragment_to_fragmentImportMech">
++                              <value>
++                                <LayoutPositions />
++                              </value>
++                            </entry>
++                          </map>
+                         </option>
+                       </LayoutPositions>
+                     </value>
+Index: app/src/main/java/ca/coffeeshopstudio/meksheets/MechRecyclerViewAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ca/coffeeshopstudio/meksheets/MechRecyclerViewAdapter.kt b/app/src/main/java/ca/coffeeshopstudio/meksheets/MechRecyclerViewAdapter.kt
+new file mode 100644
+--- /dev/null	(date 1673412258806)
++++ b/app/src/main/java/ca/coffeeshopstudio/meksheets/MechRecyclerViewAdapter.kt	(date 1673412258806)
+@@ -0,0 +1,50 @@
++package ca.coffeeshopstudio.meksheets
++
++import androidx.recyclerview.widget.RecyclerView
++import android.view.LayoutInflater
++import android.view.View
++import android.view.ViewGroup
++import android.widget.TextView
++
++import ca.coffeeshopstudio.meksheets.placeholder.PlaceholderContent.PlaceholderItem
++import ca.coffeeshopstudio.meksheets.databinding.FragmentImportMechBinding
++
++/**
++ * [RecyclerView.Adapter] that can display a [PlaceholderItem].
++ * TODO: Replace the implementation with code for your data type.
++ */
++class MechRecyclerViewAdapter(
++    private val values: List<PlaceholderItem>
++) : RecyclerView.Adapter<MechRecyclerViewAdapter.ViewHolder>() {
++
++    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
++
++        return ViewHolder(
++            FragmentImportMechBinding.inflate(
++                LayoutInflater.from(parent.context),
++                parent,
++                false
++            )
++        )
++
++    }
++
++    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
++        val item = values[position]
++        holder.idView.text = item.id
++        holder.contentView.text = item.content
++    }
++
++    override fun getItemCount(): Int = values.size
++
++    inner class ViewHolder(binding: FragmentImportMechBinding) :
++        RecyclerView.ViewHolder(binding.root) {
++        val idView: TextView = binding.itemNumber
++        val contentView: TextView = binding.content
++
++        override fun toString(): String {
++            return super.toString() + " '" + contentView.text + "'"
++        }
++    }
++
++}
+\ No newline at end of file

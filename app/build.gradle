@@ -11,8 +11,8 @@ android {
         applicationId "ca.coffeeshopstudio.meksheets"
         minSdk 21
         targetSdk 33
-        versionCode 20
-        versionName "2.0"
+        versionCode 12
+        versionName "2.0 RC 1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
