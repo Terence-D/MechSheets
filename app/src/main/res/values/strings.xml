@@ -144,7 +144,7 @@ I have received permission to use the above terms and make this application avai
     <string name="help_equipment_title">Equipment</string>
     <string name="help_equipment">
         Weapons and equipment can be tapped on to help you remember what weapons you are firing.  If a weapon is destroyed, it will show a different color.\n\n
-        Note:  At this time Mech Sheets cannot determine with 100% accuracy which item was destroyed.  For example if you have 2 identical weapons that take up 3 spaces each,
+        Note:  At this time Mech Sheets cannot determine with 100%% accuracy which item was destroyed.  For example if you have 2 identical weapons that take up 3 spaces each,
         and 2 components are damaged, Mech Sheets cannot determine if its one weapon destroyed, or 2.
         Tapping [ALL] will either select or deselect all weapons.
     </string>
