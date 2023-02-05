@@ -35,9 +35,9 @@ RTR Armor:10
 RTC Armor:11
 
 Weapons:3
-Laser, Center Torso
-Machine Gun, Left Arm
-Machine Gun, Right Arm
+Custom Item 3, Center Torso
+Custom Item 1, Left Arm
+Custom Item 2, Right Arm
 
 Left Arm:
 Shoulder
