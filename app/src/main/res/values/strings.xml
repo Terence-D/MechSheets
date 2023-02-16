@@ -99,7 +99,7 @@ I have received permission to use the above terms and make this application avai
     <string name="missing_imports">Once you tap on Import Multiple Mechs and complete the import, the available units will be displayed here.</string>
     <string name="team_color">Team Color</string>
     <string name="import_from_mm">Import from MegaMek</string>
-    <string name="import_mm_details">Tap here to import from the full MegaMek download</string>
+    <string name="import_mm_details">Tap here to import from the full MegaMek download.  Note this is much slower than the other options!</string>
     <string name="help_starting">Don\'t forget you can press the \'?\' button at any time for assistance!</string>
     <string name="url_megamek">https://megamek.org</string>
     <string name="mega_mek">MegaMek</string>
@@ -178,5 +178,7 @@ I have received permission to use the above terms and make this application avai
         When a mech takes critical damage, use this screen to record damage to each component that is hit.\n\n
         When a component is destroyed, it will affect the Overview screen - for example destroying a weapon here will change its color indicating it might be destroyed in the Overview screen, and damaging a leg will reduce it\'s indicated speed.  When a component is destroyed, the color will change to red.
     </string>
+    <string name="import_complete">Import Complete!</string>
+    <string name="import_failed">Does not appear to be the MegaMek ZIP file.  Please try retrieving it again</string>
 
 </resources>

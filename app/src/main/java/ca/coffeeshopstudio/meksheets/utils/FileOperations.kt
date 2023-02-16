@@ -48,7 +48,8 @@ class FileOperations {
         }
     }
 
-    fun findMechsInsideZip(context: Context, uri: Uri) {
+    fun findMechsInsideZip(context: Context, uri: Uri): Boolean {
+        var rv = false
         try {
             val inputStream: InputStream = context.contentResolver.openInputStream(uri)!!
             var zipInputStream: ZipInputStream
@@ -71,12 +72,15 @@ class FileOperations {
                         }
                         fileOutputStreamDest.close()
                         zipInputStream.closeEntry()
+                        rv = true
                     }
                 }
             }
         } catch (e: Exception) {
+            rv = false
             e.printStackTrace()
         }
+        return rv
     }
 
 

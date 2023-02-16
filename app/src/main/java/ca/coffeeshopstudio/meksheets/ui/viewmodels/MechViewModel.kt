@@ -3,8 +3,9 @@ package ca.coffeeshopstudio.meksheets.ui.viewmodels
 import android.app.Application
 import android.content.Context
 import android.net.Uri
-import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import ca.coffeeshopstudio.meksheets.R
 import ca.coffeeshopstudio.meksheets.data.*
 import ca.coffeeshopstudio.meksheets.data.legacy.LegacyLoader
 import ca.coffeeshopstudio.meksheets.ui.state.MechUiState
@@ -164,13 +165,19 @@ class MechViewModel(application: Application) : AndroidViewModel(application) {
 
     fun importMmFile(uri: Uri, context: Context) {
         val fo = FileOperations()
-        fo.findMechsInsideZip(context, uri)
-        val rv: ArrayList<String> = fo.getFilesInZip(context, ".mtf")
-        fo.writeArrayToInternal(context, rv)
-        _uiState.update {
-            it.copy(availableToImport = rv)
+        val found = fo.findMechsInsideZip(context, uri)
+        if (!found) {
+            //bit of a blending of views and viewmodels, but should work for now
+            Toast.makeText(context, context.getString(R.string.import_failed), Toast.LENGTH_LONG).show()
+        } else {
+            val rv: ArrayList<String> = fo.getFilesInZip(context, ".mtf")
+            fo.writeArrayToInternal(context, rv)
+            _uiState.update {
+                it.copy(availableToImport = rv)
+            }
+            //bit of a blending of views and viewmodels, but should work for now
+            Toast.makeText(context, context.getString(R.string.import_complete), Toast.LENGTH_LONG).show()
         }
-
     }
 
     fun importZipFile(uri: Uri, context: Context) {
@@ -183,11 +190,15 @@ class MechViewModel(application: Application) : AndroidViewModel(application) {
                 importFolders = getImportFolders(rv)
             )
         }
+        //bit of a blending of views and viewmodels, but should work for now
+        Toast.makeText(context, context.getString(R.string.import_complete), Toast.LENGTH_LONG).show()
     }
 
     fun importMtfFile(uri: Uri, context: Context) {
         val inputStream: InputStream = context.contentResolver.openInputStream(uri)!!
         importMtfFromStream(context, inputStream)
+        //bit of a blending of views and viewmodels, but should work for now
+        Toast.makeText(context, context.getString(R.string.import_complete), Toast.LENGTH_LONG).show()
     }
 
     private fun importMtfFromStream(context: Context, inputStream: InputStream) {
@@ -202,11 +213,11 @@ class MechViewModel(application: Application) : AndroidViewModel(application) {
             _uiState.update {
                 it.copy(currentMechs = mechs)
             }
+            //bit of a blending of views and viewmodels, but should work for now
+            Toast.makeText(context, context.getString(R.string.import_complete), Toast.LENGTH_LONG).show()
         } catch (ioe: IOException) {
-            Log.d(
-                "meksheets",
-                "readTextFromUri: " + ioe.localizedMessage
-            )
+            //bit of a blending of views and viewmodels, but should work for now
+            Toast.makeText(context, ioe.localizedMessage, Toast.LENGTH_LONG).show()
         }
     }
 
