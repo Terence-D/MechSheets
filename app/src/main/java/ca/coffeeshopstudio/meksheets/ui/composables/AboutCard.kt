@@ -1,9 +1,7 @@
 package ca.coffeeshopstudio.meksheets.ui.composables
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,21 +37,6 @@ fun AboutCard(modifier: Modifier = Modifier) {
                 )
             )
             SettingsSubTitle(stringResource(id = R.string.legal))
-            Text(stringResource(id = R.string.legal_contents_a), modifier = Modifier)
-            Column(
-                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Button(
-                    onClick = {
-                        uriHandler.openUri(urlCatalyst)
-                    },
-                ) {
-                    Text(stringResource(id = R.string.catalyst), modifier = Modifier)
-                }
-            }
-            Text(stringResource(id = R.string.legal_contents_b), modifier = Modifier)
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
@@ -69,7 +52,23 @@ fun AboutCard(modifier: Modifier = Modifier) {
                     Text(stringResource(id = R.string.cc_by_nc_4), modifier = Modifier)
                 }
             }
-
+            Text(stringResource(id = R.string.legal_contents_a), modifier = Modifier)
+            Divider(color = MaterialTheme.colorScheme.tertiary, thickness = 4.dp)
+            Column(
+                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Button(
+                    onClick = {
+                        uriHandler.openUri(urlCatalyst)
+                    },
+                ) {
+                    Text(stringResource(id = R.string.catalyst), modifier = Modifier)
+                }
+            }
+            Text(stringResource(id = R.string.legal_contents_b), modifier = Modifier)
+            Text(stringResource(id = R.string.legal_contents_a), modifier = Modifier)
             SettingsSubTitle(stringResource(id = R.string.libraries))
             Text(stringResource(id = R.string.legal_gson), modifier = Modifier)
             Row(
